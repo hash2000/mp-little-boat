@@ -16,6 +16,7 @@ cmake-build-*
 **/vcpkg_installed/**
 **/[Dd]ebug/**
 **/[Rr]elease/**
+**/out/**
 out/**
 build/**
 

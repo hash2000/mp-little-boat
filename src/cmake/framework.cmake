@@ -1,0 +1,17 @@
+if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    set (OS_LINUX 1)
+    add_definitions(-D OS_LINUX)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Windows")
+    set (OS_WINDOWS 1)
+    add_definitions(-D OS_WINDOWS)
+endif()
+
+message (STATUS "Target framework: ${CMAKE_SYSTEM_NAME}")
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+#if(OS_WINDOWS)
+#    set(CMAKE_CXX_FLAGS /EHsc)
+#endif()
+set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
