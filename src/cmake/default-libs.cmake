@@ -10,3 +10,4 @@ set(VCPKG_LIBRARY_LINKAGE dynamic)
 include(${CMAKE_TOOLCHAIN_FILE})
 
 include("cmake/libs/poco.cmake")
+include("cmake/libs/fltk.cmake")

@@ -1,4 +1,7 @@
+#include <pch.h>
 #include <Poco/Util/Application.h>
+#include <FL/Fl_Window.H>
+
 #include "Common/core/Kernel.h"
 
 class NavigatorApplication : public Poco::Util::Application
@@ -28,6 +31,10 @@ private:
 
 	void InternalMain(const ArgVec& args)
 	{
+		Fl_Window mainWnd(720, 648);
+		mainWnd.resizable(mainWnd);
+		mainWnd.show();
+		Fl::run();
 	}
 };
 

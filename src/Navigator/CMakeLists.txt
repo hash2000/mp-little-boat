@@ -1,13 +1,45 @@
 message(STATUS "Navigator")
 
 set(Navigator-Sources
-	${LittleBoat_SOURCE_DIR}/Navigator
+	${LittleBoat_SOURCE_DIR}/Navigator	
+)
+
+include_directories(
+	${LittleBoat_SOURCE_DIR}/Navigator/framework
 )
 
 file(GLOB_RECURSE SRCS ${Navigator-Sources}/*.cpp)
 add_executable(Navigator
 	${SRCS}
 )
+
+if (WIN32)
+message(STATUS "Navigator OS_WINDOWS")
+	target_compile_definitions(Navigator
+		PRIVATE
+			UNICODE
+			_UNICODE
+			_CRT_SECURE_NO_WARNINGS
+			NOMINMAX
+			_WIN32
+			WIN32_LEAN_AND_MEAN
+			WIN32_NO_STATUS
+			WINVER=0x0a00
+			_WIN32_WINNT=0x0a00
+			NDEBUG
+			_MSC_BUILD
+	)
+
+	#target_compile_options(Navigator
+	#	PRIVATE
+	#		-W4
+	#		-permissive-
+	#		-nologo
+	#		-Zc:__cplusplus
+	#		-Zc:preprocessor
+	#)
+endif()
+
 
 target_link_libraries(Navigator
 	PRIVATE
@@ -17,10 +49,14 @@ target_link_libraries(Navigator
 		Poco::NetSSL
 		Poco::Crypto
 
+		fltk fltk_gl
+		fltk_forms
+		fltk_images
+
 #		mp-lib-module-system
 )
 
 target_include_directories(Navigator
 	PUBLIC
-		${Navigator-Sources}
+		${Navigator-Sources}		
 )

@@ -4,8 +4,6 @@ project(LittleBoat LANGUAGES CXX)
 
 set(USE_VCPKG 1)
 
-add_compile_definitions(SDL_MAIN_HANDLED)
-
 include("cmake/framework.cmake")
 include("cmake/default-libs.cmake")
 include("cmake/default-modules.cmake")
