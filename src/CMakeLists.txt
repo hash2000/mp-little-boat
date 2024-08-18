@@ -24,3 +24,4 @@ include_directories(
 
 
 add_subdirectory(Navigator)
+add_subdirectory(Libs)
