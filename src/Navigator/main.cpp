@@ -31,12 +31,12 @@ private:
 
 	void InternalMain(const ArgVec& args)
 	{
-		fl_message_hotspot(false);
-		fl_message_icon()->labelfont(FL_HELVETICA_BOLD);
-		Fl::background(25, 25, 25);
-		Fl::background2(32, 32, 32);
-		Fl::foreground(255, 255, 255);
-		Fl::set_color(FL_SELECTION_COLOR, 0, 160, 250);
+		//fl_message_hotspot(false);
+		//fl_message_icon()->labelfont(FL_HELVETICA_BOLD);
+		//Fl::background(25, 25, 25);
+		//Fl::background2(32, 32, 32);
+		//Fl::foreground(255, 255, 255);
+		//Fl::set_color(FL_SELECTION_COLOR, 0, 160, 250);
 
 		MainFrame mainWnd;
 		mainWnd.resizable(mainWnd);

@@ -10,4 +10,9 @@
 #include <FL/fl_message.H>
 #include <FL/Fl_Radio_Round_Button.H>
 #include <FL/Fl_Window.H>
-#include <FL/fl_draw.H>
+#include <FL/Fl_Pack.H>
+#include <FL/Fl_Scroll.H>
+#include <FL/Fl_Spinner.H>
+#include <FL/Fl_Toggle_Button.H>
+#include <FL/Fl_Tooltip.H>
+#include <FL/Fl_Menu_.H>
