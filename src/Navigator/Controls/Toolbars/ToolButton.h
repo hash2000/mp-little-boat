@@ -6,7 +6,7 @@
 class ToolButton : public Fl_Button
 {
 public:
-	ToolButton(int x, int y, int w, int h, const char* title = nullptr);
+	ToolButton(int x, int y, int cw, int ch, const char* title = nullptr);
 
 protected:
 	void draw(void);

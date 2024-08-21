@@ -1,7 +1,7 @@
 #include <pch.h>
 #include "ToolButton.h"
 
-ToolButton::ToolButton(int x, int y, int w, int h, const char* title)
+ToolButton::ToolButton(int x, int y, int cw, int ch, const char* title)
 	: Fl_Button(x, y, w, h, title)
 {
 	box(FL_FREE_BOXTYPE);

@@ -1,8 +1,9 @@
 #include <pch.h>
 #include "Toolbar.h"
+#include "ToolButton.h"
 
 
-Toolbar::Toolbar(int x, int y, int w, int h, const char* title)
+Toolbar::Toolbar(int x, int y, int cw, int ch, const char* title)
 	: Fl_Group(x, y, w, h, title)
 	, _spacer(0, 0, 0, 0)
 {
@@ -14,10 +15,25 @@ Toolbar::Toolbar(int x, int y, int w, int h, const char* title)
 	begin();
 }
 
-void Toolbar::resize(int x, int y, int w, int h)
+void Toolbar::resize(int x, int y, int cw, int ch)
 {
 	add(_spacer);
 	resizable(_spacer);
+
+	int chCount = children();
+	int x = 0;
+	int y = 0;
+	int cx = w();
+
+	for (int i = 0; i < chCount; i++)
+	{
+		auto ch = child(i);
+		if (auto isToolbutton = (ToolButton*)ch) {
+			isToolbutton->
+		}
+
+	}
+
 	Fl_Group::resize(x, y, w, h);
 }
 

@@ -6,9 +6,9 @@
 class Toolbar : public Fl_Group
 {
 public:
-	Toolbar(int x, int y, int w, int h, const char* title = nullptr);
+	Toolbar(int x, int y, int cw, int ch, const char* title = nullptr);
 
-	void resize(int x, int y, int w, int h);
+	void resize(int x, int y, int cw, int ch);
 
 	void draw();
 
