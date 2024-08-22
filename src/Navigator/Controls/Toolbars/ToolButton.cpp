@@ -2,7 +2,7 @@
 #include "ToolButton.h"
 
 ToolButton::ToolButton(int x, int y, int cw, int ch, const char* title)
-	: Fl_Button(x, y, w, h, title)
+	: Fl_Button(x, y, cw, ch, title)
 {
 	box(FL_FREE_BOXTYPE);
 	color(FL_BACKGROUND_COLOR);

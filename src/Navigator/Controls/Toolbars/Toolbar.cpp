@@ -4,7 +4,7 @@
 
 
 Toolbar::Toolbar(int x, int y, int cw, int ch, const char* title)
-	: Fl_Group(x, y, w, h, title)
+	: Fl_Group(x, y, cw, ch, title)
 	, _spacer(0, 0, 0, 0)
 {
 	align(FL_ALIGN_BOTTOM_LEFT );
@@ -21,20 +21,20 @@ void Toolbar::resize(int x, int y, int cw, int ch)
 	resizable(_spacer);
 
 	int chCount = children();
-	int x = 0;
-	int y = 0;
-	int cx = w();
+	//int x = 0;
+	//int y = 0;
+	//int cx = w();
 
-	for (int i = 0; i < chCount; i++)
-	{
-		auto ch = child(i);
-		if (auto isToolbutton = (ToolButton*)ch) {
-			isToolbutton->
-		}
+	//for (int i = 0; i < chCount; i++)
+	//{
+	//	auto ch = child(i);
+	//	if (auto isToolbutton = (ToolButton*)ch) {
+	//		isToolbutton->
+	//	}
 
-	}
+	//}
 
-	Fl_Group::resize(x, y, w, h);
+	Fl_Group::resize(x, y, cw, ch);
 }
 
 void Toolbar::draw()
