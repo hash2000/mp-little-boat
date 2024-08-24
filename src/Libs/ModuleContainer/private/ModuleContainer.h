@@ -1,10 +1,10 @@
 #pragma once
-#include "Libs/ModuleManager/IModuleManager.h"
+#include "Libs/ModuleContainer/IModuleContainer.h"
 
-class ModuleManager : public IModuleManager
+class ModuleContainer : public IModuleContainer
 {
 public:
-	ModuleManager();
+	ModuleContainer();
 
 	void Initialize() override;
 

@@ -1,1 +1,1 @@
-add_subdirectory(ModuleManager)
+add_subdirectory(ModuleContainer)
