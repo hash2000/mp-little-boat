@@ -3,8 +3,9 @@
 #include "ToolButton.h"
 
 
-Toolbar::Toolbar(ToolbarPosition position)
+Toolbar::Toolbar(ToolbarPosition position, int size)
 	: Fl_Group(0, 0, 0, 0, nullptr)
+	, _size(size)
 	, _position(position)
 	, _spacer(0, 0, 0, 0)
 {
@@ -14,6 +15,17 @@ Toolbar::Toolbar(ToolbarPosition position)
 	resizable(_spacer);
 	clip_children(1);
 	begin();
+
+	auto window = parent();
+	if (_position == ToolbarPosition::Left || _position == ToolbarPosition::Right) {
+		w(size);
+		h(window->h());
+	}
+	else if (_position == ToolbarPosition::Top || _position == ToolbarPosition::Bottom) {
+		w(window->w());
+		h(size);
+
+	}
 }
 
 void Toolbar::resize(int x, int y, int cw, int ch)
@@ -22,8 +34,8 @@ void Toolbar::resize(int x, int y, int cw, int ch)
 	resizable(_spacer);
 
 	int chCount = children();
-	int cx = 0;
-	int cy = 0;
+	int cx = x;
+	int cy = y;
 
 	//for (int i = 0; i < chCount; i++)
 	//{
@@ -34,7 +46,13 @@ void Toolbar::resize(int x, int y, int cw, int ch)
 
 	//}
 
-	Fl_Group::resize(x, y, cw, ch);
+	auto window = parent();
+	if (_position == ToolbarPosition::Left || _position == ToolbarPosition::Right) {
+		Fl_Group::resize(x, y, _size, ch);
+	}
+	else if (_position == ToolbarPosition::Top || _position == ToolbarPosition::Bottom) {
+		Fl_Group::resize(x, y, cw, _size);
+	}
 }
 
 void Toolbar::draw()
