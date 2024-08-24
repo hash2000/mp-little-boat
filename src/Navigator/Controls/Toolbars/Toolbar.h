@@ -3,10 +3,17 @@
 #include <string>
 #include <FL/Fl_Group.H>
 
+enum class ToolbarPosition {
+	Left,
+	Right,
+	Top,
+	Bottom,
+};
+
 class Toolbar : public Fl_Group
 {
 public:
-	Toolbar(int x, int y, int cw, int ch, const char* title = nullptr);
+	Toolbar(ToolbarPosition position);
 
 	void resize(int x, int y, int cw, int ch);
 
@@ -15,6 +22,6 @@ public:
 	void end();
 
 protected:
-
+	ToolbarPosition _position;
 	Fl_Group _spacer;
 };

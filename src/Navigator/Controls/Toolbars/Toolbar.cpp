@@ -3,8 +3,9 @@
 #include "ToolButton.h"
 
 
-Toolbar::Toolbar(int x, int y, int cw, int ch, const char* title)
-	: Fl_Group(x, y, cw, ch, title)
+Toolbar::Toolbar(ToolbarPosition position)
+	: Fl_Group(0, 0, 0, 0, nullptr)
+	, _position(position)
 	, _spacer(0, 0, 0, 0)
 {
 	align(FL_ALIGN_BOTTOM_LEFT );
@@ -21,9 +22,8 @@ void Toolbar::resize(int x, int y, int cw, int ch)
 	resizable(_spacer);
 
 	int chCount = children();
-	//int x = 0;
-	//int y = 0;
-	//int cx = w();
+	int cx = 0;
+	int cy = 0;
 
 	//for (int i = 0; i < chCount; i++)
 	//{
