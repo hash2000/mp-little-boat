@@ -2,13 +2,13 @@
 #include <memory>
 #include "Common/core/Kernel.h"
 
-class IModuleManager
+class IModuleContainer
 {
 public:
-	static std::shared_ptr<IModuleManager> Make();
+	static std::shared_ptr<IModuleContainer> Make();
 
 public:
-	virtual ~IModuleManager() = default;
+	virtual ~IModuleContainer() = default;
 
 	virtual void Initialize() = 0;
 

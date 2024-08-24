@@ -1,9 +1,9 @@
 #include <pch.h>
 #include "ToolbarGlobalApps.h"
-#include "Controls/Icons.h"
+#include "Resources/Icons.h"
 
 ToolbarGlobalApps::ToolbarGlobalApps()
-	: Toolbar(0, 0, 0, 0)
+	: Toolbar(ToolbarPosition::Left)
 {
 	_toolNew.image(&_resource_PicNew);
 }
