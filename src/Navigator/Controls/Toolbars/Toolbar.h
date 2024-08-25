@@ -15,14 +15,11 @@ class Toolbar : public Fl_Group
 public:
 	Toolbar(ToolbarPosition position, int size);
 
-	void resize(int x, int y, int cw, int ch);
+	void resize(int cx, int cy, int cw, int ch);
 
-	void draw();
+	void AdjusSizes();
 
-	void end();
-
-protected:
+private:
 	int _size;
 	ToolbarPosition _position;
-	Fl_Group _spacer;
 };

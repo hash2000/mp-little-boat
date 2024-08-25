@@ -10,4 +10,6 @@ public:
 private:
 	ToolButton _toolNew{ 0, 0, 0, 0, "New"};
 	Fl_Button _testButton{ 0, 0, 10, 10, "test"};
+
+	Fl_End _end;
 };

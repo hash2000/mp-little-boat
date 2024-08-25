@@ -5,3 +5,4 @@ MainFrame::MainFrame()
 	: Fl_Window(720, 648, "Navigator")
 {
 }
+
