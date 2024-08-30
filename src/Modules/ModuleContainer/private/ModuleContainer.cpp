@@ -1,5 +1,5 @@
 #include <pch.h>
-#include "Libs/ModuleContainer/private/ModuleContainer.h"
+#include "Modules/ModuleContainer/private/ModuleContainer.h"
 
 std::shared_ptr<IModuleContainer> IModuleContainer::Make()
 {

@@ -24,4 +24,6 @@ include_directories(
 
 
 add_subdirectory(Navigator)
+add_subdirectory(Modules)
 add_subdirectory(Libs)
+add_subdirectory(Tests)

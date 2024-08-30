@@ -1,6 +1,7 @@
 #pragma once
 #include <FL/Fl_Group.H>
-#include "Navigator/Controls/Containers/Margin.h"
+#include "Libs/FltkExt/FltkExt.h"
+#include "Libs/FltkExt/Containers/Margin.h"
 
 class Flex : public Fl_Group
 {
