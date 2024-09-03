@@ -1,32 +1,60 @@
 #pragma once
+#include <FL/Fl.H>
 #include <FL/Fl_Group.H>
-#include "Libs/FltkExt/FltkExt.h"
-#include "Libs/FltkExt/Containers/Margin.h"
+#include <memory>
+#include <vector>
 
 class Flex : public Fl_Group
 {
 public:
-	enum class Direction {
+	enum {
 		Vert,
 		Horz,
 	};
 
-	enum class Position {
+	enum {
 		Start,
 		End,
-		Center
 	};
 
-	Flex(Direction direction, Position pos, int size = -1, const Margin& margin = Margin());
+	Flex(int direction, int pos, int size = 0, int spacing = 0);
 
-	void AdjustLayout();
+	void RecalcLayout(bool set = true);
 
-	void resize(int cx, int cy, int cw, int ch);
+	void resize(int cx, int cy, int cw, int ch) override;
+
+	void draw() override;
+
+	virtual void end();
 
 private:
-	Direction _direction;
-	Position _position;
-	Margin _margin;
+	void InitElementsContext();
+
+	void AdjustMainSizes(int cx, int cy, int cw, int ch);
+
+	void AdjustLayout(int cx, int cy, int cw, int ch);
+
+private:
+	bool _needRecalculate = false;
+	int _direction;
+	int _position;
 	int _size;
-	int _gap = 0;
+	int _spacing = 0;
+
+private:
+	struct ElementContext {
+		int width = 0;
+		int height = 0;
+	};
+
+	std::vector<std::shared_ptr<ElementContext>> _elements;
+};
+
+class FlexEnd
+{
+public:
+	FlexEnd() {
+		auto current = (Flex*)Fl_Group::current();
+		current->end();
+	}
 };

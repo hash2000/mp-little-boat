@@ -1,54 +1,121 @@
 #include "Flex.h"
+#include <FL/Fl_Widget.H>
+#include <algorithm>
 
-Flex::Flex(Direction direction, Position pos, int size, const Margin& margin)
-	: Fl_Group(0, 0, size, size, nullptr)
+Flex::Flex(int direction, int pos, int size, int spacing)
+	: Fl_Group(0, 0, 1, 1, nullptr)
 	, _direction(direction)
 	, _position(pos)
-	, _margin(margin)
 	, _size(size)
+	, _spacing(spacing)
 {
-
 	begin();
 }
 
-void Flex::AdjustLayout()
+void Flex::InitElementsContext()
 {
 	const int nc = children();
 
-	int dx = Fl::box_dx(box());
-	int dy = Fl::box_dy(box());
-	int dw = Fl::box_dw(box());
-	int dh = Fl::box_dh(box());
-
-	// Calculate total space minus gaps
-	int gaps = nc > 1 ? nc - 1 : 0;
-	int hori = _direction == Direction::Horz;
-	int space = hori
-		? (w() - dw - _margin._left - _margin._right)
-		: (h() - dh - _margin._top - _margin._bottom);
-
-	int xp = x() + dx + _margin._left;
-	int yp = y() + dy + _margin._top;
-	int hh = h() - dh - _margin._top - _margin._bottom; // if horizontal: constant height of widgets
-	int vw = w() - dw - _margin._left - _margin._right; // if vertical:   constant width of widgets
-
-	int fw = nc;
-
-	for (int i = 0; i < nc; i++) {
-		Fl_Widget* c = child(i);
-		if (c->visible()) {
-			space -= (hori ? c->w() : c->h());
-			fw--;
-		}
-		else { // hidden widget
-			fw--;
-			gaps--;
+	if (_elements.size() != nc)
+	{
+		_elements.resize(nc);
+		for (int i = 0; i < nc; i++)
+		{
+			Fl_Widget* c = child(i);
+			_elements[i] = std::make_shared<ElementContext>();
+			_elements[i]->width = c->w();
+			_elements[i]->height = c->h();
 		}
 	}
 }
 
+void Flex::AdjustMainSizes(int cx, int cy, int cw, int ch)
+{
+	if (_direction == Horz)
+	{
+		Fl_Group::resize(cx, cy, cw - cx, _size);
+	}
+	else
+	{
+		Fl_Group::resize(cx, cy, _size, ch - cy);
+	}
+}
+
+void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
+{
+	InitElementsContext();
+	AdjustMainSizes(cx, cy, cw, ch);
+
+	const int nc = children();
+	int fcount = 0;
+	int fspace = 0;
+
+	// Calculate inner control fixed sizes space
+	for (int i = 0; i < nc; i++)
+	{
+		Fl_Widget* c = child(i);
+		int sz = _direction == Horz ? _elements[i]->width : _elements[i]->height;
+		if (sz > 0) {
+			fspace += sz;
+			fcount++;
+		}
+	}
+
+	auto ncsize = nc * _spacing;
+	auto cstart = (_direction == Horz ? x() : y()) + _spacing;
+	auto cend = (_direction == Horz ? w() : h());
+
+	auto nfcount = nc - fcount;
+	auto ctlsize = 0;
+
+	if (nfcount > 0) {
+		ctlsize = (cend - cstart - fspace - ncsize) / nfcount;
+	}
+
+	for (int i = 0; i < nc; i++)
+	{
+		auto item = _position == Start ? i : nc - i - 1;
+		Fl_Widget* c = child(item);
+
+		auto size = _direction == Horz ? _elements[item]->width : _elements[item]->height;
+		size = size == 0 ? ctlsize : size;
+		auto px = _direction == Horz ? cstart : cx + _spacing;
+		auto py = _direction == Horz ? cy + _spacing : cstart;
+		auto pw = _direction == Horz ? size : _size - _spacing * 2;
+		auto ph = _direction == Horz ? _size - _spacing * 2: size;
+
+		c->resize(px, py, pw, ph);
+		size = _direction == Horz ? c->w() : c->h();
+
+		cstart += size + _spacing;
+	}
+
+	_needRecalculate = false;
+	redraw();
+}
+
+void Flex::RecalcLayout(bool set)
+{
+	_needRecalculate = set;
+}
+
 void Flex::resize(int cx, int cy, int cw, int ch)
 {
-	Fl_Widget::resize(cx, cy, cw, ch);
-	AdjustLayout();
+	AdjustLayout(cx, cy, cw, ch);
+}
+
+void Flex::draw()
+{
+	if (_needRecalculate) {
+		auto pnt = parent();
+		AdjustLayout(x(), y(), pnt->w(), pnt->h());
+	}
+
+	Fl_Group::draw();
+}
+
+void Flex::end()
+{
+	Fl_Group::end();
+	RecalcLayout();
 }

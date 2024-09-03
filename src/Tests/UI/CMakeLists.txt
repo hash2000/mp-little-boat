@@ -10,7 +10,7 @@ add_executable(TestUI
 )
 
 
-target_link_libraries(Navigator
+target_link_libraries(TestUI
 	PRIVATE
 		Poco::Foundation
 		Poco::Util
@@ -25,7 +25,7 @@ target_link_libraries(Navigator
 		LibFltkExt
 )
 
-target_include_directories(Navigator
+target_include_directories(TestUI
 	PUBLIC
 		${TestUI-Sources}		
 )

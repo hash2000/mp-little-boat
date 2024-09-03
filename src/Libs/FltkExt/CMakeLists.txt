@@ -17,6 +17,11 @@ add_library(LibFltkExt
 target_link_libraries(LibFltkExt
 	PRIVATE
 		Poco::Foundation
+
+		fltk fltk_gl
+		fltk_forms
+		fltk_images
+
 )
 
 target_include_directories(LibFltkExt
