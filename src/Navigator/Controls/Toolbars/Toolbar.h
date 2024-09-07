@@ -1,27 +1,15 @@
 #pragma once
 
 #include <string>
-#include <FL/Fl_Group.H>
+#include <FL/Fl_Button.H>
+#include "Libs/FltkExt/FltkExt.h"
 
-enum class ToolbarPosition {
-	Left,
-	Right,
-	Top,
-	Bottom,
-};
-
-class Toolbar : public Fl_Group
+class Toolbar : public Flex
 {
 public:
-	Toolbar(ToolbarPosition position);
+	Toolbar(int cx, int cy, int cw, int ch);
 
-	void resize(int x, int y, int cw, int ch);
+private:
 
-	void draw();
-
-	void end();
-
-protected:
-	ToolbarPosition _position;
-	Fl_Group _spacer;
+	Fl_Button _fileNew{ 0, 0, 40, 40 };
 };

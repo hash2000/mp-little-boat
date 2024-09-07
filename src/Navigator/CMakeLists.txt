@@ -53,7 +53,7 @@ target_link_libraries(Navigator
 		fltk_forms
 		fltk_images
 
-#		mp-lib-module-system
+		LibFltkExt
 )
 
 target_include_directories(Navigator
