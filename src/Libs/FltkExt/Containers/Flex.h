@@ -1,6 +1,7 @@
 #pragma once
 #include <FL/Fl.H>
 #include <FL/Fl_Group.H>
+#include "Libs/FltkExt/Containers/Margin.h"
 #include <memory>
 #include <vector>
 
@@ -22,7 +23,19 @@ public:
 		Full,
 	};
 
-	Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position, Docking docking = Docking::ByDirection, int spacing = 0);
+	Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position);
+
+	Docking docking() const;
+
+	void docking(Docking dock);
+
+	int spacing() const;
+
+	void spacing(int size);
+
+	Margin margin() const;
+
+	void margin(const Margin& m);
 
 	void RecalcLayout(bool set = true);
 
@@ -44,6 +57,7 @@ private:
 	Direction _direction;
 	PushPosition _position;
 	Docking _docking;
+	Margin _margin;
 	int _size;
 	int _spacing = 0;
 

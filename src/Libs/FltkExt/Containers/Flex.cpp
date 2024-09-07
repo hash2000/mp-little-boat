@@ -2,16 +2,47 @@
 #include <FL/Fl_Widget.H>
 #include <algorithm>
 
-Flex::Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position, Docking docking, int spacing)
+Flex::Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position)
 	: Fl_Group(cx, cy, cw, ch, nullptr)
 	, _direction(direction)
 	, _position(position)
-	, _docking(docking)
-	, _spacing(spacing)
+	, _docking(Docking::ByDirection)
+	, _spacing(0)
 {
 	_size = _direction == Direction::Horz ? ch : cw;
 	begin();
 }
+
+Flex::Docking Flex::docking() const
+{
+	return _docking;
+}
+
+void Flex::docking(Flex::Docking dock)
+{
+	_docking = dock;
+}
+
+int Flex::spacing() const
+{
+	return _spacing;
+}
+
+void Flex::spacing(int size)
+{
+	_spacing = size;
+}
+
+Margin  Flex::margin() const
+{
+	return _margin;
+}
+
+void  Flex::margin(const Margin& m)
+{
+	_margin = m;
+}
+
 
 void Flex::InitElementsContext()
 {
@@ -36,16 +67,16 @@ void Flex::AdjustMainSizes(int cx, int cy, int cw, int ch)
 	{
 		if (_direction == Direction::Horz)
 		{
-			Fl_Group::resize(cx, cy, cw - cx, _size);
+			Fl_Group::resize(cx, cy, cw, _size);
 		}
 		else
 		{
-			Fl_Group::resize(cx, cy, _size, ch - cy);
+			Fl_Group::resize(cx, cy, _size, ch);
 		}
 	}
 	else if (_docking == Docking::Full)
 	{
-		Fl_Group::resize(cx, cy, cw - cx, ch - cy);
+		Fl_Group::resize(cx, cy, cw, ch);
 	}
 }
 
@@ -69,16 +100,28 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		}
 	}
 
-	auto ncsize = nc * _spacing;
-	auto cstart = (_direction == Direction::Horz ? x() : y()) + _spacing;
-	auto cend = (_direction == Direction::Horz ? w() : h());
+	cx += _margin.left;
+	cy += _margin.top;
+	cw -= _margin.left + _margin.right;
+	ch -= _margin.top + _margin.bottom;
+
+	auto fixedSize = _size - (_direction == Direction::Horz ?
+		_margin.top + _margin.bottom : _margin.left + _margin.right);
+
+	auto ncsize = nc > 1 ? (nc - 1) * _spacing : 0;
+	auto cstart = _direction == Direction::Horz ? cx : cy;
+	auto csize = _direction == Direction::Horz ? cw : ch;
 
 	auto nfcount = nc - fcount;
 	auto ctlsize = 0;
 
 	if (nfcount > 0) {
-		ctlsize = (cend - cstart - fspace - ncsize) / nfcount;
+		ctlsize = csize - fspace - ncsize;
+		ctlsize /= nfcount;
 	}
+
+	auto directionSize = _direction == Direction::Horz ? ch - cy : cw - cx;
+	auto dockingSize = _docking == Docking::ByDirection ? fixedSize : directionSize;
 
 	for (int i = 0; i < nc; i++)
 	{
@@ -88,10 +131,8 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		auto size = _direction == Direction::Horz ? _elements[item]->width : _elements[item]->height;
 		size = size == 0 ? ctlsize : size;
 
-		auto directionSize = _direction == Direction::Horz ? ch - cy : cw - cx;
-		auto dockingSize = _docking == Docking::ByDirection ? _size - _spacing * 2 : directionSize;
-		auto px = _direction == Direction::Horz ? cstart : cx + _spacing;
-		auto py = _direction == Direction::Horz ? cy + _spacing : cstart;
+		auto px = _direction == Direction::Horz ? cstart : cx;
+		auto py = _direction == Direction::Horz ? cy : cstart;
 		auto pw = _direction == Direction::Horz ? size : dockingSize;
 		auto ph = _direction == Direction::Horz ? dockingSize : size;
 
@@ -118,7 +159,7 @@ void Flex::resize(int cx, int cy, int cw, int ch)
 void Flex::draw()
 {
 	if (_needRecalculate) {
-		AdjustLayout(x(), y(), w(), h());
+		AdjustLayout(x(), y(), w() - x(), h() - y());
 	}
 
 	Fl_Group::draw();
