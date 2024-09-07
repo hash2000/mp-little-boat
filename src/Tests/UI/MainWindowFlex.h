@@ -2,52 +2,82 @@
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 
-class Toolbar : public Flex
-{
-public:
-	Toolbar(int cx, int cy, int cw, int ch, Direction dir)
-		: Flex(cx, cy, cw, ch, dir, PushPosition::Start)
-	{
-		box(FL_FREE_BOXTYPE);
-		spacing(5);
-		margin(Margin(10, 6, 10, 4));
-
-		_f2b1.color(fl_color_average(FL_RED, FL_WHITE, 0.5));
-		_f2b1.box(FL_FLAT_BOX);
-
-		_f2b2.color(fl_color_average(FL_DARK_GREEN, FL_WHITE, 0.5));
-		_f2b2.box(FL_FLAT_BOX);
-
-		_f2b3.color(fl_color_average(FL_BLUE, FL_WHITE, 0.5));
-		_f2b3.box(FL_FLAT_BOX);
-
-		_f2b4.color(fl_color_average(FL_DARK_RED, FL_WHITE, 0.5));
-		_f2b4.box(FL_FLAT_BOX);
-	}
-
-private:
-	Fl_Box _f2b1{ 0, 0, 40, 40, "btn1" };
-	Fl_Box _f2b2{ 0, 0, 0, 0, "btn2" };
-	Fl_Box _f2b3{ 0, 0, 0, 0, "btn3" };
-	Fl_Box _f2b4{ 0, 0, 0, 0, "btn4" };
-	ContainerEnd _flex2End;
-};
 
 class MainWindowFlex : public Fl_Window
 {
 public:
 	MainWindowFlex() : Fl_Window(100, 100, 800, 600, "Test FLTK UI")
 	{
-		_flex.box(FL_FREE_BOXTYPE);
-		_flex.docking(Docking::Full);
-		_flex.margin(Margin(10));
-		_flex.spacing(4);
+		auto centerfl = new Flex{ 0, 0, w(), h(), Direction::Vert };
+		centerfl->docking(Docking::Full);
+		centerfl->box(FL_FREE_BOXTYPE);
+		{
+			auto toolbar = new Flex{ 0, 0, 20, 20, Direction::Horz };
+			{
+				toolbar->box(FL_FREE_BOXTYPE);
+				toolbar->spacing(5);
+				toolbar->margin(Margin(2));
+
+				CreateWidget(0, 0, 40, 40, FL_RED, "btn1");
+				CreateWidget(0, 0, 0, 0, FL_DARK_GREEN, "btn2");
+				CreateWidget(0, 0, 0, 0, FL_BLUE, "btn3");
+				CreateWidget(0, 0, 0, 0, FL_DARK_RED, "btn4");
+
+				toolbar->end();
+			}
+
+			auto horzContent = new Flex{ 0, 0, 0, 0, Direction::Horz };
+			{
+				horzContent->box(FL_FREE_BOXTYPE);
+				horzContent->docking(Docking::Full);
+				auto leftbar1 = new Flex{ 0, 0, 40, 40, Direction::Vert };
+				{
+					leftbar1->box(FL_FREE_BOXTYPE);
+					leftbar1->margin(Margin{ 4 });
+					CreateWidget(0, 0, 40, 40, FL_RED, "btn1");
+					CreateWidget(0, 0, 0, 0, FL_DARK_GREEN, "btn2");
+					CreateWidget(0, 0, 0, 0, FL_BLUE, "btn3");
+
+					leftbar1->end();
+				}
+
+				auto leftbar2 = new Flex{ 0, 0, 40, 40, Direction::Vert };
+				{
+					leftbar2->box(FL_FREE_BOXTYPE);
+					leftbar2->margin(Margin{ 4 });
+					CreateWidget(0, 0, 40, 40, FL_RED, "btn1");
+					CreateWidget(0, 0, 0, 0, FL_DARK_GREEN, "btn2");
+					CreateWidget(0, 0, 0, 0, FL_BLUE, "btn3");
+
+					leftbar2->end();
+				}
+
+				horzContent->end();
+			}
+
+			auto statusbar = new Flex{ 0, 0, 20, 20, Direction::Horz };
+			{
+				statusbar->box(FL_FREE_BOXTYPE);
+				statusbar->spacing(5);
+				statusbar->margin(Margin(2));
+
+				CreateWidget(0, 0, 40, 40, FL_RED, "btn1");
+				CreateWidget(0, 0, 0, 0, FL_DARK_GREEN, "btn2");
+				CreateWidget(0, 0, 0, 0, FL_BLUE, "btn3");
+				CreateWidget(0, 0, 0, 0, FL_DARK_RED, "btn4");
+
+				statusbar->end();
+			}
+
+			centerfl->end();
+		}
 	}
 
-private:
-	Flex _flex{ 0, 0, w(), h(), Direction::Vert, PushPosition::Start };
-//	Toolbar _toolbar1{ 0, 0, w(), 40, Flex::Direction::Horz };
-	Toolbar _toolbar2{ 0, 0, w(), 70, Direction::Horz };
-	Toolbar _toolbar3{ 0, 80, 70, h() - 80, Direction::Vert };
-	ContainerEnd _flex2End;
+	Fl_Widget* CreateWidget(int cx, int cy, int cw, int ch, Fl_Color color, const char* title)
+	{
+		auto result = new Fl_Box{ cx, cy, cw, ch, title };
+		result->color(fl_color_average(color, FL_WHITE, 0.5));
+		result->box(FL_FLAT_BOX);
+		return result;
+	}
 };

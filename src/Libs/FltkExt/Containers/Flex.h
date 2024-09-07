@@ -5,7 +5,7 @@ class Flex : public Container
 {
 public:
 
-	Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position);
+	Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position = PushPosition::Start);
 
 	int spacing() const;
 

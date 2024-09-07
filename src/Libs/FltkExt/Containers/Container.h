@@ -23,7 +23,7 @@ enum class Docking : int {
 class Container : public Fl_Group
 {
 public:
-	Container(int cx, int cy, int cw, int ch, Direction direction, PushPosition position);
+	Container(int cx, int cy, int cw, int ch, Direction direction, PushPosition position = PushPosition::Start);
 
 	Docking docking() const;
 
