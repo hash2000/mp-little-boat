@@ -7,17 +7,22 @@
 class Flex : public Fl_Group
 {
 public:
-	enum {
+	enum class Direction : int {
 		Vert,
 		Horz,
 	};
 
-	enum {
+	enum class PushPosition : int {
 		Start,
 		End,
 	};
 
-	Flex(int direction, int pos, int size = 0, int spacing = 0);
+	enum class Docking : int {
+		ByDirection,
+		Full,
+	};
+
+	Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position, Docking docking = Docking::ByDirection, int spacing = 0);
 
 	void RecalcLayout(bool set = true);
 
@@ -36,8 +41,9 @@ private:
 
 private:
 	bool _needRecalculate = false;
-	int _direction;
-	int _position;
+	Direction _direction;
+	PushPosition _position;
+	Docking _docking;
 	int _size;
 	int _spacing = 0;
 
