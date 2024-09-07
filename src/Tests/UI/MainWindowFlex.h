@@ -5,8 +5,8 @@
 class Toolbar : public Flex
 {
 public:
-	Toolbar(int cx, int cy, int cw, int ch, Flex::Direction dir)
-		: Flex(cx, cy, cw, ch, dir, Flex::PushPosition::Start)
+	Toolbar(int cx, int cy, int cw, int ch, Direction dir)
+		: Flex(cx, cy, cw, ch, dir, PushPosition::Start)
 	{
 		box(FL_FREE_BOXTYPE);
 		spacing(5);
@@ -30,7 +30,7 @@ private:
 	Fl_Box _f2b2{ 0, 0, 0, 0, "btn2" };
 	Fl_Box _f2b3{ 0, 0, 0, 0, "btn3" };
 	Fl_Box _f2b4{ 0, 0, 0, 0, "btn4" };
-	FlexEnd _flex2End;
+	ContainerEnd _flex2End;
 };
 
 class MainWindowFlex : public Fl_Window
@@ -38,16 +38,16 @@ class MainWindowFlex : public Fl_Window
 public:
 	MainWindowFlex() : Fl_Window(100, 100, 800, 600, "Test FLTK UI")
 	{
-		//_flex.box(FL_FREE_BOXTYPE);
-		//_flex.docking(Flex::Docking::Full);
-		//_flex.margin(Margin(10));
-		//_flex.spacing(4);
+		_flex.box(FL_FREE_BOXTYPE);
+		_flex.docking(Docking::Full);
+		_flex.margin(Margin(10));
+		_flex.spacing(4);
 	}
 
 private:
-//	Flex _flex{ 0, 0, w(), h(), Flex::Direction::Vert, Flex::PushPosition::Start };
+	Flex _flex{ 0, 0, w(), h(), Direction::Vert, PushPosition::Start };
 //	Toolbar _toolbar1{ 0, 0, w(), 40, Flex::Direction::Horz };
-	Toolbar _toolbar2{ 0, 0, w(), 70, Flex::Direction::Horz };
-	Toolbar _toolbar3{ 0, 80, 70, h() - 80, Flex::Direction::Vert };
-//	FlexEnd _flex2End;
+	Toolbar _toolbar2{ 0, 0, w(), 70, Direction::Horz };
+	Toolbar _toolbar3{ 0, 80, 70, h() - 80, Direction::Vert };
+	ContainerEnd _flex2End;
 };

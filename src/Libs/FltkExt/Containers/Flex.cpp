@@ -3,24 +3,11 @@
 #include <algorithm>
 
 Flex::Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position)
-	: Fl_Group(cx, cy, cw, ch, nullptr)
-	, _direction(direction)
-	, _position(position)
-	, _docking(Docking::ByDirection)
+	: Container(cx, cy, cw, ch, direction, position)
 	, _spacing(0)
 {
 	_size = _direction == Direction::Horz ? ch : cw;
 	begin();
-}
-
-Flex::Docking Flex::docking() const
-{
-	return _docking;
-}
-
-void Flex::docking(Flex::Docking dock)
-{
-	_docking = dock;
 }
 
 int Flex::spacing() const
@@ -33,57 +20,9 @@ void Flex::spacing(int size)
 	_spacing = size;
 }
 
-Margin  Flex::margin() const
-{
-	return _margin;
-}
-
-void  Flex::margin(const Margin& m)
-{
-	_margin = m;
-}
-
-
-void Flex::InitElementsContext()
-{
-	const int nc = children();
-
-	if (_elements.size() != nc)
-	{
-		_elements.resize(nc);
-		for (int i = 0; i < nc; i++)
-		{
-			Fl_Widget* c = child(i);
-			_elements[i] = std::make_shared<ElementContext>();
-			_elements[i]->width = c->w();
-			_elements[i]->height = c->h();
-		}
-	}
-}
-
-void Flex::AdjustMainSizes(int cx, int cy, int cw, int ch)
-{
-	if (_docking == Docking::ByDirection)
-	{
-		if (_direction == Direction::Horz)
-		{
-			Fl_Group::resize(cx, cy, cw, _size);
-		}
-		else
-		{
-			Fl_Group::resize(cx, cy, _size, ch);
-		}
-	}
-	else if (_docking == Docking::Full)
-	{
-		Fl_Group::resize(cx, cy, cw, ch);
-	}
-}
-
 void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 {
-	InitElementsContext();
-	AdjustMainSizes(cx, cy, cw, ch);
+	Container::BeginLayout(cx, cy, cw, ch);
 
 	const int nc = children();
 	int fcount = 0;
@@ -142,31 +81,6 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		cstart += size + _spacing;
 	}
 
-	_needRecalculate = false;
-	redraw();
+	Container::EndLayout();
 }
 
-void Flex::RecalcLayout(bool set)
-{
-	_needRecalculate = set;
-}
-
-void Flex::resize(int cx, int cy, int cw, int ch)
-{
-	AdjustLayout(cx, cy, cw, ch);
-}
-
-void Flex::draw()
-{
-	if (_needRecalculate) {
-		AdjustLayout(x(), y(), w() - x(), h() - y());
-	}
-
-	Fl_Group::draw();
-}
-
-void Flex::end()
-{
-	Fl_Group::end();
-	RecalcLayout();
-}

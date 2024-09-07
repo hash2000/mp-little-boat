@@ -13,5 +13,5 @@ private:
 
 	Fl_Button _fileNew{ 0, 0, 40, 40 };
 
-	FlexEnd _end;
+	ContainerEnd _end;
 };
