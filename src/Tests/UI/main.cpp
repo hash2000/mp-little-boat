@@ -1,10 +1,12 @@
 
 #include "Libs/FltkExt/FltkExt.h"
 #include "MainWindowFlex.h"
-#include "MainWindowSplitBar.h"
+#include "MainWindowPanel.h"
 #include "MainWindowFltkTable.h"
 #include "MainWindowFltkTextEditor.h"
-#include "MainWindowThemes.h"
+#include "MainWindowFltkThemes.h"
+#include "MainWindowFltkSlider.h"
+#include "MainWindowFltkTreeOfTables.h"
 
 
 int main(int argc, char** argv)
@@ -12,7 +14,7 @@ int main(int argc, char** argv)
 	fl_message_hotspot(false);
 	fl_message_icon()->labelfont(FL_HELVETICA_BOLD);
 
-	auto wnd = MainWindowThemes{};
+	auto wnd = MainWindowPanel{};
 	wnd.resizable(wnd);
 	wnd.show();
 	return Fl::run();

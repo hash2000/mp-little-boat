@@ -2,6 +2,7 @@
 
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Browser.H>
 #include <FL/Fl_Button.H>
@@ -25,3 +26,9 @@
 #include <FL/Fl_Return_Button.H>
 #include <FL/Fl_Roller.H>
 #include <FL/Fl_Tabs.H>
+#include <FL/Fl_Hor_Slider.H>
+#include <FL/Fl_Hor_Fill_Slider.H>
+#include <FL/Fl_Fill_Slider.H>
+#include <FL/Fl_Nice_Slider.H>
+#include <FL/Fl_Tree.H>
+#include <FL/Fl_Table.H>

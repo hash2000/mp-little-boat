@@ -9,7 +9,7 @@ public:
 	MainWindowFlex() : Fl_Window(100, 100, 800, 600, "Test FLTK UI")
 	{
 		auto centerfl = new Flex{ 0, 0, w(), h(), Direction::Vert };
-		centerfl->docking(Docking::Full);
+		centerfl->SetLayoutStrategy(LayoutStrategy::Full);
 		centerfl->box(FL_FREE_BOXTYPE);
 		{
 			auto toolbar = new Flex{ 0, 0, 20, 20, Direction::Horz };
@@ -29,7 +29,7 @@ public:
 			auto horzContent = new Flex{ 0, 0, 0, 0, Direction::Horz };
 			{
 				horzContent->box(FL_FREE_BOXTYPE);
-				horzContent->docking(Docking::Full);
+				horzContent->SetLayoutStrategy(LayoutStrategy::Full);
 				auto leftbar1 = new Flex{ 0, 0, 40, 40, Direction::Vert };
 				{
 					leftbar1->box(FL_FREE_BOXTYPE);

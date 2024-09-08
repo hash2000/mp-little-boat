@@ -60,7 +60,7 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 	}
 
 	auto directionSize = _direction == Direction::Horz ? ch  : cw;
-	auto dockingSize = _docking == Docking::ByDirection ? fixedSize : directionSize;
+	auto dockingSize = _layoutStraategy == LayoutStrategy::ByDirection ? fixedSize : directionSize;
 
 	for (int i = 0; i < nc; i++)
 	{

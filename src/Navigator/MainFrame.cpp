@@ -7,7 +7,7 @@ MainFrame::MainFrame()
 {
 	auto centerflex = new Flex{ 0, 0, w(), h(), Direction::Vert };
 	{
-		centerflex->docking(Docking::Full);
+		centerflex->SetLayoutStrategy(LayoutStrategy::Full);
 
 		auto toolbar = new Toolbar{ 0, 0, 40, 40 };
 		{
@@ -19,7 +19,7 @@ MainFrame::MainFrame()
 		auto horzflex = new Flex{ 0, 0, 0, 0, Direction::Horz };
 		{
 			horzflex->box(FL_FREE_BOXTYPE);
-			horzflex->docking(Docking::Full);
+			horzflex->SetLayoutStrategy(LayoutStrategy::Full);
 			auto leftbar1 = new Flex{ 0, 0, 80, 80, Direction::Vert };
 			{
 				leftbar1->box(FL_FREE_BOXTYPE);

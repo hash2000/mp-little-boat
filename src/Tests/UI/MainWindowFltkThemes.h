@@ -158,10 +158,10 @@ Fl_Scheme_Mode fl_scheme_mode() {
 
 
 
-class MainWindowThemes : public Fl_Window
+class MainWindowFltkThemes : public Fl_Window
 {
 public:
-	MainWindowThemes() : Fl_Window(100, 100, 800, 600, "Test FLTK UI")
+	MainWindowFltkThemes() : Fl_Window(100, 100, 800, 600, "Test FLTK UI")
 	{
 		resizable(this);
 
@@ -182,6 +182,8 @@ public:
 
 		box1.align(FL_ALIGN_LEFT | FL_ALIGN_TOP | FL_ALIGN_CLIP | FL_ALIGN_INSIDE);
 		box1.box(Fl_Boxtype::FL_FLAT_BOX);
+
+#pragma warning(disable:4566)
 		multiline_input1.value("The quick brown fox jumps over the lazy dog.\n"
 			"THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.\n"
 			"0123456789+-*/%~^&|=<>≤≥±÷≠{{[()]}},;:.?¿!¡\n"
@@ -191,6 +193,7 @@ public:
 			"\u4ea0\u4ea1\u4ea2\u4ea3\u4ea4\u4ea5\u4ea6\u4ea7\u4ea8\u4ea9\u4eaa\u4eab\u4eac\u4ead\u4eae\u4eaf\n"
 			"\u4eb0\u4eb1\u4eb2\u4eb3\u4eb4\u4eb5\u4eb6\u4eb7\u4eb8\u4eb9\u4eba\u4ebb\u4ebc\u4ebd\u4ebe\u4ebf\n"
 			"\U0001F428");
+#pragma warning(default:4566)
 
 		browser1.type(FL_HOLD_BROWSER);
 		for (auto item : { "Light red", "Light green", "Light blue", "Yellow", "White", "Dark gray", "Light cyan", "Light magenta", "Red", "Green", "Blue", "Brown", "Light gray", "Black", "Cyan", "Magenta" }) {
@@ -206,8 +209,8 @@ public:
 		slider1.value(50);
 		//slider1.color2(FL_SELECTION_COLOR);
 		slider1.callback([](Fl_Widget* sender, void* window) {
-			reinterpret_cast<MainWindowThemes*>(window)->progress1.value(dynamic_cast<Fl_Slider*>(sender)->value());
-			reinterpret_cast<MainWindowThemes*>(window)->progress1.copy_label((to_string((static_cast<int>(dynamic_cast<Fl_Slider*>(sender)->value()))) + "%").c_str());
+			reinterpret_cast<MainWindowFltkThemes*>(window)->progress1.value(dynamic_cast<Fl_Slider*>(sender)->value());
+			reinterpret_cast<MainWindowFltkThemes*>(window)->progress1.copy_label((to_string((static_cast<int>(dynamic_cast<Fl_Slider*>(sender)->value()))) + "%").c_str());
 			}, this);
 		progress1.value(slider1.value());
 		progress1.copy_label((to_string((static_cast<int>(slider1.value()))) + "%").c_str());
@@ -218,14 +221,14 @@ public:
 			scheme_choice.add(item);
 		scheme_choice.value(0);
 		scheme_choice.callback([](Fl_Widget* sender, void* window) {
-			reinterpret_cast<MainWindowThemes*>(window)->update_theme_and_mode();
+			reinterpret_cast<MainWindowFltkThemes*>(window)->update_theme_and_mode();
 			}, this);
 
 		for (auto item : { "default", "light", "dark", "white", "black", "red", "green", "blue" })
 			scheme_mode_choice.add(item);
 		scheme_mode_choice.value(0);
 		scheme_mode_choice.callback([](Fl_Widget* sender, void* window) {
-			reinterpret_cast<MainWindowThemes*>(window)->update_theme_and_mode();
+			reinterpret_cast<MainWindowFltkThemes*>(window)->update_theme_and_mode();
 			}, this);
 	}
 

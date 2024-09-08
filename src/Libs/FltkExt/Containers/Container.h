@@ -15,8 +15,9 @@ enum class PushPosition : int {
 	End,
 };
 
-enum class Docking : int {
+enum class LayoutStrategy : int {
 	ByDirection,
+	ByDirectionReflected,
 	Full,
 };
 
@@ -25,11 +26,19 @@ class Container : public Fl_Group
 public:
 	Container(int cx, int cy, int cw, int ch, Direction direction, PushPosition position = PushPosition::Start);
 
-	Docking docking() const;
+	PushPosition GetPushPosition() const;
 
-	void docking(Docking dock);
+	void SetPushPosition(PushPosition pos);
 
-	Margin margin() const;
+	Direction direction() const;
+
+	void direction(Direction dir);
+
+	LayoutStrategy GetLayoutStrategy() const;
+
+	void SetLayoutStrategy(LayoutStrategy set);
+
+	const Margin& margin() const;
 
 	void margin(const Margin& m);
 
@@ -60,7 +69,7 @@ private:
 protected:
 	Direction _direction;
 	PushPosition _position;
-	Docking _docking;
+	LayoutStrategy _layoutStraategy;
 	Margin _margin;
 	int _size;
 

@@ -5,23 +5,46 @@ Container::Container(int cx, int cy, int cw, int ch, Direction direction, PushPo
 	: Fl_Group(cx, cy, cw, ch, nullptr)
 	, _direction(direction)
 	, _position(position)
-	, _docking(Docking::ByDirection)
+	, _layoutStraategy(LayoutStrategy::ByDirection)
 {
 	_size = _direction == Direction::Horz ? ch : cw;
 	begin();
 }
 
-Docking Container::docking() const
+PushPosition Container::GetPushPosition() const
 {
-	return _docking;
+	return _position;
 }
 
-void Container::docking(Docking dock)
+void Container::SetPushPosition(PushPosition pos)
 {
-	_docking = dock;
+	_position = pos;
+	RecalcLayout();
 }
 
-Margin Container::margin() const
+Direction Container::direction() const
+{
+	return _direction;
+}
+
+void Container::direction(Direction dir)
+{
+	_direction = dir;
+	RecalcLayout();
+}
+
+LayoutStrategy Container::GetLayoutStrategy() const
+{
+	return _layoutStraategy;
+}
+
+void Container::SetLayoutStrategy(LayoutStrategy set)
+{
+	_layoutStraategy = set;
+	RecalcLayout();
+}
+
+const Margin& Container::margin() const
 {
 	return _margin;
 }
@@ -29,6 +52,7 @@ Margin Container::margin() const
 void  Container::margin(const Margin& m)
 {
 	_margin = m;
+	RecalcLayout();
 }
 
 void Container::RecalcLayout(bool set)
@@ -87,7 +111,7 @@ void Container::InitElementsContext()
 
 void Container::AdjustMainSizes(int cx, int cy, int cw, int ch)
 {
-	if (_docking == Docking::ByDirection)
+	if (_layoutStraategy == LayoutStrategy::ByDirection)
 	{
 		if (_direction == Direction::Horz)
 		{
@@ -98,7 +122,18 @@ void Container::AdjustMainSizes(int cx, int cy, int cw, int ch)
 			Fl_Group::resize(cx, cy, _size, ch);
 		}
 	}
-	else if (_docking == Docking::Full)
+	else if (_layoutStraategy == LayoutStrategy::ByDirectionReflected)
+	{
+		if (_direction == Direction::Horz)
+		{
+			Fl_Group::resize(cx, parent()->h() - _size, cw, _size);
+		}
+		else
+		{
+			Fl_Group::resize(parent()->w() - _size, cy, _size, ch);
+		}
+	}
+	else if (_layoutStraategy == LayoutStrategy::Full)
 	{
 		Fl_Group::resize(cx, cy, cw, ch);
 	}
