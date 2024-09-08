@@ -20,7 +20,7 @@ MainFrame::MainFrame()
 		{
 			horzflex->box(FL_FREE_BOXTYPE);
 			horzflex->docking(Docking::Full);
-			auto leftbar1 = new Flex{ 0, 0, 40, 40, Direction::Vert };
+			auto leftbar1 = new Flex{ 0, 0, 80, 80, Direction::Vert };
 			{
 				leftbar1->box(FL_FREE_BOXTYPE);
 				leftbar1->margin(Margin{ 4 });
