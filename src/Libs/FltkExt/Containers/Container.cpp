@@ -8,6 +8,8 @@ Container::Container(int cx, int cy, int cw, int ch, Direction direction, PushPo
 	, _layoutStraategy(LayoutStrategy::ByDirection)
 {
 	_size = _direction == Direction::Horz ? ch : cw;
+	set_flag(CLIP_CHILDREN);
+	align(FL_ALIGN_INSIDE);
 	begin();
 }
 
@@ -68,7 +70,8 @@ void Container::resize(int cx, int cy, int cw, int ch)
 void Container::draw()
 {
 	if (_needRecalculate) {
-		AdjustLayout(x(), y(), w() - x(), h() - y());
+		_needRecalculate = false;
+		AdjustLayout(x(), y(), w(), h());
 	}
 
 	Fl_Group::draw();
@@ -88,7 +91,6 @@ void Container::BeginLayout(int cx, int cy, int cw, int ch)
 
 void Container::EndLayout()
 {
-	_needRecalculate = false;
 	redraw();
 }
 
@@ -115,26 +117,26 @@ void Container::AdjustMainSizes(int cx, int cy, int cw, int ch)
 	{
 		if (_direction == Direction::Horz)
 		{
-			Fl_Group::resize(cx, cy, cw, _size);
+			Fl_Widget::resize(cx, cy, cw, _size);
 		}
 		else
 		{
-			Fl_Group::resize(cx, cy, _size, ch);
+			Fl_Widget::resize(cx, cy, _size, ch);
 		}
 	}
 	else if (_layoutStraategy == LayoutStrategy::ByDirectionReflected)
 	{
 		if (_direction == Direction::Horz)
 		{
-			Fl_Group::resize(cx, parent()->h() - _size, cw, _size);
+			Fl_Widget::resize(cx, parent()->h() - _size, cw, _size);
 		}
 		else
 		{
-			Fl_Group::resize(parent()->w() - _size, cy, _size, ch);
+			Fl_Widget::resize(parent()->w() - _size, cy, _size, ch);
 		}
 	}
 	else if (_layoutStraategy == LayoutStrategy::Full)
 	{
-		Fl_Group::resize(cx, cy, cw, ch);
+		Fl_Widget::resize(cx, cy, cw, ch);
 	}
 }

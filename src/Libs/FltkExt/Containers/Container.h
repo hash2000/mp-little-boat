@@ -1,13 +1,14 @@
 #pragma once
 #include <FL/Fl.H>
+#include <FL/Fl_Window.H>
 #include <FL/Fl_Group.H>
 #include "Libs/FltkExt/Containers/Margin.h"
 #include <memory>
 #include <vector>
 
 enum class Direction : int {
-	Vert,
-	Horz,
+	Vert = 1,
+	Horz = 2,
 };
 
 enum class PushPosition : int {

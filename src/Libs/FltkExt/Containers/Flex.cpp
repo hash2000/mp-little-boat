@@ -7,6 +7,7 @@ Flex::Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition pos
 	, _spacing(0)
 {
 	_size = _direction == Direction::Horz ? ch : cw;
+	type((int)direction);
 	begin();
 }
 
@@ -39,17 +40,17 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		}
 	}
 
-	cx += _margin.left;
-	cy += _margin.top;
-	cw -= _margin.left + _margin.right;
-	ch -= _margin.top + _margin.bottom;
+	auto sx = x() + Fl::box_dx(box()) + _margin.left;
+	auto sy = y() + Fl::box_dx(box()) + _margin.top;
+	auto sw = w() - Fl::box_dx(box()) - _margin.left - _margin.right;
+	auto sh = h() - Fl::box_dx(box()) - _margin.top - _margin.bottom;
 
 	auto fixedSize = _size - (_direction == Direction::Horz ?
 		_margin.top + _margin.bottom : _margin.left + _margin.right);
 
 	auto ncsize = nc > 1 ? (nc - 1) * _spacing : 0;
-	auto cstart = _direction == Direction::Horz ? cx : cy;
-	auto csize = _direction == Direction::Horz ? cw : ch;
+	auto cstart = _direction == Direction::Horz ? sx : sy;
+	auto csize = _direction == Direction::Horz ? sw : sh;
 
 	auto nfcount = nc - fcount;
 	auto ctlsize = 0;
@@ -59,26 +60,53 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		ctlsize /= nfcount;
 	}
 
-	auto directionSize = _direction == Direction::Horz ? ch  : cw;
+	auto directionSize = _direction == Direction::Horz ? sh  : sw;
 	auto dockingSize = _layoutStraategy == LayoutStrategy::ByDirection ? fixedSize : directionSize;
 
-	for (int i = 0; i < nc; i++)
+	if (_position == PushPosition::Start)
 	{
-		auto item = _position == PushPosition::Start ? i : nc - i - 1;
-		Fl_Widget* c = child(item);
+		for (int i = 0; i < nc; i++)
+		{
+			Fl_Widget* c = child(i);
 
-		auto size = _direction == Direction::Horz ? _elements[item]->width : _elements[item]->height;
-		size = size == 0 ? ctlsize : size;
+			auto size = _direction == Direction::Horz ?
+				_elements[i]->width :
+				_elements[i]->height;
+			size = size == 0 ? ctlsize : size;
 
-		auto px = _direction == Direction::Horz ? cstart : cx;
-		auto py = _direction == Direction::Horz ? cy : cstart;
-		auto pw = _direction == Direction::Horz ? size : dockingSize;
-		auto ph = _direction == Direction::Horz ? dockingSize : size;
+			auto px = _direction == Direction::Horz ? cstart : sx;
+			auto py = _direction == Direction::Horz ? sy : cstart;
+			auto pw = _direction == Direction::Horz ? size : dockingSize;
+			auto ph = _direction == Direction::Horz ? dockingSize : size;
 
-		c->resize(px, py, pw, ph);
-		size = _direction == Direction::Horz ? c->w() : c->h();
+			c->resize(px, py, pw, ph);
+			size = _direction == Direction::Horz ? c->w() : c->h();
 
-		cstart += size + _spacing;
+			cstart += size + _spacing;
+		}
+	}
+	else if(_position == PushPosition::End)
+	{
+		auto pstart = _direction == Direction::Horz ? sw : sh;
+		for (int i = 0; i < nc; i++)
+		{
+			Fl_Widget* c = child(i);
+
+			auto size = _direction == Direction::Horz ?
+				_elements[i]->width :
+				_elements[i]->height;
+			size = size == 0 ? ctlsize : size;
+
+			auto pw = _direction == Direction::Horz ? size : dockingSize;
+			auto ph = _direction == Direction::Horz ? dockingSize : size;
+			auto px = _direction == Direction::Horz ? pstart - pw - _spacing + sx: sx;
+			auto py = _direction == Direction::Horz ? sy : pstart - ph - _spacing + sy;
+
+			c->resize(px, py, pw, ph);
+			size = _direction == Direction::Horz ? c->w() : c->h();
+
+			pstart -= size + _spacing;
+		}
 	}
 
 	Container::EndLayout();
