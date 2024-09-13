@@ -23,7 +23,8 @@ void Flex::spacing(int size)
 
 void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 {
-	Container::BeginLayout(cx, cy, cw, ch);
+	BeginLayout();
+	AdjustMainSizes(cx, cy, cw, ch);
 
 	const int nc = children();
 	int fcount = 0;
@@ -109,6 +110,6 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		}
 	}
 
-	Container::EndLayout();
+	EndLayout();
 }
 

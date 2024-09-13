@@ -1,5 +1,6 @@
 #pragma once
 #include "Libs/FltkExt/Containers/Container.h"
+#include "Libs/FltkExt/Containers/Flex.h"
 
 enum class Docking
 {
@@ -10,16 +11,11 @@ enum class Docking
 	Center,
 };
 
-class Panel : public Container
+class Panel : public Flex
 {
 public:
-	Panel(int cx, int cy, int cw, int ch, Docking docking);
+	Panel(int cx, int cy, int cw, int ch, const char* l, Docking docking);
 
-	void draw() override;
-
-private:
-	void AdjustLayout(int cx, int cy, int cw, int ch) override;
-
-private:
-	Docking _docking;
+protected:
+	void resize(int cx, int cy, int cw, int ch) override;
 };

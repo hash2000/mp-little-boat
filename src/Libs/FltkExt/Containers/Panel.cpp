@@ -1,52 +1,55 @@
 #include "Panel.h"
 #include "Flex.h"
+#include "Splitter.h"
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Button.H>
 
-Panel::Panel(int cx, int cy, int cw, int ch, Docking docking)
-	: Container(cx, cy, cw, ch, Direction::Vert)
+Panel::Panel(int cx, int cy, int cw, int ch, const char* l, Docking docking)
+	: Flex(cx, cy, cw, ch, Direction::Vert)
 {
-	auto vert = new Flex{ 0, 0, w(), h(), Direction::Vert };
-	vert->SetLayoutStrategy(LayoutStrategy::Full);
-	vert->margin(Margin(1));
-	{
-		auto header = new Flex{ 0, 0, w(), 30, Direction::Horz, PushPosition::End };
-		header->box(FL_FLAT_BOX);
-		header->color(fl_lighter(FL_BLUE));
-		header->margin(Margin(1));
-		header->label("Test header label");
-		header->align(FL_ALIGN_LEFT | FL_ALIGN_INSIDE | FL_ALIGN_CLIP);
-		header->labelcolor(fl_lighter(FL_WHITE));
-		{
-			auto title = new Fl_Box{ 0, 0, 30, 30 };
-			title->color(fl_lighter(FL_RED));
-			title->box(FL_FLAT_BOX);
+	SetLayoutStrategy(LayoutStrategy::Full);
 
-			header->end();
+	auto headerColor = fl_lighter(FL_BLUE);
+	auto headerTextColor = fl_lighter(FL_WHITE);
+	auto headerSize = 30;
+	auto topFlexDirection = docking == Docking::Left || docking == Docking::Right ?
+		Direction::Horz : Direction::Vert;
+
+	auto topFlex = new Flex{ 0, 0, 0, 0, topFlexDirection };
+	topFlex->SetLayoutStrategy(LayoutStrategy::Full);
+	topFlex->box(FL_FREE_BOXTYPE);
+	{
+		auto vert = new Flex{ 0, 0, 0, 0, Direction::Vert };
+		vert->SetLayoutStrategy(LayoutStrategy::Full);
+		vert->margin(Margin(1));
+		{
+			auto header = new Flex{ 0, 0, w(), headerSize, Direction::Horz, PushPosition::End };
+			header->box(FL_FLAT_BOX);
+			header->color(headerColor);
+			header->label(l);
+			header->align(FL_ALIGN_LEFT | FL_ALIGN_INSIDE | FL_ALIGN_CLIP);
+			header->labelcolor(headerTextColor);
+			{
+				auto minimizeButton = new Fl_Button{ 0, 0, headerSize, headerSize };
+				minimizeButton->color(headerColor);
+				minimizeButton->box(FL_FLAT_BOX);
+
+				header->end();
+			}
+			vert->end();
 		}
-		vert->end();
+
+		auto splitter = new Splitter{ 0, 0, 15, 15, topFlexDirection };
+		splitter->box(FL_FREE_BOXTYPE);
+		splitter->resizable(this);
+
+		topFlex->end();
 	}
 }
 
-void Panel::draw()
+void Panel::resize(int cx, int cy, int cw, int ch)
 {
-	int cx = x();
-	int cy = y();
-	int cw = w();
-	int ch = h();
-
-	draw_box(FL_UP_BOX, cx, cy, cw, ch, selection_color());
-
-
-
-	Container::draw();
-}
-
-void Panel::AdjustLayout(int cx, int cy, int cw, int ch)
-{
-	Container::BeginLayout(cx, cy, cw, ch);
-
-
-
-	Container::EndLayout();
+	_size = _direction == Direction::Horz ? ch: cw;
+	Flex::resize(cx, cy, cw, ch);
 }

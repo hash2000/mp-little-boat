@@ -8,13 +8,29 @@ public:
 	MainWindowPanel() : Fl_Window(100, 100, 800, 600, "Test FLTK UI")
 	{
 		begin();
-		auto panel = new Panel(0, 0, 300, h(), Docking::Left);
+
+		auto fl = new Flex{ 0, 0, w(), h(), Direction::Vert};
+		fl->SetLayoutStrategy(LayoutStrategy::Full);
 		{
-			//panel->box(FL_UP_BOX);
+			auto panel1 = new Panel(0, 0, 50, 0, "Test header 1", Docking::Left);
+			{
+				//panel->box(FL_UP_BOX);
 
 
-			panel->end();
+				panel1->end();
+			}
+
+			auto panel2 = new Panel(0, 0, 0, 0, "Test header 2", Docking::Top);
+			{
+				//panel->box(FL_UP_BOX);
+
+
+				panel2->end();
+			}
+
+			fl->end();
 		}
+
 		end();
 	}
 };

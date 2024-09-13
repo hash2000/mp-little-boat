@@ -3,24 +3,10 @@
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Group.H>
 #include "Libs/FltkExt/Containers/Margin.h"
+#include "Libs/FltkExt/Containers/ContainerProps.h"
 #include <memory>
 #include <vector>
 
-enum class Direction : int {
-	Vert = 1,
-	Horz = 2,
-};
-
-enum class PushPosition : int {
-	Start,
-	End,
-};
-
-enum class LayoutStrategy : int {
-	ByDirection,
-	ByDirectionReflected,
-	Full,
-};
 
 class Container : public Fl_Group
 {
@@ -55,14 +41,11 @@ protected:
 
 	virtual void AdjustLayout(int cx, int cy, int cw, int ch) = 0;
 
-	void BeginLayout(int cx, int cy, int cw, int ch);
+	void AdjustMainSizes(int cx, int cy, int cw, int ch);
+
+	void BeginLayout();
 
 	void EndLayout();
-
-private:
-	void InitElementsContext();
-
-	void AdjustMainSizes(int cx, int cy, int cw, int ch);
 
 private:
 	bool _needRecalculate = false;

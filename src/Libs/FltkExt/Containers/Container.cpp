@@ -1,6 +1,5 @@
 #include "Container.h"
 
-
 Container::Container(int cx, int cy, int cw, int ch, Direction direction, PushPosition position)
 	: Fl_Group(cx, cy, cw, ch, nullptr)
 	, _direction(direction)
@@ -9,7 +8,7 @@ Container::Container(int cx, int cy, int cw, int ch, Direction direction, PushPo
 {
 	_size = _direction == Direction::Horz ? ch : cw;
 	set_flag(CLIP_CHILDREN);
-	align(FL_ALIGN_INSIDE);
+	//align(FL_ALIGN_INSIDE);
 	begin();
 }
 
@@ -83,18 +82,7 @@ void Container::end()
 	RecalcLayout();
 }
 
-void Container::BeginLayout(int cx, int cy, int cw, int ch)
-{
-	InitElementsContext();
-	AdjustMainSizes(cx, cy, cw, ch);
-}
-
-void Container::EndLayout()
-{
-	redraw();
-}
-
-void Container::InitElementsContext()
+void Container::BeginLayout()
 {
 	const int nc = children();
 
@@ -109,6 +97,11 @@ void Container::InitElementsContext()
 			_elements[i]->height = c->h();
 		}
 	}
+}
+
+void Container::EndLayout()
+{
+	redraw();
 }
 
 void Container::AdjustMainSizes(int cx, int cy, int cw, int ch)
