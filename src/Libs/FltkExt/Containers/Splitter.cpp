@@ -69,10 +69,6 @@ int Splitter::handle(int event)
 				_resize_start = _direction == Direction::Horz ? event_x : event_y;
 				result = 1;
 			}
-
-			//if (Fl_Widget::callback()) {
-			//	Fl_Widget::do_callback();
-			//}
 		}
 		break;
 	case FL_DRAG:
@@ -94,17 +90,9 @@ int Splitter::handle(int event)
 			}
 
 			DoRedrawAll();
-
-			//if (Fl_Widget::callback() && (when() & FL_WHEN_CHANGED)) {
-			//	Fl_Widget::callback();
-			//}
 		}
 		break;
 	case FL_RELEASE:
-		//if (_resize_start == -1 && Fl_Widget::callback() && when() & FL_WHEN_RELEASE) {
-		//	Fl_Widget::do_callback();
-		//}
-
 		if (event_button == 1)
 		{
 			ChangeCursor(FL_CURSOR_DEFAULT);

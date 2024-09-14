@@ -5,51 +5,59 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>
 
-Panel::Panel(int cx, int cy, int cw, int ch, const char* l, Docking docking)
-	: Flex(cx, cy, cw, ch, Direction::Vert)
+Panel::Panel(int size, const char* l)
+	: Container(0, 0, size, size)
 {
-	SetLayoutStrategy(LayoutStrategy::Full);
+	//SetLayoutStrategy(LayoutStrategy::Full);
 
 	auto headerColor = fl_lighter(FL_BLUE);
 	auto headerTextColor = fl_lighter(FL_WHITE);
 	auto headerSize = 30;
-	auto topFlexDirection = docking == Docking::Left || docking == Docking::Right ?
-		Direction::Horz : Direction::Vert;
 
-	auto topFlex = new Flex{ 0, 0, 0, 0, topFlexDirection };
-	topFlex->SetLayoutStrategy(LayoutStrategy::Full);
-	topFlex->box(FL_FREE_BOXTYPE);
+	_topFlex = std::make_unique<Flex>(0, 0, w(), h(), Direction::Vert);
+	_topFlex->box(FL_FREE_BOXTYPE);
+	_topFlex->SetLayoutStrategy(LayoutStrategy::Full);
 	{
-		auto vert = new Flex{ 0, 0, 0, 0, Direction::Vert };
-		vert->SetLayoutStrategy(LayoutStrategy::Full);
-		vert->margin(Margin(1));
+		_topContentFlex = std::make_unique<Flex>(0, 0, 0, 0, Direction::Vert);
+		_topContentFlex->SetLayoutStrategy(LayoutStrategy::Full);
+		_topContentFlex->margin(Margin(1));
 		{
-			auto header = new Flex{ 0, 0, w(), headerSize, Direction::Horz, PushPosition::End };
-			header->box(FL_FLAT_BOX);
-			header->color(headerColor);
-			header->label(l);
-			header->align(FL_ALIGN_LEFT | FL_ALIGN_INSIDE | FL_ALIGN_CLIP);
-			header->labelcolor(headerTextColor);
+			_topHeaderFlex = std::make_unique<Flex>(0, 0, w(), headerSize, Direction::Horz, PushPosition::End);
+			_topHeaderFlex->box(FL_FLAT_BOX);
+			_topHeaderFlex->color(headerColor);
+			_topHeaderFlex->label(l);
+			_topHeaderFlex->align(FL_ALIGN_LEFT | FL_ALIGN_INSIDE | FL_ALIGN_CLIP);
+			_topHeaderFlex->labelcolor(headerTextColor);
 			{
 				auto minimizeButton = new Fl_Button{ 0, 0, headerSize, headerSize };
 				minimizeButton->color(headerColor);
 				minimizeButton->box(FL_FLAT_BOX);
 
-				header->end();
+				_topHeaderFlex->end();
 			}
-			vert->end();
+
+			_topContentFlex->end();
 		}
 
-		auto splitter = new Splitter{ 0, 0, 15, 15, topFlexDirection };
-		splitter->box(FL_FREE_BOXTYPE);
-		splitter->resizable(this);
+		_splitter = std::make_unique<Splitter>( 0, 0, 15, 15, Direction::Vert );
+		_splitter->box(FL_FREE_BOXTYPE);
+		_splitter->resizable(this);
 
-		topFlex->end();
+
+		_topFlex->end();
 	}
 }
 
-void Panel::resize(int cx, int cy, int cw, int ch)
+void Panel::UpdateDockingState(Docking docking)
 {
-	_size = _direction == Direction::Horz ? ch: cw;
-	Flex::resize(cx, cy, cw, ch);
+	_docking = docking;
+	auto direction = docking == Docking::Left || docking == Docking::Right ?
+		Direction::Horz : Direction::Vert;
+	_topFlex->direction(direction);
+	_splitter->direction(direction);
+}
+
+Docking Panel::GetDockingState() const
+{
+	return _docking;
 }

@@ -3,22 +3,15 @@
 #include <algorithm>
 
 Flex::Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position)
-	: Container(cx, cy, cw, ch, direction, position)
+	: Container(cx, cy, cw, ch)
 	, _spacing(0)
+	, _direction(direction)
+	, _position(position)
+	, _layoutStraategy(LayoutStrategy::ByDirection)
 {
 	_size = _direction == Direction::Horz ? ch : cw;
 	type((int)direction);
 	begin();
-}
-
-int Flex::spacing() const
-{
-	return _spacing;
-}
-
-void Flex::spacing(int size)
-{
-	_spacing = size;
 }
 
 void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
@@ -113,3 +106,135 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 	EndLayout();
 }
 
+
+void Flex::BeginLayout()
+{
+	const int nc = children();
+
+	if (_elements.size() != nc)
+	{
+		_elements.resize(nc);
+		for (int i = 0; i < nc; i++)
+		{
+			Fl_Widget* c = child(i);
+			auto pw = c->w();
+			auto ph = c->h();
+
+			Flex* flex = dynamic_cast<Flex*>(c);
+			if (flex != nullptr) {
+				if (flex->GetLayoutStrategy() == LayoutStrategy::Full) {
+					pw = 0;
+					ph = 0;
+				}
+			}
+
+			_elements[i] = std::make_shared<ElementContext>();
+			_elements[i]->width = pw;
+			_elements[i]->height = ph;
+		}
+	}
+}
+
+void Flex::EndLayout()
+{
+	redraw();
+}
+
+void Flex::on_remove(int index)
+{
+	int idx = 0;
+	for (auto i = _elements.begin(); i != _elements.end(); i++)
+	{
+		if (idx == index) {
+			_elements.erase(i);
+			return;
+		}		
+	}
+
+	RecalcLayout();
+}
+
+void Flex::AdjustMainSizes(int cx, int cy, int cw, int ch)
+{
+	if (_layoutStraategy == LayoutStrategy::ByDirection)
+	{
+		if (_direction == Direction::Horz)
+		{
+			Fl_Widget::resize(cx, cy, cw, _size);
+		}
+		else
+		{
+			Fl_Widget::resize(cx, cy, _size, ch);
+		}
+	}
+	else if (_layoutStraategy == LayoutStrategy::ByDirectionReflected)
+	{
+		if (_direction == Direction::Horz)
+		{
+			Fl_Widget::resize(cx, parent()->h() - _size, cw, _size);
+		}
+		else
+		{
+			Fl_Widget::resize(parent()->w() - _size, cy, _size, ch);
+		}
+	}
+	else if (_layoutStraategy == LayoutStrategy::Full)
+	{
+
+		Fl_Widget::resize(cx, cy, cw, ch);
+	}
+}
+
+int Flex::spacing() const
+{
+	return _spacing;
+}
+
+void Flex::spacing(int size)
+{
+	_spacing = size;
+}
+
+PushPosition Flex::GetPushPosition() const
+{
+	return _position;
+}
+
+void Flex::SetPushPosition(PushPosition pos)
+{
+	_position = pos;
+	RecalcLayout();
+}
+
+Direction Flex::direction() const
+{
+	return _direction;
+}
+
+void Flex::direction(Direction dir)
+{
+	_direction = dir;
+	RecalcLayout();
+}
+
+LayoutStrategy Flex::GetLayoutStrategy() const
+{
+	return _layoutStraategy;
+}
+
+void Flex::SetLayoutStrategy(LayoutStrategy set)
+{
+	_layoutStraategy = set;
+	RecalcLayout();
+}
+
+const Margin& Flex::margin() const
+{
+	return _margin;
+}
+
+void  Flex::margin(const Margin& m)
+{
+	_margin = m;
+	RecalcLayout();
+}

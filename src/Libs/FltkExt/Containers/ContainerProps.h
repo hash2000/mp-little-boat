@@ -15,3 +15,12 @@ enum class LayoutStrategy : int {
 	ByDirectionReflected,
 	Full,
 };
+
+enum class Docking
+{
+	Left,
+	Top,
+	Right,
+	Bottom,
+	Center,
+};
