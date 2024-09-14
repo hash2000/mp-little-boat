@@ -8,7 +8,7 @@ Container::Container(int cx, int cy, int cw, int ch, Direction direction, PushPo
 {
 	_size = _direction == Direction::Horz ? ch : cw;
 	set_flag(CLIP_CHILDREN);
-	//align(FL_ALIGN_INSIDE);
+	align(FL_ALIGN_INSIDE);
 	begin();
 }
 
