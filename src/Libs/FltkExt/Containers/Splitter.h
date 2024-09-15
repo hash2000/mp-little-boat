@@ -19,6 +19,10 @@ public:
 
 	void direction(Direction dir);
 
+	PushPosition GetPushPosition() const;
+
+	void SetPushPosition(PushPosition pos);
+
 protected:
 
 	int handle(int event) override;
@@ -27,13 +31,12 @@ protected:
 
 	void ChangeCursor(Fl_Cursor newcursor);
 
-	void DoRedrawAll();
-
 private:
 
 	Fl_Widget* _resizable;
 	Fl_Cursor _lastCursor = FL_CURSOR_DEFAULT;
 	Direction _direction;
+	PushPosition _pushPosition;
 	int _resize_start;
 
 };

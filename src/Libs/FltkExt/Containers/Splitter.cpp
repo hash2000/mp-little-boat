@@ -19,6 +19,17 @@ void Splitter::direction(Direction dir)
 	_direction = dir;
 }
 
+PushPosition Splitter::GetPushPosition() const
+{
+	return _pushPosition;
+}
+
+void Splitter::SetPushPosition(PushPosition pos)
+{
+	_pushPosition = pos;
+}
+
+
 void Splitter::resizable(Fl_Widget* widget)
 {
 	_resizable = widget;
@@ -78,18 +89,35 @@ int Splitter::handle(int event)
 			{
 				auto offset = _resize_start - event_x;
 				_resize_start = event_x;
-				_resizable->resize(rx, ry, rw - offset, rh);
+
+				if (_pushPosition == PushPosition::Start) {
+					_resizable->resize(rx, ry, rw - offset, rh);
+				}
+				else {
+					_resizable->resize(rx - offset, ry, rw + offset, rh);
+				}
 				ChangeCursor(FL_CURSOR_WE);
 			}
 			else
 			{
 				auto offset = _resize_start - event_y;
 				_resize_start = event_y;
-				_resizable->resize(rx, ry, rw, rh - offset);
+
+				if (_pushPosition == PushPosition::Start) {
+					_resizable->resize(rx, ry, rw, rh - offset);
+				}
+				else {
+					_resizable->resize(rx, ry - offset, rw, rh + offset);
+				}
+
 				ChangeCursor(FL_CURSOR_NS);
 			}
 
-			DoRedrawAll();
+			redraw();
+			auto p = _resizable->parent();
+			if (p) {
+				_resizable->parent()->resize(p->x(), p->y(), p->w(), p->h());
+			}
 		}
 		break;
 	case FL_RELEASE:
@@ -115,15 +143,6 @@ void Splitter::ChangeCursor(Fl_Cursor newcursor)
 	if (_lastCursor != newcursor) {
 		_lastCursor = newcursor;
 		fl_cursor(newcursor, FL_BLACK, FL_WHITE);
-	}
-}
-
-void Splitter::DoRedrawAll()
-{
-	redraw();
-	if (_resizable != nullptr &&
-		_resizable->parent() != nullptr) {
-		_resizable->parent()->redraw();
 	}
 }
 

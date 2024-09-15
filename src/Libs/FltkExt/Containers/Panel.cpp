@@ -39,8 +39,8 @@ Panel::Panel(int size, const char* l)
 			_topContentFlex->end();
 		}
 
-		_splitter = std::make_unique<Splitter>( 0, 0, 15, 15, Direction::Vert );
-		_splitter->box(FL_FREE_BOXTYPE);
+		_splitter = std::make_unique<Splitter>( 0, 0, 10, 10, Direction::Vert );
+		_splitter->box(FL_ENGRAVED_BOX);
 		_splitter->resizable(this);
 
 
@@ -48,13 +48,43 @@ Panel::Panel(int size, const char* l)
 	}
 }
 
+void Panel::AdjustLayout(int cx, int cy, int cw, int ch)
+{
+	Container::AdjustLayout(cx, cy, cw, ch);
+
+	if (cw <= 0 || ch <= 0) {
+		_topFlex->hide();
+	}
+	else {
+		_topFlex->show();
+	}
+
+	if (_topFlex) {
+		_topFlex->resize(cx, cy, cw, ch);
+	}
+}
+
 void Panel::UpdateDockingState(Docking docking)
 {
 	_docking = docking;
+	if (docking == Docking::Center) {
+		_splitter->hide();
+		return;
+	}
+	else {
+		_splitter->show();
+	}
+
 	auto direction = docking == Docking::Left || docking == Docking::Right ?
 		Direction::Horz : Direction::Vert;
+	auto pos = docking == Docking::Left || docking == Docking::Top ?
+		PushPosition::Start : PushPosition::End;
+
 	_topFlex->direction(direction);
+	_topFlex->SetPushPosition(pos);
+
 	_splitter->direction(direction);
+	_splitter->SetPushPosition(pos);
 }
 
 Docking Panel::GetDockingState() const

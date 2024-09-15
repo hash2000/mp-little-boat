@@ -27,6 +27,10 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 	for (int i = 0; i < nc; i++)
 	{
 		Fl_Widget* c = child(i);
+		if (!c->visible()) {
+			continue;
+		}
+
 		int sz = _direction == Direction::Horz ? _elements[i]->width : _elements[i]->height;
 		if (sz > 0) {
 			fspace += sz;
@@ -54,7 +58,7 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		ctlsize /= nfcount;
 	}
 
-	auto directionSize = _direction == Direction::Horz ? sh  : sw;
+	auto directionSize = _direction == Direction::Horz ? sh : sw;
 	auto dockingSize = _layoutStraategy == LayoutStrategy::ByDirection ? fixedSize : directionSize;
 
 	if (_position == PushPosition::Start)
@@ -62,6 +66,9 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		for (int i = 0; i < nc; i++)
 		{
 			Fl_Widget* c = child(i);
+			if (!c->visible()) {
+				continue;
+			}
 
 			auto size = _direction == Direction::Horz ?
 				_elements[i]->width :
@@ -85,6 +92,9 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 		for (int i = 0; i < nc; i++)
 		{
 			Fl_Widget* c = child(i);
+			if (!c->visible()) {
+				continue;
+			}
 
 			auto size = _direction == Direction::Horz ?
 				_elements[i]->width :
@@ -121,7 +131,8 @@ void Flex::BeginLayout()
 			auto ph = c->h();
 
 			Flex* flex = dynamic_cast<Flex*>(c);
-			if (flex != nullptr) {
+			if (flex != nullptr)
+			{
 				if (flex->GetLayoutStrategy() == LayoutStrategy::Full) {
 					pw = 0;
 					ph = 0;

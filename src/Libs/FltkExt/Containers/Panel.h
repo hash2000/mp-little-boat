@@ -17,6 +17,10 @@ public:
 
 	Docking GetDockingState() const;
 
+protected:
+
+	virtual void AdjustLayout(int cx, int cy, int cw, int ch);
+
 private:
 	Docking _docking = Docking::Center;
 	std::unique_ptr<Flex> _topFlex;

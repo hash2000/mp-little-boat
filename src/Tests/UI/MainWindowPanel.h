@@ -16,9 +16,15 @@ public:
 
 	void SizesTest()
 	{
-		auto b1 = new Fl_Box{ 10, 10, 10, 10 };
-		b1->box(FL_FREE_BOXTYPE);
-		b1->resize(30, 30, 10, 10);
+		auto g = new Fl_Group{ 20, 20, 200, 200 };
+		g->box(FL_FREE_BOXTYPE);
+		{
+			auto b1 = new Fl_Box{ 10, 10, 10, 10 };
+			b1->box(FL_FREE_BOXTYPE);
+			b1->resize(30, 30, 10, 10);
+
+			g->end();
+		}
 	}
 
 	void CreatePanels1()
@@ -45,7 +51,7 @@ public:
 		panel_right->box(FL_UP_BOX);
 		panel_right->end();
 
-		auto panel_bottom = new Panel{ 50, "bottom" };
+		auto panel_bottom = new Panel{ 200, "bottom" };
 		panel_bottom->box(FL_UP_BOX);
 		panel_bottom->end();
 

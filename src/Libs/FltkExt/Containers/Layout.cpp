@@ -91,6 +91,10 @@ void Layout::AdjustLayout(int cx, int cy, int cw, int ch)
 		auto docking = dock.first;
 		for (auto panel : dock.second)
 		{
+			if (!panel->visible()) {
+				continue;
+			}
+
 			if (docking == Docking::Left) {
 				panel->resize(px, py, panel->w(), ph);
 				px += panel->w();
