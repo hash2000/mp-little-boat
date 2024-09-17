@@ -69,9 +69,11 @@ void Panel::UpdateDockingState(Docking docking)
 	_docking = docking;
 	if (docking == Docking::Center) {
 		_splitter->hide();
+		_topHeaderFlex->hide();
 		return;
 	}
 	else {
+		_topHeaderFlex->show();
 		_splitter->show();
 	}
 
