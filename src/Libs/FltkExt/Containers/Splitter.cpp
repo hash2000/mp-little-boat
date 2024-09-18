@@ -45,6 +45,8 @@ Fl_Widget* Splitter::resizable() const
 	return _resizable;
 }
 
+#include <iostream>
+
 int Splitter::handle(int event)
 {
 	if (!_resizable) {
@@ -63,6 +65,9 @@ int Splitter::handle(int event)
 	auto ry = _resizable->y();
 	auto rw = _resizable->w();
 	auto rh = _resizable->h();
+	auto minPanelSize = _direction == Direction::Vert ?
+		h() + Fl::box_dx(box()) : w() + Fl::box_dx(box());
+	minPanelSize += 15;
 
 	switch (event)
 	{
@@ -91,11 +96,18 @@ int Splitter::handle(int event)
 				_resize_start = event_x;
 
 				if (_pushPosition == PushPosition::Start) {
+					if (rw - offset < minPanelSize) {
+						offset = 0;
+					}
 					_resizable->resize(rx, ry, rw - offset, rh);
 				}
 				else {
+					if (rw + offset < minPanelSize) {
+						offset = 0;
+					}
 					_resizable->resize(rx - offset, ry, rw + offset, rh);
 				}
+
 				ChangeCursor(FL_CURSOR_WE);
 			}
 			else
@@ -104,16 +116,21 @@ int Splitter::handle(int event)
 				_resize_start = event_y;
 
 				if (_pushPosition == PushPosition::Start) {
+					if (rh - offset < minPanelSize) {
+						offset = 0;
+					}
 					_resizable->resize(rx, ry, rw, rh - offset);
 				}
 				else {
+					if (rh + offset < minPanelSize) {
+						offset = 0;
+					}
 					_resizable->resize(rx, ry - offset, rw, rh + offset);
 				}
 
 				ChangeCursor(FL_CURSOR_NS);
 			}
 
-			redraw();
 			auto p = _resizable->parent();
 			if (p) {
 				_resizable->parent()->resize(p->x(), p->y(), p->w(), p->h());
