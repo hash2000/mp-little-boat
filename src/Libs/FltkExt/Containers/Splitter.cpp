@@ -4,7 +4,6 @@
 Splitter::Splitter(int cx, int cy, int cw, int ch, Direction direction)
 	: Fl_Box(cx, cy, cw, ch)
 	, _resizable(nullptr)
-	, _resize_start(-1)
 	, _direction(direction)
 {
 }
@@ -45,7 +44,10 @@ Fl_Widget* Splitter::resizable() const
 	return _resizable;
 }
 
-#include <iostream>
+void Splitter::SetMinPanelSize(int size)
+{
+	_minPanelSize = size;
+}
 
 int Splitter::handle(int event)
 {
@@ -67,7 +69,7 @@ int Splitter::handle(int event)
 	auto rh = _resizable->h();
 	auto minPanelSize = _direction == Direction::Vert ?
 		h() + Fl::box_dx(box()) : w() + Fl::box_dx(box());
-	minPanelSize += 15;
+	minPanelSize += _minPanelSize;
 
 	switch (event)
 	{
@@ -82,18 +84,18 @@ int Splitter::handle(int event)
 					result = 1;
 				}
 
-				_resize_start = _direction == Direction::Horz ? event_x : event_y;
+				_resizeStart = _direction == Direction::Horz ? event_x : event_y;
 				result = 1;
 			}
 		}
 		break;
 	case FL_DRAG:
-		if (_resize_start != -1)
+		if (_resizeStart != -1)
 		{
 			if (_direction == Direction::Horz)
 			{
-				auto offset = _resize_start - event_x;
-				_resize_start = event_x;
+				auto offset = _resizeStart - event_x;
+				_resizeStart = event_x;
 
 				if (_pushPosition == PushPosition::Start) {
 					if (rw - offset < minPanelSize) {
@@ -110,8 +112,8 @@ int Splitter::handle(int event)
 			}
 			else
 			{
-				auto offset = _resize_start - event_y;
-				_resize_start = event_y;
+				auto offset = _resizeStart - event_y;
+				_resizeStart = event_y;
 
 				if (_pushPosition == PushPosition::Start) {
 					if (rh - offset < minPanelSize) {

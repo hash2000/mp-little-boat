@@ -23,6 +23,8 @@ public:
 
 	void SetPushPosition(PushPosition pos);
 
+	void SetMinPanelSize(int size);
+
 protected:
 
 	int handle(int event) override;
@@ -37,6 +39,7 @@ private:
 	Fl_Cursor _lastCursor = FL_CURSOR_DEFAULT;
 	Direction _direction;
 	PushPosition _pushPosition;
-	int _resize_start;
+	int _resizeStart = 0;
+	int _minPanelSize = 0;
 
 };
