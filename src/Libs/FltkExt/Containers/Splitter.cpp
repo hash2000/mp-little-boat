@@ -107,8 +107,6 @@ int Splitter::handle(int event)
 					}
 					_resizable->resize(rx - offset, ry, rw + offset, rh);
 				}
-
-				ChangeCursor(FL_CURSOR_WE);
 			}
 			else
 			{
@@ -127,8 +125,6 @@ int Splitter::handle(int event)
 					}
 					_resizable->resize(rx, ry - offset, rw, rh + offset);
 				}
-
-				ChangeCursor(FL_CURSOR_NS);
 			}
 
 			auto p = _resizable->parent();
@@ -137,12 +133,17 @@ int Splitter::handle(int event)
 			}
 		}
 		break;
-	case FL_RELEASE:
-		if (event_button == 1)
-		{
-			ChangeCursor(FL_CURSOR_DEFAULT);
-			result = 1;
+	case FL_ENTER:
+		if (_direction == Direction::Horz) {
+			ChangeCursor(FL_CURSOR_WE);
 		}
+		else {
+			ChangeCursor(FL_CURSOR_NS);
+		}
+		result = 1;
+		break;
+	case FL_LEAVE:
+		ChangeCursor(FL_CURSOR_DEFAULT);
 		break;
 	case FL_FOCUS:
 		Fl::focus(this);
