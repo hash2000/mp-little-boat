@@ -1,9 +1,9 @@
 #include "Splitter.h"
+#include "Panel.h"
 #include <FL/fl_draw.H>
 
-Splitter::Splitter(int cx, int cy, int cw, int ch, Direction direction)
-	: Fl_Box(cx, cy, cw, ch)
-	, _resizable(nullptr)
+Splitter::Splitter(int size, Direction direction)
+	: Fl_Box(0, 0, size, size)
 	, _direction(direction)
 {
 }
@@ -28,7 +28,6 @@ void Splitter::SetPushPosition(PushPosition pos)
 	_pushPosition = pos;
 }
 
-
 void Splitter::resizable(Fl_Widget* widget)
 {
 	_resizable = widget;
@@ -42,11 +41,6 @@ void Splitter::resizable(Fl_Widget& widget)
 Fl_Widget* Splitter::resizable() const
 {
 	return _resizable;
-}
-
-void Splitter::SetMinPanelSize(int size)
-{
-	_minPanelSize = size;
 }
 
 int Splitter::handle(int event)
@@ -69,7 +63,9 @@ int Splitter::handle(int event)
 	auto rh = _resizable->h();
 	auto minPanelSize = _direction == Direction::Vert ?
 		h() + Fl::box_dx(box()) : w() + Fl::box_dx(box());
-	minPanelSize += _minPanelSize;
+	if (auto panel = dynamic_cast<Panel*>(_resizable)) {
+		minPanelSize += panel->GetMinPanelSize();
+	}
 
 	switch (event)
 	{
@@ -81,7 +77,6 @@ int Splitter::handle(int event)
 				if (focus == this) {
 					take_focus();
 					Fl_Widget::do_callback();
-					result = 1;
 				}
 
 				_resizeStart = _direction == Direction::Horz ? event_x : event_y;
@@ -132,7 +127,9 @@ int Splitter::handle(int event)
 			auto p = _resizable->parent();
 			if (p) {
 				_resizable->parent()->resize(p->x(), p->y(), p->w(), p->h());
+				_resizable->parent()->redraw();
 			}
+
 		}
 		break;
 	case FL_ENTER:

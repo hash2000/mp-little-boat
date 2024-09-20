@@ -7,7 +7,7 @@
 class Splitter : public Fl_Box
 {
 public:
-	Splitter(int cx, int cy, int cw, int ch, Direction direction = Direction::Horz);
+	Splitter(int size, Direction direction = Direction::Horz);
 
 	void resizable(Fl_Widget* widget);
 
@@ -23,8 +23,6 @@ public:
 
 	void SetPushPosition(PushPosition pos);
 
-	void SetMinPanelSize(int size);
-
 protected:
 
 	int handle(int event) override;
@@ -35,11 +33,10 @@ protected:
 
 private:
 
-	Fl_Widget* _resizable;
+	Fl_Widget* _resizable = nullptr;
 	Fl_Cursor _lastCursor = FL_CURSOR_DEFAULT;
 	Direction _direction;
 	PushPosition _pushPosition;
 	int _resizeStart = 0;
-	int _minPanelSize = 0;
 
 };

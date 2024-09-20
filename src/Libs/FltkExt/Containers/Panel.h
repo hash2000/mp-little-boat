@@ -3,6 +3,7 @@
 #include "Libs/FltkExt/Containers/ContainerProps.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 #include "Libs/FltkExt/Containers/Splitter.h"
+#include <FL/Fl_Button.H>
 #include <string>
 #include <memory>
 
@@ -17,6 +18,10 @@ public:
 
 	Docking GetDockingState() const;
 
+	void SetMinPanelSize(int size);
+
+	int GetMinPanelSize() const;
+
 protected:
 
 	virtual void AdjustLayout(int cx, int cy, int cw, int ch);
@@ -27,5 +32,8 @@ private:
 	std::unique_ptr<Flex> _topContentFlex;
 	std::unique_ptr<Flex> _topHeaderFlex;
 	std::unique_ptr<Splitter> _splitter;
+	std::unique_ptr<Fl_Button> _hideButton;
+	std::unique_ptr<Fl_Button> _pinButton;
+	int _minPanelSize = 0;
 
 };

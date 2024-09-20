@@ -3,11 +3,11 @@
 #include "Libs/FltkExt/Containers/Panel.h"
 #include "Libs/FltkExt/Containers/Layout.h"
 
-class MainWindowPanel : public Fl_Window
+class MainWindowPanel : public Fl_Double_Window
 {
 public:
 	MainWindowPanel()
-		: Fl_Window(100, 100, 800, 600, "Test FLTK UI")
+		: Fl_Double_Window(100, 100, 800, 600, "Test FLTK UI")
 	{
 		begin();
 		CreatePanels1();
@@ -36,23 +36,28 @@ public:
 
 		auto panel_left = new Panel{ 100, "left" };
 		panel_left->box(FL_UP_BOX);
+		panel_left->SetMinPanelSize(15);
 		panel_left->end();
 
 		auto panel_left2 = new Panel{ 100, "left 2" };
 		panel_left2->box(FL_UP_BOX);
+		panel_left2->SetMinPanelSize(15);
 		panel_left2->end();
 
 		auto panel_top = new Panel{ 200, "top" };
 		panel_top->box(FL_UP_BOX);
+		panel_top->SetMinPanelSize(35);
 		panel_top->end();
 
 
 		auto panel_right = new Panel{ 100, "right" };
 		panel_right->box(FL_UP_BOX);
+		panel_right->SetMinPanelSize(15);
 		panel_right->end();
 
 		auto panel_bottom = new Panel{ 200, "bottom" };
 		panel_bottom->box(FL_UP_BOX);
+		panel_bottom->SetMinPanelSize(35);
 		panel_bottom->end();
 
 		auto panel_center = new Panel{ 0, "center" };

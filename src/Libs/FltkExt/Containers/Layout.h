@@ -28,5 +28,6 @@ protected:
 private:
 
 	std::unordered_map<Docking, std::list<Panel*>> _panelDocking;
+
 	Panel* _centerPanel = nullptr;
 };
