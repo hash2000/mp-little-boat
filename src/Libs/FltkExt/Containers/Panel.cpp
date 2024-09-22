@@ -3,15 +3,18 @@
 #include "Splitter.h"
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Box.H>
+#include <FL/Fl_Tabs.H>
+#include <FL/Fl_Button.H>
 
 Panel::Panel(int size, const char* l)
 	: Container(0, 0, size, size)
 {
-	//SetLayoutStrategy(LayoutStrategy::Full);
+	box(FL_FREE_BOXTYPE);
 
 	auto headerColor = fl_lighter(FL_BLUE);
 	auto headerTextColor = fl_lighter(FL_WHITE);
 	auto headerSize = 20;
+	auto parentWidget = parent();
 
 	_topFlex = std::make_unique<Flex>(0, 0, w(), h(), Direction::Vert);
 	_topFlex->box(FL_FREE_BOXTYPE);
@@ -30,11 +33,11 @@ Panel::Panel(int size, const char* l)
 			{
 				_hideButton = std::make_unique<Fl_Button>(0, 0, headerSize, headerSize);
 				_hideButton->color(headerColor);
-				_hideButton->box(FL_FLAT_BOX);
+				_hideButton->box(FL_ENGRAVED_BOX);
 
 				_pinButton = std::make_unique<Fl_Button>(0, 0, headerSize, headerSize);
 				_pinButton->color(headerColor);
-				_pinButton->box(FL_FLAT_BOX);
+				_pinButton->box(FL_ENGRAVED_BOX);
 
 				_topHeaderFlex->end();
 			}
@@ -47,6 +50,33 @@ Panel::Panel(int size, const char* l)
 		_splitter->resizable(this);
 
 		_topFlex->end();
+	}
+}
+
+void Panel::AttachContent(std::function<void(Flex*)> proc)
+{
+	_topContentFlex->begin();
+	proc(_topContentFlex.get());
+	_topContentFlex->end();
+}
+
+void Panel::UseHeader(bool use)
+{
+	if (use) {
+		_topHeaderFlex->show();
+	}
+	else {
+		_topHeaderFlex->hide();
+	}
+}
+
+void Panel::UseSplitter(bool use)
+{
+	if (use) {
+		_splitter->show();
+	}
+	else {
+		_splitter->hide();
 	}
 }
 
@@ -63,13 +93,6 @@ int Panel::GetMinPanelSize() const
 void Panel::AdjustLayout(int cx, int cy, int cw, int ch)
 {
 	Container::AdjustLayout(cx, cy, cw, ch);
-
-	if (cw <= 0 || ch <= 0) {
-		_topFlex->hide();
-	}
-	else {
-		_topFlex->show();
-	}
 
 	if (_topFlex) {
 		_topFlex->resize(cx, cy, cw, ch);
@@ -104,4 +127,10 @@ void Panel::UpdateDockingState(Docking docking)
 Docking Panel::GetDockingState() const
 {
 	return _docking;
+}
+
+void Panel::end()
+{
+	_topContentFlex->end();
+	Container::end();
 }

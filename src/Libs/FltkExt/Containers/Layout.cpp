@@ -6,7 +6,7 @@ Layout::Layout(int cx, int cy, int cw, int ch)
 {
 }
 
-void Layout::AttachPanel(Panel& p, Docking docking)
+void Layout::Attach(Panel& p, Docking docking)
 {
 	//	auto found = find((const Fl_Widget&)p);
 
@@ -49,12 +49,12 @@ void Layout::AttachPanel(Panel& p, Docking docking)
 	RecalcLayout();
 }
 
-void Layout::AttachPanel(Panel* p, Docking docking)
+void Layout::Attach(Panel* p, Docking docking)
 {
-	AttachPanel(*p, docking);
+	Attach(*p, docking);
 }
 
-void Layout::DetachPanel(Panel* p)
+void Layout::Detach(Panel* p)
 {
 
 }

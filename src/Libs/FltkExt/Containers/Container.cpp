@@ -4,7 +4,6 @@ Container::Container(int cx, int cy, int cw, int ch)
 	: Fl_Group(cx, cy, cw, ch, nullptr)
 {
 	set_flag(CLIP_CHILDREN);
-	//align(FL_ALIGN_INSIDE);
 	begin();
 }
 

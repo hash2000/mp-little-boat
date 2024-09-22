@@ -77,7 +77,7 @@ private:
 				toolbar->spacing(5);
 				toolbar->margin(Margin(2));
 
-				CreateWidget(0, 0, 40, 40, FL_RED, "tbbtn1");
+				toolbar->UseBounds(CreateWidget(0, 0, 40, 40, FL_RED, "tbbtn1"), false);
 				CreateWidget(0, 0, 50, 50, FL_DARK_GREEN, "tbbtn2");
 				//CreateWidget(0, 0, 50, 50, FL_BLUE, "tbbtn3");
 				//CreateWidget(0, 0, 0, 0, FL_DARK_RED, "tbbtn4");

@@ -13,11 +13,11 @@ class Layout : public Container
 public:
 	Layout(int cx, int cy, int cw, int ch);
 
-	void AttachPanel(Panel& p, Docking docking);
+	void Attach(Panel& p, Docking docking);
 
-	void AttachPanel(Panel* p, Docking docking);
+	void Attach(Panel* p, Docking docking);
 
-	void DetachPanel(Panel* p);
+	void Detach(Panel* p);
 
 	bool HasPanel(const Panel* p) const;
 

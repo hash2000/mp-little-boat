@@ -27,6 +27,15 @@ public:
 
 	void margin(const Margin& m);
 
+	/// <summary>
+	/// В любом дочернем элементе флекса можно задать свой размер, после этого элемент будет считаться "фиксированного размера"
+	/// и в зависимости от направление (Horz, Vert) этот размер будет влиять на растягивание внутри флекса.
+	/// Но, в этой функции, можно указать отдельно, что хоть размер ранее и был указан, всёравно его не нужно учитывать  
+	/// </summary>
+	/// <param name="widget"></param>
+	/// <param name="set"></param>
+	void UseBounds(const Fl_Widget* widget, bool set);
+
 	void on_remove(int index) /* override включить в версии 1.4.0 */;
 
 private:
@@ -37,6 +46,8 @@ private:
 	void BeginLayout();
 
 	void EndLayout();
+
+	void InitElementsContent();
 
 private:
 	int _spacing = 0;
@@ -49,8 +60,10 @@ private:
 	struct ElementContext {
 		int width = 0;
 		int height = 0;
+		bool useBounds = true;
 	};
 
+	bool _elementsInitialized = false;
 	std::vector<std::shared_ptr<ElementContext>> _elements;
 };
 

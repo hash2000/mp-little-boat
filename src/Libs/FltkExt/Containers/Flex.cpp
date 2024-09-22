@@ -31,8 +31,9 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 			continue;
 		}
 
-		int sz = _direction == Direction::Horz ? _elements[i]->width : _elements[i]->height;
-		if (sz > 0) {
+		auto el = _elements[i];
+		auto sz = _direction == Direction::Horz ? el->width : el->height;
+		if (el->useBounds && sz > 0) {
 			fspace += sz;
 			fcount++;
 		}
@@ -70,10 +71,11 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 				continue;
 			}
 
+			auto useBounds = _elements[i]->useBounds;
 			auto size = _direction == Direction::Horz ?
 				_elements[i]->width :
 				_elements[i]->height;
-			size = size == 0 ? ctlsize : size;
+			size = useBounds && size > 0 ? size : ctlsize;
 
 			auto px = _direction == Direction::Horz ? cstart : sx;
 			auto py = _direction == Direction::Horz ? sy : cstart;
@@ -86,7 +88,7 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 			cstart += size + _spacing;
 		}
 	}
-	else if(_position == PushPosition::End)
+	else if (_position == PushPosition::End)
 	{
 		auto pstart = _direction == Direction::Horz ? sw : sh;
 		for (int i = 0; i < nc; i++)
@@ -96,14 +98,15 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 				continue;
 			}
 
+			auto useBounds = _elements[i]->useBounds;
 			auto size = _direction == Direction::Horz ?
 				_elements[i]->width :
 				_elements[i]->height;
-			size = size == 0 ? ctlsize : size;
+			size = useBounds && size > 0 ? size : ctlsize;
 
 			auto pw = _direction == Direction::Horz ? size : dockingSize;
 			auto ph = _direction == Direction::Horz ? dockingSize : size;
-			auto px = _direction == Direction::Horz ? pstart - pw - _spacing + sx: sx;
+			auto px = _direction == Direction::Horz ? pstart - pw - _spacing + sx : sx;
 			auto py = _direction == Direction::Horz ? sy : pstart - ph - _spacing + sy;
 
 			c->resize(px, py, pw, ph);
@@ -116,32 +119,62 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 	EndLayout();
 }
 
-
-void Flex::BeginLayout()
+void Flex::InitElementsContent()
 {
 	const int nc = children();
 
-	if (_elements.size() != nc)
+	if (_elements.size() != nc || !_elementsInitialized)
 	{
+		_elementsInitialized = true;
 		_elements.resize(nc);
 		for (int i = 0; i < nc; i++)
 		{
-			Fl_Widget* c = child(i);
-			auto pw = c->w();
-			auto ph = c->h();
-
-			Flex* flex = dynamic_cast<Flex*>(c);
-			if (flex != nullptr)
-			{
-				if (flex->GetLayoutStrategy() == LayoutStrategy::Full) {
-					pw = 0;
-					ph = 0;
-				}
+			if (!_elements[i]) {
+				_elements[i] = std::make_shared<ElementContext>();
 			}
+		}
+	}
+}
 
-			_elements[i] = std::make_shared<ElementContext>();
-			_elements[i]->width = pw;
-			_elements[i]->height = ph;
+void Flex::BeginLayout()
+{
+	InitElementsContent();
+
+	const int nc = children();
+
+	for (int i = 0; i < nc; i++)
+	{
+		Fl_Widget* c = child(i);
+		auto pw = c->w();
+		auto ph = c->h();
+
+		Flex* flex = dynamic_cast<Flex*>(c);
+		if (flex != nullptr)
+		{
+			if (flex->GetLayoutStrategy() == LayoutStrategy::Full) {
+				pw = 0;
+				ph = 0;
+			}
+		}
+
+		auto el = _elements[i];
+		el->width = pw;
+		el->height = ph;
+	}
+}
+
+void Flex::UseBounds(const Fl_Widget* widget, bool set)
+{
+	InitElementsContent();
+
+	const int nc = children();
+
+	for (int i = 0; i < nc; i++)
+	{
+		auto pc = child(i);
+		if (pc == widget) {
+			_elements[i]->useBounds = set;
+			break;
 		}
 	}
 }
@@ -159,7 +192,7 @@ void Flex::on_remove(int index)
 		if (idx == index) {
 			_elements.erase(i);
 			return;
-		}		
+		}
 	}
 
 	RecalcLayout();
