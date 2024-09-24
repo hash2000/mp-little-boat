@@ -1,6 +1,8 @@
 #pragma once
 
 #include <FL/Fl.H>
+#include <FL/Fl_Window.H>
+#include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Browser.H>
 #include <FL/Fl_Button.H>
@@ -9,10 +11,24 @@
 #include <FL/fl_draw.H>
 #include <FL/fl_message.H>
 #include <FL/Fl_Radio_Round_Button.H>
-#include <FL/Fl_Window.H>
 #include <FL/Fl_Pack.H>
 #include <FL/Fl_Scroll.H>
 #include <FL/Fl_Spinner.H>
 #include <FL/Fl_Toggle_Button.H>
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Menu_.H>
+#include <FL/Fl_Text_Display.H>
+#include <FL/Fl_Check_Browser.H>
+#include <FL/Fl_Dial.H>
+#include <FL/Fl_Multiline_Input.H>
+#include <FL/Fl_Hor_Nice_Slider.H>
+#include <FL/Fl_Progress.H>
+#include <FL/Fl_Return_Button.H>
+#include <FL/Fl_Roller.H>
+#include <FL/Fl_Tabs.H>
+#include <FL/Fl_Hor_Slider.H>
+#include <FL/Fl_Hor_Fill_Slider.H>
+#include <FL/Fl_Fill_Slider.H>
+#include <FL/Fl_Nice_Slider.H>
+#include <FL/Fl_Tree.H>
+#include <FL/Fl_Table.H>

@@ -2,7 +2,7 @@
 
 #include <string>
 #include <FL/Fl_Button.H>
-#include "Libs/FltkExt/FltkExt.h"
+#include "Libs/FltkExt/Containers/Flex.h"
 
 class Toolbar : public Flex
 {
