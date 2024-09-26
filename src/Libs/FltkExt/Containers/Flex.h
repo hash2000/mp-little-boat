@@ -47,7 +47,7 @@ private:
 
 	void EndLayout();
 
-	void InitElementsContent();
+	bool InitElementsContent();
 
 private:
 	int _spacing = 0;

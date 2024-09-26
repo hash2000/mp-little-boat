@@ -119,12 +119,14 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 	EndLayout();
 }
 
-void Flex::InitElementsContent()
+bool Flex::InitElementsContent()
 {
 	const int nc = children();
+	bool result = false;
 
 	if (_elements.size() != nc || !_elementsInitialized)
 	{
+		result = true;
 		_elementsInitialized = true;
 		_elements.resize(nc);
 		for (int i = 0; i < nc; i++)
@@ -134,11 +136,15 @@ void Flex::InitElementsContent()
 			}
 		}
 	}
+
+	return result;
 }
 
 void Flex::BeginLayout()
 {
-	InitElementsContent();
+	if (!InitElementsContent()) {
+		return;
+	}
 
 	const int nc = children();
 
