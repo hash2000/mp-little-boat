@@ -4,7 +4,7 @@
 
 Flex::Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position)
 	: Container(cx, cy, cw, ch)
-	, _spacing(0)
+	, _gap(0)
 	, _direction(direction)
 	, _position(position)
 	, _layoutStraategy(LayoutStrategy::ByDirection)
@@ -47,7 +47,7 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 	auto fixedSize = _size - (_direction == Direction::Horz ?
 		_margin.top + _margin.bottom : _margin.left + _margin.right);
 
-	auto ncsize = nc > 1 ? (nc - 1) * _spacing : 0;
+	auto ncsize = nc > 1 ? (nc - 1) * _gap : 0;
 	auto cstart = _direction == Direction::Horz ? sx : sy;
 	auto csize = _direction == Direction::Horz ? sw : sh;
 
@@ -85,7 +85,7 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 			c->resize(px, py, pw, ph);
 			size = _direction == Direction::Horz ? c->w() : c->h();
 
-			cstart += size + _spacing;
+			cstart += size + _gap;
 		}
 	}
 	else if (_position == PushPosition::End)
@@ -106,13 +106,13 @@ void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 
 			auto pw = _direction == Direction::Horz ? size : dockingSize;
 			auto ph = _direction == Direction::Horz ? dockingSize : size;
-			auto px = _direction == Direction::Horz ? pstart - pw - _spacing + sx : sx;
-			auto py = _direction == Direction::Horz ? sy : pstart - ph - _spacing + sy;
+			auto px = _direction == Direction::Horz ? pstart - pw - _gap + sx : sx;
+			auto py = _direction == Direction::Horz ? sy : pstart - ph - _gap + sy;
 
 			c->resize(px, py, pw, ph);
 			size = _direction == Direction::Horz ? c->w() : c->h();
 
-			pstart -= size + _spacing;
+			pstart -= size + _gap;
 		}
 	}
 
@@ -235,14 +235,14 @@ void Flex::AdjustMainSizes(int cx, int cy, int cw, int ch)
 	}
 }
 
-int Flex::spacing() const
+int Flex::gap() const
 {
-	return _spacing;
+	return _gap;
 }
 
-void Flex::spacing(int size)
+void Flex::gap(int size)
 {
-	_spacing = size;
+	_gap = size;
 }
 
 PushPosition Flex::GetPushPosition() const
