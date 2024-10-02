@@ -74,7 +74,7 @@ private:
 			auto toolbar = new Flex{ 0, 0, 40, 40, Direction::Horz, PushPosition::End };
 			{
 				toolbar->box(FL_FREE_BOXTYPE);
-				toolbar->spacing(5);
+				toolbar->gap(5);
 				toolbar->margin(Margin(2));
 
 				toolbar->UseBounds(CreateWidget(0, 0, 40, 40, FL_RED, "tbbtn1"), false);
@@ -149,7 +149,7 @@ private:
 			auto statusbar = new Flex{ 0, 0, 20, 20, Direction::Horz };
 			{
 				statusbar->box(FL_FREE_BOXTYPE);
-				statusbar->spacing(5);
+				statusbar->gap(5);
 				statusbar->margin(Margin(2));
 
 				CreateWidget(0, 0, 40, 40, FL_RED, "sbbtn1");

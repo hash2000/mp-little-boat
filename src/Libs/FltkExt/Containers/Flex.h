@@ -7,9 +7,9 @@ public:
 
 	Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position = PushPosition::Start);
 
-	int spacing() const;
+	int gap() const;
 
-	void spacing(int size);
+	void gap(int size);
 
 	PushPosition GetPushPosition() const;
 
@@ -47,15 +47,15 @@ private:
 
 	void EndLayout();
 
-	void InitElementsContent();
+	bool InitElementsContent();
 
 private:
-	int _spacing = 0;
+	int _gap = 0;
+	int _size;
 	Direction _direction;
 	PushPosition _position;
 	LayoutStrategy _layoutStraategy;
 	Margin _margin;
-	int _size;
 
 	struct ElementContext {
 		int width = 0;

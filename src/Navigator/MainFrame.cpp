@@ -35,7 +35,7 @@ MainFrame::MainFrame()
 		auto statusbar = new Flex{ 0, 0, 20, 20, Direction::Horz };
 		{
 			statusbar->box(FL_FREE_BOXTYPE);
-			statusbar->spacing(5);
+			statusbar->gap(5);
 			statusbar->margin(Margin(2));
 
 
