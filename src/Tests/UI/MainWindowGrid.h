@@ -26,17 +26,97 @@ private:
 			gr->AddRow(GridRow{ .height = 40, .gap = 5 });
 			gr->AddRow(GridRow{ .height = 100, .gap = 10 });
 			gr->AddRow(GridRow{ .height = 60, .gap = 0 });
+			gr->AddRow(GridRow{ .height = 10, .gap = 0 });
+			gr->AddRow(GridRow{ .height = 100, .gap = 3 });
+			gr->AddRow(GridRow{ .height = 100, .gap = 3 });
+			gr->AddRow(GridRow{ .height = 100, .gap = 3 });
+			gr->AddRow(GridRow{ .height = 100, .gap = 3 });
+			gr->AddRow(GridRow{ .height = 60, .gap = 3 });
 
 			gr->AddColumn(GridColumn{ .width = 100, .gap = 5 });
-			gr->AddColumn(GridColumn{ .width = 200, .gap = 0 });
-			gr->AddColumn(GridColumn{ .width = 50, .gap = 0 });
+			gr->AddColumn(GridColumn{ .width = 200, .gap = 5 });
+			gr->AddColumn(GridColumn{ .width = 150, .gap = 0 });
 
 			gr->box(FL_FREE_BOXTYPE);
 			{
-				char title[20];
-				for (int i = 0; i < 100; i++)
+				// заполнение нескольких ячеек
+
+				auto bbutton1 = new Fl_Button{ 0, 0, 0, 0, "bigbutton1" };
+				gr->AddWidget(bbutton1,
+					GridPosition{ .start = 0, .end = 2 },
+					GridPosition{ .start = 1, .end = 2 });
+
+				auto bbutton2 = new Fl_Button{ 0, 0, 0, 0, "bigbutton2" };
+				gr->AddWidget(bbutton2,
+					GridPosition{ .start = 0, .end = 2 },
+					GridPosition{ .start = 0, .end = 0 });
+
+				// заполнение и выравнивание
 				{
-					std::sprintf(title, "bt%d", i);
+					auto b = new Fl_Button{ 0, 0, 70, 30, "center vert" };
+					gr->AddWidget(b, 4, 0, Alignment::Center | Alignment::Vertical);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "center horz" };
+					gr->AddWidget(b, 4, 1, Alignment::Center | Alignment::Horizontal);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "fill" };
+					gr->AddWidget(b, 4, 2, Alignment::Fill);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "left" };
+					gr->AddWidget(b, 5, 0, Alignment::Left);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "right" };
+					gr->AddWidget(b, 5, 1, Alignment::Right);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "left right" };
+					gr->AddWidget(b, 5, 2, Alignment::Left | Alignment::Right);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "top" };
+					gr->AddWidget(b, 6, 0, Alignment::Top);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "bottom" };
+					gr->AddWidget(b, 6, 1, Alignment::Bottom);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "top bottom" };
+					gr->AddWidget(b, 6, 2, Alignment::Top | Alignment::Bottom);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "left top" };
+					gr->AddWidget(b, 7, 0, Alignment::Left | Alignment::Top);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "left bottom" };
+					gr->AddWidget(b, 7, 1, Alignment::Left | Alignment::Bottom);
+				}
+
+				{
+					auto b = new Fl_Button{ 0, 0, 70, 30, "right top" };
+					gr->AddWidget(b, 7, 2, Alignment::Right | Alignment::Top);
+				}
+				// автоматическое добавление строк
+
+				char title[20];
+				for (int i = 8; i < 100; i++)
+				{
+					std::sprintf(title, "bt%d", i - 3);
 
 					auto b1c1 = new Fl_Button{ 0, 0, 0, 0 };
 					b1c1->copy_label(title);

@@ -105,16 +105,18 @@ bool Grid::ApplyColumns(const GridPosition& columns)
 	return _allowColumnsIncrease;
 }
 
-void Grid::AddWidget(Fl_Widget* widget, int row, int column)
+void Grid::AddWidget(Fl_Widget* widget, int row, int column, Alignment::Type align)
 {
 	AddWidget(widget,
 		GridPosition{ .start = row, .end = row },
-		GridPosition{ .start = column, .end = column });
+		GridPosition{ .start = column, .end = column },
+		align);
 }
 
 void Grid::AddWidget(Fl_Widget* widget,
 	const GridPosition& row,
-	const GridPosition& column)
+	const GridPosition& column,
+	Alignment::Type align)
 {
 	auto child = _area->find(widget);
 	if (child >= _area->children()) {
@@ -147,6 +149,7 @@ void Grid::AddWidget(Fl_Widget* widget,
 	pWidget->row.end = row.end;
 	pWidget->column.start = column.start;
 	pWidget->column.end = column.end;
+	pWidget->align = align;
 
 	_items.push_back(pWidget);
 
@@ -213,6 +216,40 @@ void Grid::AdjustLayout(int cx, int cy, int cw, int ch)
 			if (i < item->column.end) {
 				width += pCol->gap;
 			}
+		}
+
+		Alignment::Type align = item->align;
+		Alignment::Type mask = Alignment::Left | Alignment::Right | Alignment::Horizontal | Alignment::Center;
+
+		if (item->widget->w() == 0 || item->widget->h() == 0) {
+			align = Alignment::Fill;
+		}
+
+
+		if ((align & mask) == Alignment::Center) {
+			xpos += (width - item->widget->w()) / 2;
+			width = item->widget->w();
+		}
+		else if ((align & mask) == Alignment::Left) {
+			width = item->widget->w();
+		}
+		else if ((align & mask) == Alignment::Right) {
+			xpos += width - item->widget->w();
+			width = item->widget->w();
+		}
+
+		mask = Alignment::Top | Alignment::Bottom | Alignment::Vertical | Alignment::Center;
+
+		if ((align & mask) == Alignment::Center) {
+			ypos += (height - item->widget->h()) / 2;
+			height = item->widget->h();
+		}
+		else if ((align & mask) == Alignment::Top) {
+			height = item->widget->h();
+		}
+		else if ((align & mask) == Alignment::Bottom) {
+			ypos += height - item->widget->h();
+			height = item->widget->h();
 		}
 
 		item->widget->resize(xpos, ypos, width, height);

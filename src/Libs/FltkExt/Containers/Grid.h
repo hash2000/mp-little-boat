@@ -3,6 +3,7 @@
 #include <FL/Fl_Scroll.H>
 #include <FL/Fl_Scrollbar.H>
 #include "Libs/FltkExt/Containers/Container.h"
+#include "Libs/FltkExt/Containers/ContainerProps.h"
 #include <list>
 #include <vector>
 #include <memory>
@@ -18,8 +19,8 @@ struct GridColumn {
 };
 
 struct GridPosition {
-	int start;
-	int end;
+	int start = 0;
+	int end = 0;
 };
 
 class Grid : public Container
@@ -35,9 +36,9 @@ public:
 
 	void AddColumn(const GridColumn& col);
 
-	void AddWidget(Fl_Widget* widget, int row, int column);
+	void AddWidget(Fl_Widget* widget, int row, int column, Alignment::Type align = Alignment::Fill);
 
-	void AddWidget(Fl_Widget* widget, const GridPosition& row, const GridPosition& column);
+	void AddWidget(Fl_Widget* widget, const GridPosition& row, const GridPosition& column, Alignment::Type align = Alignment::Fill);
 
 	void end() override;
 
@@ -51,6 +52,7 @@ private:
 		Fl_Widget* widget = nullptr;
 		GridPosition row;
 		GridPosition column;
+		Alignment::Type align = Alignment::Fill;
 	};
 
 private:
