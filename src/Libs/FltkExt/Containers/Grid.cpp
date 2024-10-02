@@ -198,7 +198,6 @@ void Grid::AdjustLayout(int cx, int cy, int cw, int ch)
 			}
 		}
 
-		;
 		int xpos = sx;
 		int width = 0;
 		for (int i = 0; i <= item->column.end; i++)
@@ -218,7 +217,6 @@ void Grid::AdjustLayout(int cx, int cy, int cw, int ch)
 
 		item->widget->resize(xpos, ypos, width, height);
 	}
-
 
 	OnGridResized();
 }
