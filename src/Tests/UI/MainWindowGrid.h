@@ -34,7 +34,7 @@ private:
 			gr->box(FL_FREE_BOXTYPE);
 			{
 				char title[20];
-				for (int i = 0; i < 10; i++)
+				for (int i = 0; i < 100; i++)
 				{
 					std::sprintf(title, "bt%d", i);
 

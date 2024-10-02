@@ -39,7 +39,7 @@ public:
 
 	void AddWidget(Fl_Widget* widget, const GridPosition& row, const GridPosition& column);
 
-	void draw() override;
+	void end() override;
 
 	void AllowRowsIncrease(bool allow);
 

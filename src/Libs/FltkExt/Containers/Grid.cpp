@@ -1,4 +1,5 @@
 #include "Grid.h"
+#include <FL/fl_draw.H>
 #include <algorithm>
 
 Grid::Grid(int cx, int cy, int cw, int ch)
@@ -13,10 +14,10 @@ Grid::Grid(int cx, int cy, int cw, int ch)
 	_hscroll->callback(OnScroll, this);
 
 	_area = std::make_unique<Fl_Scroll>(0, 0, 0, 0);
-	//	_area->box(FL_NO_BOX);
+	_area->box(FL_NO_BOX);
 	_area->type(0);
 	_area->box(FL_FREE_BOXTYPE);
-	//	_area->hide();
+	_area->hide();
 	_area->end();
 
 	end();
@@ -226,10 +227,10 @@ void Grid::AdjustLayout(int cx, int cy, int cw, int ch)
 
 void Grid::RecalcArea()
 {
-	_areax = x() + Fl::box_dx(box()) + _margin.left;
-	_areay = y() + Fl::box_dx(box()) + _margin.top;
-	_areaw = w() - Fl::box_dx(box()) - _margin.left - _margin.right;
-	_areah = h() - Fl::box_dx(box()) - _margin.top - _margin.bottom;
+	_areax = x() + Fl::box_dx(box()) + Fl::box_dx(_area->box()) + _margin.left;
+	_areay = y() + Fl::box_dx(box()) + Fl::box_dx(_area->box()) + _margin.top;
+	_areaw = w() - Fl::box_dx(box()) - Fl::box_dx(_area->box()) - _margin.left - _margin.right;
+	_areah = h() - Fl::box_dx(box()) - Fl::box_dx(_area->box()) - _margin.top - _margin.bottom;
 
 	auto vhide = _areaVirtH <= _areah;
 	auto hhide = _areaVirtW <= _areaw;
@@ -405,17 +406,16 @@ void Grid::OnGridResized()
 	OnGridScrilled();
 }
 
-void Grid::draw()
+void Grid::end()
 {
+	_area->end();
 
-	Container::draw();
+	if (_area->children() > 2) {
+		_area->show();
+	}
+	else {
+		_area->hide();
+	}
 
-	//	if (!_area->visible()) {
-	//if (damage() & FL_DAMAGE_ALL || damage() & FL_DAMAGE_CHILD) {
-	//	draw_box(_area->box(), x(), y(), w() - Fl::scrollbar_size(), h() - Fl::scrollbar_size(), _area->color());
-	//}
-
-
-	//	}
-
+	Container::end();
 }
