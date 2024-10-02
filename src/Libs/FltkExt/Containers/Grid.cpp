@@ -172,10 +172,8 @@ void Grid::AdjustLayout(int cx, int cy, int cw, int ch)
 		return;
 	}
 
-	auto sx = x() + Fl::box_dx(box()) + _margin.left - _hscroll->value();
-	auto sy = y() + Fl::box_dx(box()) + _margin.top - _vscroll->value();
-	//auto sw = w() - Fl::box_dx(box()) - _margin.left - _margin.right;
-	//auto sh = h() - Fl::box_dx(box()) - _margin.top - _margin.bottom;
+	auto sx = x() + Fl::box_dx(box()) + Fl::box_dx(_area->box()) + _margin.left - _hscroll->value();
+	auto sy = y() + Fl::box_dx(box()) + Fl::box_dx(_area->box()) + _margin.top - _vscroll->value();
 
 	for (auto item : _items)
 	{
