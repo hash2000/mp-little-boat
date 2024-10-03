@@ -34,6 +34,21 @@ void BaseScrolledGrid::margin(const Margin& m)
 	RecalcLayout();
 }
 
+const Fl_Scroll* const BaseScrolledGrid::GetArea() const
+{
+	return _area.get();
+}
+
+const Fl_Scrollbar* const BaseScrolledGrid::GetVScroll() const
+{
+	return _vscroll.get();
+}
+
+const Fl_Scrollbar* const BaseScrolledGrid::GetHScroll() const
+{
+	return _hscroll.get();
+}
+
 void BaseScrolledGrid::end()
 {
 	_area->end();
@@ -52,7 +67,7 @@ void BaseScrolledGrid::OnScroll(Fl_Widget* widget, void* data)
 {
 	auto me = (BaseScrolledGrid*)data;
 	me->RecalcArea();
-	me->OnGridScrilled();
+	me->GridScrilled();
 	me->RecalcLayout();
 	me->redraw();
 }
@@ -162,7 +177,7 @@ void BaseScrolledGrid::RecalcColumnsOffsets()
 }
 
 
-void BaseScrolledGrid::OnGridScrilled()
+void BaseScrolledGrid::GridScrilled()
 {
 	RecalcRowsOffsets();
 	RecalcColumnsOffsets();
@@ -202,7 +217,7 @@ long BaseScrolledGrid::GetColumnScrollPos(int column)
 	return scroll;
 }
 
-void BaseScrolledGrid::OnGridResized()
+void BaseScrolledGrid::GridResized()
 {
 	_areaVirtH = GetRowScrollPos(GetRowsCount());
 	_areaVirtW = GetColumnScrollPos(GetColumnsCount());
@@ -233,5 +248,5 @@ void BaseScrolledGrid::OnGridResized()
 
 	Fl_Group::init_sizes();
 
-	OnGridScrilled();
+	GridScrilled();
 }

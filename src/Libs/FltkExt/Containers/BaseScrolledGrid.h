@@ -23,13 +23,7 @@ public:
 
 	virtual int GetColumnWidth(int columns) const = 0;
 
-private:
-
-	static void OnScroll(Fl_Widget* widget, void* data);
-
-	void OnGridScrilled();
-
-	void OnGridResized();
+protected:
 
 	void RecalcArea();
 
@@ -40,6 +34,20 @@ private:
 	long GetRowScrollPos(int row);
 
 	long GetColumnScrollPos(int column);
+
+	void GridScrilled();
+
+	void GridResized();
+
+	const Fl_Scroll* const GetArea() const;
+
+	const Fl_Scrollbar* const GetVScroll() const;
+
+	const Fl_Scrollbar* const GetHScroll() const;
+
+private:
+
+	static void OnScroll(Fl_Widget* widget, void* data);
 
 private:
 	int _areax = 0;
