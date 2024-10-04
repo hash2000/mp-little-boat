@@ -2,6 +2,8 @@
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 
+using namespace FltkExt::Containers;
+
 class MyGroup : public Fl_Group
 {
 public:

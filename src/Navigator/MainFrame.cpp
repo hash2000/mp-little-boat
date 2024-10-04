@@ -5,6 +5,8 @@
 MainFrame::MainFrame()
 	: Fl_Window(720, 648, "Navigator")
 {
+	using namespace FltkExt::Containers;
+
 	auto centerflex = new Flex{ 0, 0, w(), h(), Direction::Vert };
 	{
 		centerflex->SetLayoutStrategy(LayoutStrategy::Full);

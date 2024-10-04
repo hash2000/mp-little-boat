@@ -4,6 +4,9 @@
 #include "Libs/FltkExt/Containers/Grid.h"
 #include <sstream>
 
+using namespace FltkExt::Containers;
+
+
 class MainWindowGrid : public Fl_Double_Window
 {
 public:

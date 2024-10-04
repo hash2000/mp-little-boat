@@ -6,6 +6,9 @@
 #include "Libs/FltkExt/Containers/List.h"
 #include <sstream>
 
+using namespace FltkExt::Containers;
+
+
 
 class MainWindowList : public Fl_Double_Window
 {

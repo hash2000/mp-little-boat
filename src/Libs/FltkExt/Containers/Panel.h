@@ -8,39 +8,45 @@
 #include <memory>
 #include <functional>
 
-class Panel : public Container
+namespace FltkExt::Containers
 {
-	friend class Layout;
-public:
-	Panel(int size, const char* l);
 
-	void UpdateDockingState(Docking docking);
 
-	Docking GetDockingState() const;
+	class Panel : public Container
+	{
+		friend class Layout;
+	public:
+		Panel(int size, const char* l);
 
-	void SetMinPanelSize(int size);
+		void UpdateDockingState(Docking docking);
 
-	int GetMinPanelSize() const;
+		Docking GetDockingState() const;
 
-	void UseHeader(bool use);
+		void SetMinPanelSize(int size);
 
-	void UseSplitter(bool use);
+		int GetMinPanelSize() const;
 
-	void AttachContent(std::function<void(Flex*)> proc);
+		void UseHeader(bool use);
 
-	void end() override;
+		void UseSplitter(bool use);
 
-protected:
+		void AttachContent(std::function<void(Flex*)> proc);
 
-	void AdjustLayout(int cx, int cy, int cw, int ch) override;
+		void end() override;
 
-private:
-	int _minPanelSize = 0;
-	Docking _docking = Docking::Center;
-	std::unique_ptr<Flex> _topFlex;
-	std::unique_ptr<Flex> _topContentFlex;
-	std::unique_ptr<Flex> _topHeaderFlex;
-	std::unique_ptr<Splitter> _splitter;
-	std::unique_ptr<Fl_Button> _hideButton;
-	std::unique_ptr<Fl_Button> _pinButton;
-};
+	protected:
+
+		void AdjustLayout(int cx, int cy, int cw, int ch) override;
+
+	private:
+		int _minPanelSize = 0;
+		Docking _docking = Docking::Center;
+		std::unique_ptr<Flex> _topFlex;
+		std::unique_ptr<Flex> _topContentFlex;
+		std::unique_ptr<Flex> _topHeaderFlex;
+		std::unique_ptr<Splitter> _splitter;
+		std::unique_ptr<Fl_Button> _hideButton;
+		std::unique_ptr<Fl_Button> _pinButton;
+	};
+
+}

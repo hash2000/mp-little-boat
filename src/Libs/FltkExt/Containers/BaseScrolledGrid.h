@@ -4,94 +4,100 @@
 #include <FL/Fl_Scrollbar.H>
 #include "Libs/FltkExt/Containers/Container.h"
 
-class BaseScrolledGrid : public Container
+namespace FltkExt::Containers
 {
-public:
-	BaseScrolledGrid(int cx, int cy, int cw, int ch);
 
-	const Margin& margin() const;
 
-	void margin(const Margin& m);
+	class BaseScrolledGrid : public Container
+	{
+	public:
+		BaseScrolledGrid(int cx, int cy, int cw, int ch);
 
-	virtual int GetRowsCount() const = 0;
+		const Margin& margin() const;
 
-	virtual int GetColumnsCount() const = 0;
+		void margin(const Margin& m);
 
-	virtual int GetRowHeight(int row) const = 0;
+		virtual int GetRowsCount() const = 0;
 
-	virtual int GetColumnWidth(int columns) const = 0;
+		virtual int GetColumnsCount() const = 0;
 
-	int GetClientAreaX() const;
+		virtual int GetRowHeight(int row) const = 0;
 
-	int GetClientAreaY() const;
+		virtual int GetColumnWidth(int columns) const = 0;
 
-	int GetClientAreaW() const;
+		int GetClientAreaX() const;
 
-	int GetClientAreaH() const;
+		int GetClientAreaY() const;
 
-	void begin();
+		int GetClientAreaW() const;
 
-	void end() override;
+		int GetClientAreaH() const;
 
-	Fl_Widget* const* array();
+		void begin();
 
-	Fl_Widget* child(int n) const;
+		void end() override;
 
-	int children() const;
+		Fl_Widget* const* array();
 
-	int find(const Fl_Widget* wgt) const;
+		Fl_Widget* child(int n) const;
 
-	int find(const Fl_Widget& wgt) const;
+		int children() const;
 
-	void init_sizes();
+		int find(const Fl_Widget* wgt) const;
 
-protected:
+		int find(const Fl_Widget& wgt) const;
 
-	void RecalcArea();
+		void init_sizes();
 
-	void RecalcRowsOffsets();
+	protected:
 
-	void RecalcColumnsOffsets();
+		void RecalcArea();
 
-	long GetRowScrollPos(int row);
+		void RecalcRowsOffsets();
 
-	long GetColumnScrollPos(int column);
+		void RecalcColumnsOffsets();
 
-	void GridScrilled();
+		long GetRowScrollPos(int row);
 
-	void GridResized();
+		long GetColumnScrollPos(int column);
 
-	const Fl_Scroll* const GetArea() const;
+		void GridScrilled();
 
-	const Fl_Scrollbar* const GetVScroll() const;
+		void GridResized();
 
-	const Fl_Scrollbar* const GetHScroll() const;
+		const Fl_Scroll* const GetArea() const;
 
-private:
+		const Fl_Scrollbar* const GetVScroll() const;
 
-	static void OnScroll(Fl_Widget* widget, void* data);
+		const Fl_Scrollbar* const GetHScroll() const;
 
-private:
-	int _areax = 0;
-	int _areay = 0;
-	int _areaw = 0;
-	int _areah = 0;
-	int _areaVirtW = 0;
-	int _areaVirtH = 0;
+	private:
 
-	int _rowPosition = 0;
-	int _topRow = 0;
-	int _topRowScrollpos = -1;
-	int _bottomRow = 0;
+		static void OnScroll(Fl_Widget* widget, void* data);
 
-	int _colPosition = 0;
-	int _leftCol = 0;
-	int _leftColScrollpos = -1;
-	int _rightCol = 0;
+	private:
+		int _areax = 0;
+		int _areay = 0;
+		int _areaw = 0;
+		int _areah = 0;
+		int _areaVirtW = 0;
+		int _areaVirtH = 0;
 
-	Margin _margin;
+		int _rowPosition = 0;
+		int _topRow = 0;
+		int _topRowScrollpos = -1;
+		int _bottomRow = 0;
 
-	std::unique_ptr<Fl_Scroll> _area;
-	std::unique_ptr<Fl_Scrollbar> _vscroll;
-	std::unique_ptr<Fl_Scrollbar> _hscroll;
-};
+		int _colPosition = 0;
+		int _leftCol = 0;
+		int _leftColScrollpos = -1;
+		int _rightCol = 0;
+
+		Margin _margin;
+
+		std::unique_ptr<Fl_Scroll> _area;
+		std::unique_ptr<Fl_Scrollbar> _vscroll;
+		std::unique_ptr<Fl_Scrollbar> _hscroll;
+	};
+
+}
