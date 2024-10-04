@@ -8,15 +8,21 @@
 #include <functional>
 #include <string>
 
-class TabbedPanel : public Panel
+namespace FltkExt::Containers
 {
-public:
-	TabbedPanel(int size, const char* l);
 
-	void AttachContent(const std::string& title, std::function<void()> proc);
 
-private:
-	int _tabsSize = 20;
-	std::unique_ptr<Fl_Tabs> _tabs;
-	std::list<std::unique_ptr<Flex>> _tabsGroup;
-};
+	class TabbedPanel : public Panel
+	{
+	public:
+		TabbedPanel(int size, const char* l);
+
+		void AttachContent(const std::string& title, std::function<void()> proc);
+
+	private:
+		int _tabsSize = 20;
+		std::unique_ptr<Fl_Tabs> _tabs;
+		std::list<std::unique_ptr<Flex>> _tabsGroup;
+	};
+
+}

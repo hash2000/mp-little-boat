@@ -7,27 +7,32 @@
 #include <list>
 #include <memory>
 
-class Panel;
-class Layout : public Container
+namespace FltkExt::Containers
 {
-public:
-	Layout(int cx, int cy, int cw, int ch);
 
-	void Attach(Panel& p, Docking docking);
+	class Panel;
+	class Layout : public Container
+	{
+	public:
+		Layout(int cx, int cy, int cw, int ch);
 
-	void Attach(Panel* p, Docking docking);
+		void Attach(Panel& p, Docking docking);
 
-	void Detach(Panel* p);
+		void Attach(Panel* p, Docking docking);
 
-	bool HasPanel(const Panel* p) const;
+		void Detach(Panel* p);
 
-protected:
+		bool HasPanel(const Panel* p) const;
 
-	void AdjustLayout(int cx, int cy, int cw, int ch);
+	protected:
 
-private:
+		void AdjustLayout(int cx, int cy, int cw, int ch);
 
-	std::unordered_map<Docking, std::list<Panel*>> _panelDocking;
+	private:
 
-	Panel* _centerPanel = nullptr;
-};
+		std::unordered_map<Docking, std::list<Panel*>> _panelDocking;
+
+		Panel* _centerPanel = nullptr;
+	};
+
+}

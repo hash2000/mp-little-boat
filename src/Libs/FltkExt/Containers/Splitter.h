@@ -4,39 +4,45 @@
 #include <FL/Fl_Widget.H>
 #include "Libs/FltkExt/Containers/ContainerProps.h"
 
-class Splitter : public Fl_Box
+namespace FltkExt::Containers
 {
-public:
-	Splitter(int size, Direction direction = Direction::Horz);
 
-	void resizable(Fl_Widget* widget);
 
-	void resizable(Fl_Widget& widget);
+	class Splitter : public Fl_Box
+	{
+	public:
+		Splitter(int size, Direction direction = Direction::Horz);
 
-	Fl_Widget* resizable() const;
+		void resizable(Fl_Widget* widget);
 
-	Direction direction() const;
+		void resizable(Fl_Widget& widget);
 
-	void direction(Direction dir);
+		Fl_Widget* resizable() const;
 
-	PushPosition GetPushPosition() const;
+		Direction direction() const;
 
-	void SetPushPosition(PushPosition pos);
+		void direction(Direction dir);
 
-protected:
+		PushPosition GetPushPosition() const;
 
-	int handle(int event) override;
+		void SetPushPosition(PushPosition pos);
 
-	bool IsEventInside() const;
+	protected:
 
-	void ChangeCursor(Fl_Cursor newcursor);
+		int handle(int event) override;
 
-private:
+		bool IsEventInside() const;
 
-	Fl_Widget* _resizable = nullptr;
-	Fl_Cursor _lastCursor = FL_CURSOR_DEFAULT;
-	Direction _direction;
-	PushPosition _pushPosition;
-	int _resizeStart = 0;
+		void ChangeCursor(Fl_Cursor newcursor);
 
-};
+	private:
+
+		Fl_Widget* _resizable = nullptr;
+		Fl_Cursor _lastCursor = FL_CURSOR_DEFAULT;
+		Direction _direction;
+		PushPosition _pushPosition;
+		int _resizeStart = 0;
+
+	};
+
+}

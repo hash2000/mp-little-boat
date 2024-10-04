@@ -3,29 +3,35 @@
 #include "Libs/FltkExt/Containers/BaseScrolledGrid.h"
 #include "Libs/FltkExt/Containers/ContainerProps.h"
 
-class List : public BaseScrolledGrid
+namespace FltkExt::Containers
 {
-public:
-	List(int cx, int cy, int cw, int ch, Direction direction = Direction::Horz);
 
-	int GetRowsCount() const override;
 
-	int GetColumnsCount() const override;
+	class List : public BaseScrolledGrid
+	{
+	public:
+		List(int cx, int cy, int cw, int ch, Direction direction = Direction::Horz);
 
-	int GetRowHeight(int row) const override;
+		int GetRowsCount() const override;
 
-	int GetColumnWidth(int columns) const override;
+		int GetColumnsCount() const override;
 
-	int gap() const;
+		int GetRowHeight(int row) const override;
 
-	void gap(int size);
+		int GetColumnWidth(int columns) const override;
 
-private:
+		int gap() const;
 
-	void AdjustLayout(int cx, int cy, int cw, int ch) override;
+		void gap(int size);
 
-private:
+	private:
 
-	Direction _direction;
-	int _gap = 0;
-};
+		void AdjustLayout(int cx, int cy, int cw, int ch) override;
+
+	private:
+
+		Direction _direction;
+		int _gap = 0;
+	};
+
+}

@@ -7,33 +7,37 @@
 #include <memory>
 #include <vector>
 
-
-class Container : public Fl_Group
+namespace FltkExt::Containers
 {
-public:
-	Container(int cx, int cy, int cw, int ch);
 
-	void RecalcLayout(bool set = true);
+	class Container : public Fl_Group
+	{
+	public:
+		Container(int cx, int cy, int cw, int ch);
 
-	void resize(int cx, int cy, int cw, int ch) override;
+		void RecalcLayout(bool set = true);
 
-	void draw() override;
+		void resize(int cx, int cy, int cw, int ch) override;
 
-	virtual void end();
+		void draw() override;
 
-protected:
+		virtual void end();
 
-	virtual void AdjustLayout(int cx, int cy, int cw, int ch);
+	protected:
 
-private:
-	bool _needRecalculate = false;
-};
+		virtual void AdjustLayout(int cx, int cy, int cw, int ch);
 
-class ContainerEnd
-{
-public:
-	ContainerEnd() {
-		auto current = (Container*)Fl_Group::current();
-		current->end();
-	}
-};
+	private:
+		bool _needRecalculate = false;
+	};
+
+	class ContainerEnd
+	{
+	public:
+		ContainerEnd() {
+			auto current = (Container*)Fl_Group::current();
+			current->end();
+		}
+	};
+
+}

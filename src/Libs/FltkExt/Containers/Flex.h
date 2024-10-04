@@ -1,69 +1,74 @@
 #pragma once
 #include "Libs/FltkExt/Containers/Container.h"
 
-class Flex : public Container
+namespace FltkExt::Containers
 {
-public:
 
-	Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position = PushPosition::Start);
 
-	int gap() const;
+	class Flex : public Container
+	{
+	public:
 
-	void gap(int size);
+		Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position = PushPosition::Start);
 
-	PushPosition GetPushPosition() const;
+		int gap() const;
 
-	void SetPushPosition(PushPosition pos);
+		void gap(int size);
 
-	Direction direction() const;
+		PushPosition GetPushPosition() const;
 
-	void direction(Direction dir);
+		void SetPushPosition(PushPosition pos);
 
-	LayoutStrategy GetLayoutStrategy() const;
+		Direction direction() const;
 
-	void SetLayoutStrategy(LayoutStrategy set);
+		void direction(Direction dir);
 
-	const Margin& margin() const;
+		LayoutStrategy GetLayoutStrategy() const;
 
-	void margin(const Margin& m);
+		void SetLayoutStrategy(LayoutStrategy set);
 
-	/// <summary>
-	/// В любом дочернем элементе флекса можно задать свой размер, после этого элемент будет считаться "фиксированного размера"
-	/// и в зависимости от направление (Horz, Vert) этот размер будет влиять на растягивание внутри флекса.
-	/// Но, в этой функции, можно указать отдельно, что хоть размер ранее и был указан, всёравно его не нужно учитывать  
-	/// </summary>
-	/// <param name="widget"></param>
-	/// <param name="set"></param>
-	void UseBounds(const Fl_Widget* widget, bool set);
+		const Margin& margin() const;
 
-	void on_remove(int index) /* override включить в версии 1.4.0 */;
+		void margin(const Margin& m);
 
-private:
-	void AdjustLayout(int cx, int cy, int cw, int ch) override;
+		/// <summary>
+		/// В любом дочернем элементе флекса можно задать свой размер, после этого элемент будет считаться "фиксированного размера"
+		/// и в зависимости от направление (Horz, Vert) этот размер будет влиять на растягивание внутри флекса.
+		/// Но, в этой функции, можно указать отдельно, что хоть размер ранее и был указан, всёравно его не нужно учитывать  
+		/// </summary>
+		/// <param name="widget"></param>
+		/// <param name="set"></param>
+		void UseBounds(const Fl_Widget* widget, bool set);
 
-	void AdjustMainSizes(int cx, int cy, int cw, int ch);
+		void on_remove(int index) /* override включить в версии 1.4.0 */;
 
-	void BeginLayout();
+	private:
+		void AdjustLayout(int cx, int cy, int cw, int ch) override;
 
-	void EndLayout();
+		void AdjustMainSizes(int cx, int cy, int cw, int ch);
 
-	bool InitElementsContent();
+		void BeginLayout();
 
-private:
-	int _gap = 0;
-	int _size;
-	Direction _direction;
-	PushPosition _position;
-	LayoutStrategy _layoutStraategy;
-	Margin _margin;
+		void EndLayout();
 
-	struct ElementContext {
-		int width = 0;
-		int height = 0;
-		bool useBounds = true;
+		bool InitElementsContent();
+
+	private:
+		int _gap = 0;
+		int _size;
+		Direction _direction;
+		PushPosition _position;
+		LayoutStrategy _layoutStraategy;
+		Margin _margin;
+
+		struct ElementContext {
+			int width = 0;
+			int height = 0;
+			bool useBounds = true;
+		};
+
+		bool _elementsInitialized = false;
+		std::vector<std::shared_ptr<ElementContext>> _elements;
 	};
 
-	bool _elementsInitialized = false;
-	std::vector<std::shared_ptr<ElementContext>> _elements;
-};
-
+}

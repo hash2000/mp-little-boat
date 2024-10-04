@@ -4,7 +4,7 @@
 #include <FL/Fl_Button.H>
 #include "Libs/FltkExt/Containers/Flex.h"
 
-class Toolbar : public Flex
+class Toolbar : public FltkExt::Containers::Flex
 {
 public:
 	Toolbar(int cx, int cy, int cw, int ch);

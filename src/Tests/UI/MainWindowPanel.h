@@ -6,6 +6,9 @@
 
 #include <FL/Fl_Tabs.H>
 
+using namespace FltkExt::Containers;
+
+
 class MainWindowPanel : public Fl_Double_Window
 {
 public:
