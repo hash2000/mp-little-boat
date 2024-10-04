@@ -49,6 +49,11 @@ const Fl_Scrollbar* const BaseScrolledGrid::GetHScroll() const
 	return _hscroll.get();
 }
 
+void BaseScrolledGrid::begin()
+{
+	_area->begin();
+}
+
 void BaseScrolledGrid::end()
 {
 	_area->end();
@@ -63,6 +68,37 @@ void BaseScrolledGrid::end()
 	Container::end();
 }
 
+Fl_Widget* const* BaseScrolledGrid::array()
+{
+	return _area->array();
+}
+
+Fl_Widget* BaseScrolledGrid::child(int n) const
+{
+	return _area->child(n);
+}
+
+int BaseScrolledGrid::children() const
+{
+	// -2: skip Fl_Scroll's h/v scrollbar widgets
+	return _area->children() - 2;  
+}
+
+int BaseScrolledGrid::find(const Fl_Widget* wgt) const
+{
+	return _area->find(wgt);
+}
+
+int BaseScrolledGrid::find(const Fl_Widget& wgt) const
+{
+	return _area->find(wgt);
+}
+
+void BaseScrolledGrid::init_sizes() {
+	_area->init_sizes();
+	_area->redraw();
+}
+
 void BaseScrolledGrid::OnScroll(Fl_Widget* widget, void* data)
 {
 	auto me = (BaseScrolledGrid*)data;
@@ -72,6 +108,25 @@ void BaseScrolledGrid::OnScroll(Fl_Widget* widget, void* data)
 	me->redraw();
 }
 
+int BaseScrolledGrid::GetClientAreaX() const
+{
+	return _areax;
+}
+
+int BaseScrolledGrid::GetClientAreaY() const
+{
+	return _areay;
+}
+
+int BaseScrolledGrid::GetClientAreaW() const
+{
+	return _areaw;
+}
+
+int BaseScrolledGrid::GetClientAreaH() const
+{
+	return _areah;
+}
 
 void BaseScrolledGrid::RecalcArea()
 {

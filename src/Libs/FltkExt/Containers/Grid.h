@@ -30,9 +30,9 @@ public:
 
 	void AddColumn(const GridColumn& col);
 
-	void AddWidget(Fl_Widget* widget, int row, int column, Alignment::Type align = Alignment::Fill);
+	void Attach(Fl_Widget* widget, int row, int column, Alignment::Type align = Alignment::Fill);
 
-	void AddWidget(Fl_Widget* widget, const GridPosition& row, const GridPosition& column, Alignment::Type align = Alignment::Fill);
+	void Attach(Fl_Widget* widget, const GridPosition& row, const GridPosition& column, Alignment::Type align = Alignment::Fill);
 
 	void AllowRowsIncrease(bool allow);
 

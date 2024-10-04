@@ -13,8 +13,6 @@ public:
 
 	void margin(const Margin& m);
 
-	void end() override;
-
 	virtual int GetRowsCount() const = 0;
 
 	virtual int GetColumnsCount() const = 0;
@@ -22,6 +20,30 @@ public:
 	virtual int GetRowHeight(int row) const = 0;
 
 	virtual int GetColumnWidth(int columns) const = 0;
+
+	int GetClientAreaX() const;
+
+	int GetClientAreaY() const;
+
+	int GetClientAreaW() const;
+
+	int GetClientAreaH() const;
+
+	void begin();
+
+	void end() override;
+
+	Fl_Widget* const* array();
+
+	Fl_Widget* child(int n) const;
+
+	int children() const;
+
+	int find(const Fl_Widget* wgt) const;
+
+	int find(const Fl_Widget& wgt) const;
+
+	void init_sizes();
 
 protected:
 

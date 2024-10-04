@@ -76,15 +76,15 @@ bool Grid::ApplyColumns(const GridPosition& columns)
 	return _allowColumnsIncrease;
 }
 
-void Grid::AddWidget(Fl_Widget* widget, int row, int column, Alignment::Type align)
+void Grid::Attach(Fl_Widget* widget, int row, int column, Alignment::Type align)
 {
-	AddWidget(widget,
+	Attach(widget,
 		GridPosition{ .start = row, .end = row },
 		GridPosition{ .start = column, .end = column },
 		align);
 }
 
-void Grid::AddWidget(Fl_Widget* widget,
+void Grid::Attach(Fl_Widget* widget,
 	const GridPosition& row,
 	const GridPosition& column,
 	Alignment::Type align)
@@ -152,16 +152,15 @@ int Grid::GetColumnWidth(int columns) const
 
 void Grid::AdjustLayout(int cx, int cy, int cw, int ch)
 {
-	Container::AdjustLayout(cx, cy, cw, ch);
-
+	BaseScrolledGrid::AdjustLayout(cx, cy, cw, ch);
 	RecalcArea();
 
 	if (_rows.size() == 0 || _columns.size() == 0) {
 		return;
 	}
 
-	auto sx = x() + Fl::box_dx(box()) + Fl::box_dx(GetArea()->box()) + margin().left - GetHScroll()->value();
-	auto sy = y() + Fl::box_dx(box()) + Fl::box_dx(GetArea()->box()) + margin().top - GetVScroll()->value();
+	auto sx = GetClientAreaX() - GetHScroll()->value();
+	auto sy = GetClientAreaY() - GetVScroll()->value();
 
 	for (auto item : _items)
 	{
