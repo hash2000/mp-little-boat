@@ -130,8 +130,8 @@ namespace FltkExt::Containers
 
 				auto p = _resizable->parent();
 				if (p) {
-					_resizable->parent()->resize(p->x(), p->y(), p->w(), p->h());
-					_resizable->parent()->redraw();
+					p->resize(p->x(), p->y(), p->w(), p->h());
+					p->redraw();
 				}
 
 			}

@@ -1,5 +1,6 @@
 #include <pch.h>
 #include <Poco/Util/Application.h>
+#include <memory>
 
 #include "Common/core/Kernel.h"
 #include "MainFrame.h"
@@ -33,9 +34,9 @@ private:
 	{
 		fl_message_hotspot(false);
 		fl_message_icon()->labelfont(FL_HELVETICA_BOLD);
-		MainFrame mainWnd;
-		mainWnd.resizable(mainWnd);
-		mainWnd.show();
+		auto mainWnd = std::make_unique<MainFrame>();
+		mainWnd->resizable(mainWnd.get());
+		mainWnd->show();
 //		struct Fl_Enable_Dark_Mode {
 //			Fl_Enable_Dark_Mode() {
 //#if _WIN32

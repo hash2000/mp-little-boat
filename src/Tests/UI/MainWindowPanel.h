@@ -176,6 +176,7 @@ public:
 
 		auto panel_center = new Panel{ 0, "center" };
 		panel_center->box(FL_UP_BOX);
+		panel_center->UseHeader(false);
 		panel_center->end();
 
 		layout->end();
