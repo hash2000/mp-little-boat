@@ -2,6 +2,7 @@
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Panel.h"
 #include "Libs/FltkExt/Containers/TabbedPanel.h"
+#include "Libs/FltkExt/Containers//Grid.h"
 #include "Libs/FltkExt/Containers/Layout.h"
 
 #include <FL/Fl_Tabs.H>
@@ -16,6 +17,7 @@ public:
 		: Fl_Double_Window(100, 100, 800, 600, "Test FLTK UI")
 	{
 		begin();
+		//CreatePanels1();
 		CreateTabPanel();
 		end();
 	}
@@ -87,13 +89,50 @@ public:
 		tabbed_panel_left->SetMinPanelSize(15);
 		{
 			tabbed_panel_left->AttachContent("first", [&]() {
-				auto btn1 = new Fl_Button(10, 10, 100, 16, "test1");
-				auto btn2 = new Fl_Button(10, 10, 100, 16, "test2");
-				auto btn3 = new Fl_Button(10, 10, 100, 16, "test3");
+				auto gr = new Grid{ 0, 0, 0, 0 };
+				gr->AllowRowsIncrease(true);
+				gr->AddRow(GridRow{ .height = 40, .gap = 5 });
+				gr->AddColumn(GridColumn{ .width = 80, .gap = 5 });
+				gr->AddColumn(GridColumn{ .width = 80, .gap = 5 });
+				gr->AddColumn(GridColumn{ .width = 80, .gap = 5 });
+				for (int i = 0; i < 100; i++)
+				{
+					{
+						auto b = new Fl_Button{ 0, 0, 70, 30, "left top" };
+						gr->Attach(b, i, 0, Alignment::Left | Alignment::Top);
+					}
+
+					{
+						auto b = new Fl_Button{ 0, 0, 70, 30, "left bottom" };
+						gr->Attach(b, i, 1, Alignment::Left | Alignment::Bottom);
+					}
+
+					{
+						auto b = new Fl_Button{ 0, 0, 70, 30, "fill" };
+						gr->Attach(b, i, 2, Alignment::Fill);
+					}
+				}
+
+				gr->end();
 				});
 
 			tabbed_panel_left->AttachContent("second", [&]() {
-				auto btn = new Fl_Button(0, 0, 100, 16, "test2");
+				auto gr = new Grid{ 0, 0, 0, 0 };
+				gr->AddRow(GridRow{ .height = 40, .gap = 5 });
+				gr->AddRow(GridRow{ .height = 30, .gap = 0 });
+				gr->AddRow(GridRow{ .height = 30, .gap = 5 });
+				gr->AddRow(GridRow{ .height = 40, .gap = 5 });
+
+				gr->AddColumn(GridColumn{ .width = 10, .gap = 5 });
+				gr->AddColumn(GridColumn{ .width = 80, .gap = 5 });
+
+				auto btn1 = new Fl_Button(0, 0, 0, 0, "test1");
+				gr->Attach(btn1, 1, 1, Alignment::Fill);
+
+				auto btn2 = new Fl_Button(0, 0, 0, 0, "test2");
+				gr->Attach(btn2, 2, 1, Alignment::Fill);
+
+				gr->end();
 				});
 
 			tabbed_panel_left->end();

@@ -127,10 +127,10 @@ namespace FltkExt::Containers
 		const int nc = children();
 		bool result = false;
 
-		if (_elements.size() != nc || !_elementsInitialized)
+		if (_elements.size() != nc)
 		{
 			result = true;
-			_elementsInitialized = true;
+			_elementsInitialized = false;
 			_elements.resize(nc);
 			for (int i = 0; i < nc; i++)
 			{
@@ -145,30 +145,33 @@ namespace FltkExt::Containers
 
 	void Flex::BeginLayout()
 	{
-		if (!InitElementsContent()) {
-			return;
-		}
+		InitElementsContent();
 
-		const int nc = children();
-
-		for (int i = 0; i < nc; i++)
+		if (!_elementsInitialized)
 		{
-			Fl_Widget* c = child(i);
-			auto pw = c->w();
-			auto ph = c->h();
+			_elementsInitialized = true;
 
-			Flex* flex = dynamic_cast<Flex*>(c);
-			if (flex != nullptr)
+			const int nc = children();
+
+			for (int i = 0; i < nc; i++)
 			{
-				if (flex->GetLayoutStrategy() == LayoutStrategy::Full) {
-					pw = 0;
-					ph = 0;
-				}
-			}
+				Fl_Widget* c = child(i);
+				auto pw = c->w();
+				auto ph = c->h();
 
-			auto el = _elements[i];
-			el->width = pw;
-			el->height = ph;
+				Flex* flex = dynamic_cast<Flex*>(c);
+				if (flex != nullptr)
+				{
+					if (flex->GetLayoutStrategy() == LayoutStrategy::Full) {
+						pw = 0;
+						ph = 0;
+					}
+				}
+
+				auto el = _elements[i];
+				el->width = pw;
+				el->height = ph;
+			}
 		}
 	}
 
