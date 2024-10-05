@@ -3,6 +3,7 @@
 #include "Libs/FltkExt/Containers/ContainerProps.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 #include "Libs/FltkExt/Containers/Splitter.h"
+#include <FL/Fl_Widget.H>
 #include <FL/Fl_Button.H>
 #include <string>
 #include <memory>
@@ -30,9 +31,23 @@ namespace FltkExt::Containers
 
 		void UseSplitter(bool use);
 
-		void AttachContent(std::function<void(Flex*)> proc);
+		void begin();
 
 		void end() override;
+
+		Fl_Widget* const* array();
+
+		Fl_Widget* child(int n) const;
+
+		int children() const;
+
+		int find(const Fl_Widget* wgt) const;
+
+		int find(const Fl_Widget& wgt) const;
+
+		void init_sizes();
+
+		void UseBounds(const Fl_Widget* widget, bool set);
 
 	protected:
 

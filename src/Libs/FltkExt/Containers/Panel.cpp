@@ -55,13 +55,8 @@ namespace FltkExt::Containers
 
 			_topFlex->end();
 		}
-	}
 
-	void Panel::AttachContent(std::function<void(Flex*)> proc)
-	{
 		_topContentFlex->begin();
-		proc(_topContentFlex.get());
-		_topContentFlex->end();
 	}
 
 	void Panel::UseHeader(bool use)
@@ -133,10 +128,53 @@ namespace FltkExt::Containers
 		return _docking;
 	}
 
+	void Panel::begin()
+	{
+		_topContentFlex->begin();
+	}
+
 	void Panel::end()
 	{
 		_topContentFlex->end();
 		Container::end();
 	}
+
+	void Panel::UseBounds(const Fl_Widget* widget, bool set)
+	{
+		_topContentFlex->UseBounds(widget, set);
+	}
+
+	Fl_Widget* const* Panel::array()
+	{
+		return _topContentFlex->array();
+	}
+
+	Fl_Widget* Panel::child(int n) const
+	{
+		return _topContentFlex->child(n);
+	}
+
+	int Panel::children() const
+	{
+		return _topContentFlex->children();
+	}
+
+	int Panel::find(const Fl_Widget* wgt) const
+	{
+		return _topContentFlex->find(wgt);
+	}
+
+	int Panel::find(const Fl_Widget& wgt) const
+	{
+		return _topContentFlex->find(wgt);
+	}
+
+	void Panel::init_sizes()
+	{
+		_topContentFlex->init_sizes();
+		_topContentFlex->redraw();
+	}
+
+
 
 }

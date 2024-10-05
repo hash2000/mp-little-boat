@@ -7,10 +7,8 @@ namespace FltkExt::Containers
 	TabbedPanel::TabbedPanel(int size, const char* l)
 		: Panel(size, l)
 	{
-		Panel::AttachContent([&](Flex* content) {
-			_tabs = std::make_unique<Fl_Tabs>(0, 0, w(), h());
-			content->UseBounds(_tabs.get(), false);
-			});
+		_tabs = std::make_unique<Fl_Tabs>(0, 0, w(), h());
+		UseBounds(_tabs.get(), false);
 	}
 
 	void TabbedPanel::AttachContent(const std::string& title, std::function<void()> proc)

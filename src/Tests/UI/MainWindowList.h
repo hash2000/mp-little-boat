@@ -27,52 +27,52 @@ private:
 			auto panel_left = new Panel{ 300, "left" };
 			//panel_left->box(FL_UP_BOX);
 
-			panel_left->AttachContent([&](Flex*)
+			panel_left->begin();
+			{
+				auto lv = new List{ 0, 0, 0, 0, Direction::Vert };
+				lv->box(FL_UP_BOX);
+				//lv->margin(Margin(10));
+				//lv->gap(5);
 				{
-					auto lv = new List{ 0, 0, 0, 0, Direction::Vert };
-					lv->box(FL_UP_BOX);
-					//lv->margin(Margin(10));
-					//lv->gap(5);
+					char title[20];
+					for (int i = 0; i < 10; i++)
 					{
-						char title[20];
-						for (int i = 0; i < 10; i++)
-						{
-							std::sprintf(title, "bt%d", i + 1);
+						std::sprintf(title, "bt%d", i + 1);
 
-							auto b = new Fl_Button{ 0, 0, 50, 30 };
-							b->copy_label(title);
+						auto b = new Fl_Button{ 0, 0, 50, 30 };
+						b->copy_label(title);
 
-						}
-
-						lv->end();
 					}
-				});
 
-			panel_left->end();
+					lv->end();
+				}
+
+				panel_left->end();
+			}
 
 			auto panel_bottom = new Panel{ 300, "botom" };
-			panel_bottom->AttachContent([&](Flex*)
+			panel_bottom->begin();
+			{
+				auto lv = new List{ 0, 0, 0, 0, Direction::Horz };
+				lv->box(FL_UP_BOX);
+				//lv->margin(Margin(10));
+				//lv->gap(5);
 				{
-					auto lv = new List{ 0, 0, 0, 0, Direction::Horz };
-					lv->box(FL_UP_BOX);
-					//lv->margin(Margin(10));
-					//lv->gap(5);
+					char title[20];
+					for (int i = 0; i < 10; i++)
 					{
-						char title[20];
-						for (int i = 0; i < 10; i++)
-						{
-							std::sprintf(title, "bt%d", i + 1);
+						std::sprintf(title, "bt%d", i + 1);
 
-							auto b = new Fl_Button{ 0, 0, 50, 30 };
-							b->copy_label(title);
+						auto b = new Fl_Button{ 0, 0, 50, 30 };
+						b->copy_label(title);
 
-						}
-
-						lv->end();
 					}
-				});
 
-			panel_bottom->end();
+					lv->end();
+				}
+
+				panel_bottom->end();
+			}
 
 			layout->Attach(panel_left, Docking::Left);
 			layout->Attach(panel_bottom, Docking::Bottom);
