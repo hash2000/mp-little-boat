@@ -71,8 +71,9 @@ namespace FltkExt::Data
 			return;
 		}
 
-		auto name = GetRecValue<std::string>(*it, "name", "");
-		auto align = GetAlignFromString(GetRecValue<std::string>(*it, "align", "center"));
+		auto model = *it;
+		auto name = model.GetValue<std::string>("name", "");
+		auto align = GetAlignFromString(model.GetValue<std::string>("align", "center"));
 
 		fl_push_clip(cx, cy, cw, ch);
 		{
@@ -120,13 +121,13 @@ namespace FltkExt::Data
 	{
 		begin();
 
-		col_resize(GetRecValue<bool>(props, "allow_columns_resizable", false) ? 1 : 0);
-		col_header(GetRecValue<bool>(props, "allow_column_header", false) ? 1 : 0);
-		col_header_height(GetRecValue<int>(props, "allow_column_height", 25));
+		col_resize(props.GetValue<bool>("allow_columns_resizable", false) ? 1 : 0);
+		col_header(props.GetValue<bool>("allow_column_header", false) ? 1 : 0);
+		col_header_height(props.GetValue<int>("allow_column_height", 25));
 
-		row_resize(GetRecValue<bool>(props, "allow_rows_resizable", false) ? 1 : 0);
-		row_header(GetRecValue<bool>(props, "allow_row_header", false) ? 1 : 0);
-		row_header_width(GetRecValue<int>(props, "allow_row_height", 80));
+		row_resize(props.GetValue<bool>("allow_rows_resizable", false) ? 1 : 0);
+		row_header(props.GetValue<bool>("allow_row_header", false) ? 1 : 0);
+		row_header_width(props.GetValue<int>("allow_row_height", 80));
 
 		end();
 	}
@@ -139,7 +140,7 @@ namespace FltkExt::Data
 		int index = 0;
 		for (auto field : model)
 		{
-			auto size = GetRecValue<int>(field, "size", 80);
+			auto size = field.GetValue<int>("size", 80);
 			col_width(index, size);
 			index++;
 		}
@@ -152,32 +153,27 @@ namespace FltkExt::Data
 		begin();
 
 		int cx, cy, cw, ch;
+		int col = 0;
 
 		for (auto recval : rec)
 		{
-			int col = 0;
-			Model::const_iterator field_iterator;
-			for (field_iterator = _model.begin(); field_iterator != _model.end(); field_iterator++, col++) {
-				auto fild_value = *field_iterator;
-				Rec::const_iterator field;
-				if ((field = fild_value.find("field")) != fild_value.end() && field->second == recval.first) {
-					break;
-				}
+			if (find_cell(CONTEXT_TABLE, row, col, cx, cy, cw, ch) != -1)
+			{
+				auto fieldText = recval.second.convert<std::string>();
+				auto box = new Fl_Box{ cx, cy, cw, ch };
+				box->copy_label(fieldText.c_str());
+				box->align(FL_ALIGN_CENTER | FL_ALIGN_INSIDE);
 			}
 
-			if (field_iterator == _model.end()) {
-				continue;
-			}
-
-			find_cell(CONTEXT_TABLE, row, col, cx, cy, cw, ch);
-			auto box = new Fl_Box{ cx, cy, cw, ch };
-			box->copy_label(recval.second.convert<std::string>().c_str());
-			box->align(FL_ALIGN_CENTER | FL_ALIGN_INSIDE);
+			col++;
 		}
 
 		end();
 	}
 
-
+	void DataTable::ClearRecodrs()
+	{
+		clear();
+	}
 
 }

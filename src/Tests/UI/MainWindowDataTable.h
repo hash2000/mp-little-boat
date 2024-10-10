@@ -3,6 +3,7 @@
 #include "Libs/FltkExt/Containers/Flex.h"
 #include "Libs/FltkExt/Data/DataStore.h"
 #include "Libs/FltkExt/Data/DataTable.h"
+#include <vector>
 
 using namespace FltkExt::Containers;
 using namespace FltkExt::Data;
@@ -56,7 +57,7 @@ public:
 					{ "name", "Name of person" },
 					{ "type", "string" },
 					{ "field", "Name" },
-					{ "size", 150 },
+					{ "size", 100 },
 					{ "align", "left" },
 				},
 				{
@@ -64,11 +65,13 @@ public:
 					{ "type", "datetime" },
 					{ "format", "yyyy-MM-dd HH:mm" },
 					{ "field", "BirthDate" },
+					{ "size", 250 },
 				},
 				{
 					{ "name", "Phone" },
 					{ "type", "string" },
 					{ "field", "PhoneNumber" },
+					{ "size", 120 },
 				},
 			});
 
@@ -76,20 +79,30 @@ public:
 
 	static void OnAddRecord(Fl_Widget*, void* data)
 	{
-		auto ds = (DataStore*)data;
-		ds->AddRecord({
-			{ "Name", "Tony Stark" },
-			{ "PhoneNumber", "+79994444444" },
-			{ "BirthDate", Poco::DateTime {1995, 8, 20, 10, 10} },
-			{ "Profession", "CEO of Stark Industries" }
-			});
+		static std::vector<FltkExt::Data::Rec> _records =
+		{
+			{
+				{ "Name", "Tony Stark" },
+				{ "PhoneNumber", "+79994444444" },
+				{ "BirthDate", Poco::DateTime {1995, 8, 20, 10, 10} },
+				{ "Profession", "CEO of Stark Industries" }
+			},
+			{
+				{ "Name", "Putin" },
+				{ "PhoneNumber", "+70000000000" },
+				{ "BirthDate", Poco::DateTime {1952, 10, 7, 10, 10} },
+				{ "Profession", "President of the Russian Federation" }
+			},
+		};
 
-		ds->AddRecord({
-			{ "Name", "Putin" },
-			{ "PhoneNumber", "+70000000000" },
-			{ "BirthDate", Poco::DateTime {1952, 10, 7, 10, 10} },
-			{ "Profession", "President of the Russian Federation" }
-			});
+		static int _recordNum = 0;
+
+		auto ds = (DataStore*)data;
+		ds->AddRecord(_records[_recordNum++]);
+
+		if (_recordNum >= _records.size()) {
+			_recordNum = 0;
+		}
 	}
 
 private:

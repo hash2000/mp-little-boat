@@ -19,6 +19,12 @@ namespace FltkExt::Data
 
 		void AddRecord(const Rec& rec);
 
+		void ClearRecodrs();
+
+	private:
+
+		void ReorderRecordModel(const Rec& rec, Rec& newRec);
+
 	private:
 
 		std::list<Listener> _listeners;

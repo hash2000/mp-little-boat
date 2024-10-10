@@ -32,23 +32,61 @@ namespace FltkExt::Data
 	{
 		_model = model;
 
+		auto records = _records;
+		ClearRecodrs();
+
 		for (auto list : _listeners) {
 			list->ApplyModel(_model);
 		}
+
+		for (auto rec : records) {
+			Rec newRec;
+			ReorderRecordModel(rec, newRec);
+			AddRecord(newRec);
+			_records.push_back(newRec);
+		}
 	}
 
-	const Model & DataStore::GetModel() const
+	const Model& DataStore::GetModel() const
 	{
 		return _model;
 	}
 
-	void DataStore::AddRecord(const Rec& rec)
+	void DataStore::ReorderRecordModel(const Rec& rec, Rec& newRec)
 	{
-		_records.push_back(rec);
+		for (auto item : _model)
+		{
+			auto name = item.GetValue<std::string>("field", std::string());
+			if (name.size() == 0) {
+				continue;
+			}
 
-		for (auto list : _listeners) {
-			list->ApplyRecord(rec);
+			auto recIt = rec.FindField(name);
+			if (recIt == rec.end()) {
+				continue;
+			}
+
+			newRec.push_back(*recIt);
 		}
 	}
 
+	void DataStore::AddRecord(const Rec& rec)
+	{
+		Rec newRec;
+		ReorderRecordModel(rec, newRec);
+
+		_records.push_back(newRec);
+
+		for (auto list : _listeners) {
+			list->ApplyRecord(newRec);
+		}
+	}
+
+	void DataStore::ClearRecodrs()
+	{
+		_records.clear();
+		for (auto list : _listeners) {
+			list->ClearRecodrs();
+		}
+	}
 }

@@ -22,6 +22,8 @@ namespace FltkExt::Data
 
 		void ApplyRecord(const Rec& rec) override;
 
+		void ClearRecodrs() override;
+
 	protected:
 
 		void draw_cell(TableContext context, int r, int c, int cx, int cy, int cw, int ch) override;
