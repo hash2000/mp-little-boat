@@ -88,7 +88,7 @@ public:
 				{ "Profession", "CEO of Stark Industries" }
 			},
 			{
-				{ "Name", "Putin" },
+				{ "Name", "Путин В. В." },
 				{ "PhoneNumber", "+70000000000" },
 				{ "BirthDate", Poco::DateTime {1952, 10, 7, 10, 10} },
 				{ "Profession", "President of the Russian Federation" }

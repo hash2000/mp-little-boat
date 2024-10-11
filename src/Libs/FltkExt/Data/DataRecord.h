@@ -21,10 +21,12 @@ namespace FltkExt::Data
 		Rec() {
 		}
 
-		Rec(std::initializer_list<list_type> list) : std::list<list_type>(list) {
+		Rec(std::initializer_list<list_type> list)
+			: std::list<list_type>(list) {
 		}
 
-		Rec(const std::list<list_type>& right) : std::list<list_type>(right) {
+		Rec(const std::list<list_type>& right)
+			: std::list<list_type>(right) {
 		}
 
 		const_iterator FindField(const std::string& field) const {
@@ -44,6 +46,13 @@ namespace FltkExt::Data
 			}
 			return defaultValue;
 		}
+
+		void SetMeta(const Rec& meta) {
+			_meta = std::make_shared<Rec>(meta);
+		}
+
+	private:
+		std::shared_ptr<Rec> _meta;
 	};
 
 	using Props = Rec;
