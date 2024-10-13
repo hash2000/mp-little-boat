@@ -63,7 +63,7 @@ public:
 				{
 					{ "name", "Birth date" },
 					{ "type", "datetime" },
-					{ "format", "yyyy-MM-dd HH:mm" },
+					{ "format", "%Y-%m-%d %H:%M" },
 					{ "field", "BirthDate" },
 					{ "size", 250 },
 				},

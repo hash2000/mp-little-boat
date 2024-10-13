@@ -6,6 +6,7 @@
 #include <FL/Fl_Table.H>
 #include "Libs/FltkExt/Data/IDataListener.h"
 #include <string>
+#include <vector>
 
 namespace FltkExt::Data
 {
@@ -30,6 +31,20 @@ namespace FltkExt::Data
 
 	private:
 
+		enum class FieldType {
+			Undefined,
+			String,
+			DateTime
+		};
+
+		struct Field {
+			std::string name;
+			std::string format;
+			FieldType type;
+			int size;
+			Fl_Align align;
+		};
+
 		void OnColumnOrRowResized(int r, int c);
 
 		void OnDrawRowHeader(int r, int cx, int cy, int cw, int ch);
@@ -38,8 +53,9 @@ namespace FltkExt::Data
 
 		Fl_Align GetAlignFromString(const std::string& name, Fl_Align defaultAlign = FL_ALIGN_CENTER) const;
 
-	private:
+		FieldType GetFieldTypeFromString(const std::string& name, FieldType defaultType = FieldType::String) const;
 
-		Model _model;
+	private:
+		std::vector<Field> _fields;
 	};
 }

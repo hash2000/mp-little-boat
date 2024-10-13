@@ -46,13 +46,6 @@ namespace FltkExt::Data
 			}
 			return defaultValue;
 		}
-
-		void SetMeta(const Rec& meta) {
-			_meta = std::make_shared<Rec>(meta);
-		}
-
-	private:
-		std::shared_ptr<Rec> _meta;
 	};
 
 	using Props = Rec;

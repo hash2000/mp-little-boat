@@ -66,20 +66,13 @@ namespace FltkExt::Data
 
 	void DataTable::OnDrawColumnHeader(int c, int cx, int cy, int cw, int ch)
 	{
-		auto it = std::next(_model.begin(), c);
-		if (it == _model.end()) {
-			return;
-		}
-
-		auto model = *it;
-		auto name = model.GetValue<std::string>("name", "");
-		auto align = GetAlignFromString(model.GetValue<std::string>("align", "center"));
+		const Field& model = _fields[c];
 
 		fl_push_clip(cx, cy, cw, ch);
 		{
 			fl_draw_box(FL_THIN_UP_BOX, cx, cy, cw, ch, col_header_color());
 			fl_color(FL_BLACK);
-			fl_draw(name.c_str(), cx, cy, cw, ch, align);
+			fl_draw(model.name.c_str(), cx, cy, cw, ch, model.align);
 		}
 		fl_pop_clip();
 	}
@@ -117,6 +110,18 @@ namespace FltkExt::Data
 		return defaultAlign;
 	}
 
+	DataTable::FieldType DataTable::GetFieldTypeFromString(const std::string& name, FieldType defaultType) const
+	{
+		if (name == "string") {
+			return FieldType::String;
+		}
+		else if (name == "datetime") {
+			return FieldType::DateTime;
+		}
+
+		return defaultType;
+	}
+
 	void DataTable::ApplyProperties(const Props& props)
 	{
 		begin();
@@ -134,14 +139,26 @@ namespace FltkExt::Data
 
 	void DataTable::ApplyModel(const Model& model)
 	{
-		_model = model;
-		cols(_model.size());
+		cols(model.size());
+		_fields.clear();
+		_fields.reserve(model.size());
 
 		int index = 0;
 		for (auto field : model)
 		{
 			auto size = field.GetValue<int>("size", 80);
+			auto align = field.GetValue<std::string>("align", "");
 			col_width(index, size);
+
+			_fields.push_back(Field
+				{
+					.name = field.GetValue<std::string>("name", ""),
+					.format = field.GetValue<std::string>("format", ""),
+					.type = GetFieldTypeFromString(field.GetValue<std::string>("type", "string"), FieldType::String),
+					.size = size,
+					.align = GetAlignFromString(align),
+				});
+
 			index++;
 		}
 	}
@@ -159,10 +176,27 @@ namespace FltkExt::Data
 		{
 			if (find_cell(CONTEXT_TABLE, row, col, cx, cy, cw, ch) != -1)
 			{
-				auto fieldText = recval.second.convert<std::string>();
+				const Field& model = _fields[col];
+				std::string fieldText;
+
+				if (model.type == FieldType::DateTime)
+				{
+					if (model.format.size() > 0) {
+						auto value = recval.second.convert<Poco::DateTime>();
+						fieldText = Poco::DateTimeFormatter::format(value, model.format);
+					}
+					else {
+						fieldText = recval.second.convert<std::string>();
+					}
+				}
+				else if (model.type == FieldType::String)
+				{
+					fieldText = recval.second.convert<std::string>();
+				}
+
 				auto box = new Fl_Box{ cx, cy, cw, ch };
 				box->copy_label(fieldText.c_str());
-				box->align(FL_ALIGN_CENTER | FL_ALIGN_INSIDE);
+				box->align(model.align | FL_ALIGN_INSIDE);
 			}
 
 			col++;
