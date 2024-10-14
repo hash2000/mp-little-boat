@@ -82,16 +82,32 @@ public:
 		static std::vector<FltkExt::Data::Rec> _records =
 		{
 			{
-				{ "Name", "Tony Stark" },
-				{ "PhoneNumber", "+79994444444" },
-				{ "BirthDate", Poco::DateTime {1995, 8, 20, 10, 10} },
+				{ "Name", "Иванов И. И." },
+				{ "RussianName", "Иванов И. И." },
+				{ "PhoneNumber", "+70000000000" },
+				{ "BirthDate", Poco::DateTime {1952, 10, 7, 10, 20} },
+				{ "Profession", "Какойто мужик на стройке" }
+			},
+			{
+				{ "Name", "김 리" },
+				{ "RussianName", "Ким Ли" },
+				{ "PhoneNumber", "+70000000001" },
+				{ "BirthDate", Poco::DateTime {1982, 1, 8, 12, 20} },
+				{ "Profession", "Директор завода торпедных катеров" }
+			},
+			{
+				{ "Name", "王丽" },
+				{ "RussianName", "Ван Ли" },
+				{ "PhoneNumber", "+70000000002" },
+				{ "BirthDate", Poco::DateTime {1995, 8, 20, 22, 10} },
 				{ "Profession", "CEO of Stark Industries" }
 			},
 			{
-				{ "Name", "Путин В. В." },
-				{ "PhoneNumber", "+70000000000" },
-				{ "BirthDate", Poco::DateTime {1952, 10, 7, 10, 10} },
-				{ "Profession", "President of the Russian Federation" }
+				{ "Name", "Tony Stark" },
+				{ "RussianName", "Тони Старк" },
+				{ "PhoneNumber", "+79994444444" },
+				{ "BirthDate", Poco::DateTime {1995, 8, 20, 0, 0} },
+				{ "Profession", "CEO of Stark Industries" }
 			},
 		};
 
