@@ -43,7 +43,7 @@ namespace FltkExt::Data
 			Rec newRec;
 			ReorderRecordModel(rec, newRec);
 			AddRecord(newRec);
-			_records.push_back(newRec);
+			_records.push_back(rec);
 		}
 	}
 
@@ -75,7 +75,8 @@ namespace FltkExt::Data
 		Rec newRec;
 		ReorderRecordModel(rec, newRec);
 
-		_records.push_back(newRec);
+		// сохраняем оригинальную запись.
+		_records.push_back(rec);
 
 		for (auto list : _listeners) {
 			list->ApplyRecord(newRec);
