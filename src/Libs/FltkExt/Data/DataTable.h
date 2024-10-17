@@ -1,5 +1,6 @@
 #pragma once
 #include <FL/Fl.H>
+#include <FL/Fl_Widget.H>
 #include <FL/Fl_Light_Button.H>
 #include <FL/Fl_Input.H>
 #include <FL/fl_draw.H>
@@ -57,5 +58,9 @@ namespace FltkExt::Data
 
 	private:
 		std::vector<Field> _fields;
+
+		struct {
+			int labelOffset = 0;
+		} _columns;
 	};
 }

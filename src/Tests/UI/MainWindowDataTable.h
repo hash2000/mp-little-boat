@@ -43,12 +43,13 @@ public:
 		_data->Append(_table);
 		_data->SetProperties(
 			{
-				{ "allow_column_header", true },
-				{ "allow_column_height", 25 },
-				{ "allow_columns_resizable", true },
-				{ "allow_row_header", true },
-				{ "allow_row_height", 80 },
-				{ "allow_rows_resizable", true },
+				{ "columns-allow-header", true },
+				{ "columns-height", 25 },
+				{ "columns-allow-resizable", true },
+				{ "columns-label-offset", 5 },
+				{ "rows-allow-header", true },
+				{ "rows-height", 80 },
+				{ "rows-allow-resizable", true },
 			});
 
 		_data->SetModel(

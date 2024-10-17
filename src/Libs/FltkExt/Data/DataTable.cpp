@@ -72,7 +72,7 @@ namespace FltkExt::Data
 		{
 			fl_draw_box(FL_THIN_UP_BOX, cx, cy, cw, ch, col_header_color());
 			fl_color(FL_BLACK);
-			fl_draw(model.name.c_str(), cx, cy, cw, ch, model.align);
+			fl_draw(model.name.c_str(), cx + _columns.labelOffset, cy, cw, ch, model.align);
 		}
 		fl_pop_clip();
 	}
@@ -126,13 +126,14 @@ namespace FltkExt::Data
 	{
 		begin();
 
-		col_resize(props.GetValue<bool>("allow_columns_resizable", false) ? 1 : 0);
-		col_header(props.GetValue<bool>("allow_column_header", false) ? 1 : 0);
-		col_header_height(props.GetValue<int>("allow_column_height", 25));
+		col_resize(props.GetValue<bool>("columns-allow-resizable", false) ? 1 : 0);
+		col_header(props.GetValue<bool>("columns-allow-header", false) ? 1 : 0);
+		col_header_height(props.GetValue<int>("columns-height", 25));
+		_columns.labelOffset = props.GetValue<int>("columns-label-offset", 0);
 
-		row_resize(props.GetValue<bool>("allow_rows_resizable", false) ? 1 : 0);
-		row_header(props.GetValue<bool>("allow_row_header", false) ? 1 : 0);
-		row_header_width(props.GetValue<int>("allow_row_height", 80));
+		row_resize(props.GetValue<bool>("rows-allow-resizable", false) ? 1 : 0);
+		row_header(props.GetValue<bool>("rows-allow-header", false) ? 1 : 0);
+		row_header_width(props.GetValue<int>("rows-height", 80));
 
 		end();
 	}
@@ -150,14 +151,14 @@ namespace FltkExt::Data
 			auto align = field.GetValue<std::string>("align", "");
 			col_width(index, size);
 
-			_fields.push_back(Field
-				{
-					.name = field.GetValue<std::string>("name", ""),
-					.format = field.GetValue<std::string>("format", ""),
-					.type = GetFieldTypeFromString(field.GetValue<std::string>("type", "string"), FieldType::String),
-					.size = size,
-					.align = GetAlignFromString(align),
-				});
+			Field newField;			
+			newField.name = field.GetValue<std::string>("name", "");
+			newField.format = field.GetValue<std::string>("format", "");
+			newField.type = GetFieldTypeFromString(field.GetValue<std::string>("type", "string"), FieldType::String);
+			newField.size = size;
+			newField.align = GetAlignFromString(align);			
+
+			_fields.push_back(newField);
 
 			index++;
 		}
@@ -178,6 +179,7 @@ namespace FltkExt::Data
 			{
 				const Field& model = _fields[col];
 				std::string fieldText;
+				Fl_Widget* cell = nullptr;
 
 				if (model.type == FieldType::DateTime)
 				{
@@ -194,9 +196,9 @@ namespace FltkExt::Data
 					fieldText = recval.second.convert<std::string>();
 				}
 
-				auto box = new Fl_Box{ cx, cy, cw, ch };
-				box->copy_label(fieldText.c_str());
-				box->align(model.align | FL_ALIGN_INSIDE);
+				cell = new Fl_Box{ cx, cy, cw, ch };
+				cell->copy_label(fieldText.c_str());
+				cell->align(model.align | FL_ALIGN_INSIDE);
 			}
 
 			col++;
