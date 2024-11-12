@@ -218,17 +218,17 @@ public:
 		progress1.color2(FL_SELECTION_COLOR);
 
 		for (auto item : { "basic", "plastic", "gtk+", "gleam" })
-			scheme_choice.add(item);
-		scheme_choice.value(0);
-		scheme_choice.callback([](Fl_Widget* sender, void* window) {
-			reinterpret_cast<MainWindowFltkThemes*>(window)->update_theme_and_mode();
+				scheme_choice.add(item);
+				scheme_choice.value(0);
+				scheme_choice.callback([](Fl_Widget* sender, void* window) {
+				reinterpret_cast<MainWindowFltkThemes*>(window)->update_theme_and_mode();
 			}, this);
 
 		for (auto item : { "default", "light", "dark", "white", "black", "red", "green", "blue" })
-			scheme_mode_choice.add(item);
-		scheme_mode_choice.value(0);
-		scheme_mode_choice.callback([](Fl_Widget* sender, void* window) {
-			reinterpret_cast<MainWindowFltkThemes*>(window)->update_theme_and_mode();
+				scheme_mode_choice.add(item);
+				scheme_mode_choice.value(0);
+				scheme_mode_choice.callback([](Fl_Widget* sender, void* window) {
+				reinterpret_cast<MainWindowFltkThemes*>(window)->update_theme_and_mode();
 			}, this);
 	}
 

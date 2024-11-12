@@ -17,6 +17,7 @@
 #include <FL/Fl_Toggle_Button.H>
 #include <FL/Fl_Tooltip.H>
 #include <FL/Fl_Menu_.H>
+#include <FL/Fl_Menu_Button.H>
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Check_Browser.H>
 #include <FL/Fl_Dial.H>

@@ -5,6 +5,7 @@
 #include "Libs/FltkExt/Containers//Grid.h"
 #include "Libs/FltkExt/Containers/Layout.h"
 #include "Libs/FltkExt/Controls/DateTimePicker.h"
+#include "Libs/FltkExt/Controls/Picker.h"
 
 using namespace FltkExt::Containers;
 using namespace FltkExt::Controls;
@@ -16,12 +17,44 @@ public:
 	MainWindowPickers()
 		: Fl_Window(800, 500, "Test FLTK UI")
 	{
-		auto fl = new Flex{ 0, 0, w(), h(), Direction::Horz };
-		fl->margin(Margin{ 10 });
-		fl->gap(10);
+		auto fl = new Flex{ 0, 0, w(), h(), Direction::Vert };
+		fl->SetLayoutStrategy(LayoutStrategy::Full);
 		{
-			auto dp = new DateTimePicker{0, 0, 200, 22};
-			dp->SetDateTime(Poco::DateTime{ 2024, 10, 17, 18, 30, 57 });
+
+			auto fh = new Flex{ 0, 0, 40, 40, Direction::Horz };
+			fh->margin(Margin{ 10 });
+			fh->gap(10);
+			{
+				auto dp = new DateTimePicker{ 0, 0, 150, 22 };
+				dp->SetDateTime(Poco::DateTime{ 2024, 10, 17, 18, 30, 57 });
+
+				auto mb = new Fl_Menu_Button{ 0, 0, 100, 22, "Menu btn" };
+				mb->add("test1");
+				mb->add("test2");
+				mb->add("test3");
+				mb->add("test4");
+
+				auto btPicker = new Fl_Button(0, 0, 100, 22, "picker");
+				btPicker->callback([](Fl_Widget* widget, void* data)
+					{
+						Fl_Button* thisBtn = (Fl_Button*)data;					
+						Picker::GetInstance()->Do(
+							thisBtn,
+							thisBtn->x(),
+							thisBtn->y() + thisBtn->h());
+						
+					}, btPicker);
+
+				auto btPickerEnd = new Fl_Button(0, 0, 100, 22, "end picker");
+				btPickerEnd->callback([](Fl_Widget* widget, void* data)
+					{
+						Fl_Button* thisBtn = (Fl_Button*)data;
+						Picker::GetInstance()->EndPicker();
+
+					}, btPickerEnd);
+
+				fh->end();
+			}
 
 			fl->end();
 		}

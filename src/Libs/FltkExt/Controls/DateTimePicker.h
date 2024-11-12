@@ -1,8 +1,7 @@
 #pragma once
 #include <FL/Fl.H>
-#include <FL/Fl_Text_Display.H>
-#include <FL/Fl_Text_Buffer.H>
-#include <FL/Fl_Button.H>
+#include <FL/Fl_Input.H>
+#include <FL/Fl_Menu_Button.H>
 #include <Poco/DateTime.h>
 #include "Libs/FltkExt/Containers/Flex.h"
 #include <memory>
@@ -25,10 +24,9 @@ namespace FltkExt::Controls
 
 	public:
 		Poco::DateTime _date;
-		std::string _mask = "%Y-%m-%d";
-		std::unique_ptr<Fl_Text_Buffer> _text;
-		std::unique_ptr<Fl_Text_Display> _edit;
-		std::unique_ptr<Fl_Button> _picker;
+		std::string _mask = "%Y.%m.%d";
+		std::unique_ptr<Fl_Input> _text;
+		std::unique_ptr<Fl_Menu_Button> _picker;
 	};
 }
 
