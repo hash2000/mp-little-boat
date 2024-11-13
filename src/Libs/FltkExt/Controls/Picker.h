@@ -15,17 +15,19 @@ namespace FltkExt::Controls
 
 	class Picker : public Fl_Menu_Window
 	{
-	private:
+	public:
 		Picker();
 
-	public:
-
-		static Picker* GetInstance();
+		virtual ~Picker();
 
 	public:
-		PickerResult Do(Fl_Widget* owner, int cx, int cy);
+		PickerResult PoolDown(Fl_Widget* owner, int cw, int ch);
 
 		void EndPicker();
+
+		bool IsEventInside();
+
+		void SetPickerResult(PickerResult result);
 
 	protected:
 

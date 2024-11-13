@@ -37,21 +37,10 @@ public:
 				auto btPicker = new Fl_Button(0, 0, 100, 22, "picker");
 				btPicker->callback([](Fl_Widget* widget, void* data)
 					{
-						Fl_Button* thisBtn = (Fl_Button*)data;					
-						Picker::GetInstance()->Do(
-							thisBtn,
-							thisBtn->x(),
-							thisBtn->y() + thisBtn->h());
+						Fl_Button* thisBtn = (Fl_Button*)data;
+						std::make_shared<Picker>()->PoolDown(thisBtn, 300, 320);
 						
 					}, btPicker);
-
-				auto btPickerEnd = new Fl_Button(0, 0, 100, 22, "end picker");
-				btPickerEnd->callback([](Fl_Widget* widget, void* data)
-					{
-						Fl_Button* thisBtn = (Fl_Button*)data;
-						Picker::GetInstance()->EndPicker();
-
-					}, btPickerEnd);
 
 				fh->end();
 			}

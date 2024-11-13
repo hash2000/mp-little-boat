@@ -1,27 +1,22 @@
 #include "Picker.h"
+#include <iostream>
 
 namespace FltkExt::Controls
 {
 	Picker::Picker()
 		: Fl_Menu_Window(0, 0, 0, 0, nullptr)
 	{
-		end();
 		set_modal();
 		clear_border();
 		set_menu_window();
 		box(FL_UP_BOX);
 	}
 
-	Picker* Picker::GetInstance()
+	Picker::~Picker()
 	{
-		static Picker* _instance;
-		if (!_instance) {
-			_instance = new Picker();
-		}
-		return _instance;
 	}
 
-	PickerResult Picker::Do(Fl_Widget* owner, int cx, int cy)
+	PickerResult Picker::PoolDown(Fl_Widget* owner, int cw, int ch)
 	{
 		if (!owner) {
 			return PickerResult::OnCancel;
@@ -31,6 +26,9 @@ namespace FltkExt::Controls
 
 		Fl_Group::current(0);
 		Fl_Widget_Tracker wp(owner);
+
+		int cx = owner->x();
+		int cy = owner->y() + owner->h();
 
 		if (owner && owner->window())
 		{
@@ -45,7 +43,7 @@ namespace FltkExt::Controls
 			cy += Fl::event_y_root() - Fl::event_y();
 		}
 
-		resize(cx, cy, owner->w(), owner->h());
+		resize(cx, cy, cw, ch);
 		Fl::grab(this);
 
 		while (true)
@@ -70,14 +68,32 @@ namespace FltkExt::Controls
 		return _result;
 	}
 
+	bool Picker::IsEventInside()
+	{
+		int cx = Fl::event_x();
+		int cy = Fl::event_y();
+		if (cx < 0 || cx >= w() ||
+			cy < 0 || cy >= h()) {
+			return false;
+		}
+
+		return true;
+	}
+
 	int Picker::handle(int event)
 	{
+		int cx = Fl::event_x();
+		int cy = Fl::event_y();
+
 		switch (event)
 		{
 		case FL_RELEASE:
-			_result = PickerResult::OnCancel;
-			return 1;
+			if (!IsEventInside()) {
+				_result = PickerResult::OnCancel;
+				return 1;
+			}
 		}
+
 		return Fl_Menu_Window::handle(event);
 	}
 
@@ -90,6 +106,12 @@ namespace FltkExt::Controls
 		}
 
 		Fl::grab(nullptr);
+	}
+
+	void Picker::SetPickerResult(PickerResult result)
+	{
+		_result = result;
+		redraw();
 	}
 
 }
