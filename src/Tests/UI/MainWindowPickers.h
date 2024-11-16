@@ -38,7 +38,7 @@ public:
 				btPicker->callback([](Fl_Widget* widget, void* data)
 					{
 						Fl_Button* thisBtn = (Fl_Button*)data;
-						std::make_shared<Picker>()->PoolDown(thisBtn, 300, 320);
+						std::make_shared<Picker>(300, 320)->PoolDown(thisBtn);
 						
 					}, btPicker);
 

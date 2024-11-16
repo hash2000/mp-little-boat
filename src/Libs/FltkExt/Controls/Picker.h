@@ -16,12 +16,12 @@ namespace FltkExt::Controls
 	class Picker : public Fl_Menu_Window
 	{
 	public:
-		Picker();
+		Picker(int cw, int ch);
 
 		virtual ~Picker();
 
 	public:
-		PickerResult PoolDown(Fl_Widget* owner, int cw, int ch);
+		PickerResult PoolDown(Fl_Widget* owner);
 
 		void EndPicker();
 

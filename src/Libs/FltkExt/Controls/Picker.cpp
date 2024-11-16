@@ -3,8 +3,8 @@
 
 namespace FltkExt::Controls
 {
-	Picker::Picker()
-		: Fl_Menu_Window(0, 0, 0, 0, nullptr)
+	Picker::Picker(int cw, int ch)
+		: Fl_Menu_Window(0, 0, cw, ch, nullptr)
 	{
 		set_modal();
 		clear_border();
@@ -17,7 +17,7 @@ namespace FltkExt::Controls
 	{
 	}
 
-	PickerResult Picker::PoolDown(Fl_Widget* owner, int cw, int ch)
+	PickerResult Picker::PoolDown(Fl_Widget* owner)
 	{
 		if (!owner) {
 			return PickerResult::OnCancel;
@@ -44,7 +44,7 @@ namespace FltkExt::Controls
 			cy += Fl::event_y_root() - Fl::event_y();
 		}
 
-		resize(cx, cy, cw, ch);
+		resize(cx, cy, w(), h());
 		Fl::grab(this);
 
 		while (true)
