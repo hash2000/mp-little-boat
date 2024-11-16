@@ -10,6 +10,7 @@ namespace FltkExt::Controls
 		clear_border();
 		set_menu_window();
 		box(FL_UP_BOX);
+		begin();
 	}
 
 	Picker::~Picker()

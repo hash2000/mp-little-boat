@@ -1,4 +1,5 @@
 #include "DateTimePicker.h"
+#include "DateTimePickerView.h"
 #include "Resources/Icons.h"
 #include <Poco/DateTimeFormatter.h>
 
@@ -16,10 +17,11 @@ namespace FltkExt::Controls
 		_text = std::make_unique<Fl_Input>(0, 0, 0, 0);
 		_text->readonly(1);
 		_text->box(FL_THIN_DOWN_BOX);
-		_picker = std::make_unique<Fl_Menu_Button>(0, 0, ch, ch);
-		_picker->add("1", 0, [](Fl_Widget* sender, void* data) {
-			auto me = (DateTimePicker*)data;
-			}, this, 0);
+		_pickerBtn = std::make_unique<Fl_Button>(0, 0, ch, ch);
+		_pickerBtn->callback([](Fl_Widget* widget, void* data) {
+			auto btn = (Fl_Button*)data;
+			std::make_unique<DateTimePickerView>()->PoolDown(btn, 300, 320);
+			}, _pickerBtn.get());
 
 		end();
 	}
