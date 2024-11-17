@@ -19,9 +19,9 @@ namespace FltkExt::Controls
 		_text->box(FL_THIN_DOWN_BOX);
 		_pickerBtn = std::make_unique<Fl_Button>(0, 0, ch, ch);
 		_pickerBtn->callback([](Fl_Widget* widget, void* data) {
-			auto btn = (Fl_Button*)data;
-			std::make_unique<DateTimePickerView>(300, 320)->PoolDown(btn);
-			}, _pickerBtn.get());
+			auto me = (DateTimePicker*)data;
+			std::make_unique<DateTimePickerView>(me->_date)->PoolDown(me->_pickerBtn.get());
+			}, this);
 
 		end();
 	}

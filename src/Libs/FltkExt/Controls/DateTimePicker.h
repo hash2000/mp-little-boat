@@ -22,7 +22,7 @@ namespace FltkExt::Controls
 
 		void ResetData();
 
-	public:
+	private:
 		Poco::DateTime _date;
 		std::string _mask = "%Y.%m.%d";
 		std::unique_ptr<Fl_Input> _text;
