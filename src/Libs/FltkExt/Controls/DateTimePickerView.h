@@ -6,6 +6,7 @@
 #include "Libs/FltkExt/Containers/Flex.h"
 #include "Libs/FltkExt/Containers/Margin.h"
 #include "Libs/FltkExt/Controls/DateTimeSettings.h"
+#include "Libs/FltkExt/Controls/DateTimePickerButton.h"
 #include <memory>
 #include <vector>
 #include <Poco/DateTime.h>
@@ -25,8 +26,14 @@ namespace FltkExt::Controls
 	public:
 		DateTimePickerView(const Poco::DateTime& date);
 
+		Poco::DateTime GetDate() const;
+
 	private:
-		void ResetDates();
+		void ResetDates(const Poco::DateTime& date, const Poco::DateTime selectedDate);
+
+		Poco::Timespan GetMonthSpan() const;
+
+		void SetDate(const Poco::DateTime& date);
 
 	private:
 		std::unique_ptr<Flex> _mainFlex;
@@ -37,7 +44,7 @@ namespace FltkExt::Controls
 		std::unique_ptr<Flex> _weeksFlex;
 		std::vector<std::unique_ptr<Fl_Box>> _weeks;
 		std::vector<std::unique_ptr<Flex>> _datesLines;
-		std::vector<std::unique_ptr<Fl_Button>> _dates;
+		std::vector<std::unique_ptr<DateTimePickerButton>> _dates;
 		Poco::DateTime _date;
 	};
 

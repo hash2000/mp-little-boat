@@ -47,6 +47,8 @@ namespace FltkExt::Controls
 		resize(cx, cy, w(), h());
 		Fl::grab(this);
 
+		_result = PickerResult::Initialized;
+
 		while (true)
 		{
 			if (!shown()) {
@@ -100,8 +102,6 @@ namespace FltkExt::Controls
 
 	void Picker::EndPicker()
 	{
-		_result = PickerResult::Initialized;
-
 		if (shown()) {
 			hide();
 		}
