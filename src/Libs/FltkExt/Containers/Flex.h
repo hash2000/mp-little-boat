@@ -11,6 +11,8 @@ namespace FltkExt::Containers
 
 		Flex(int cx, int cy, int cw, int ch, Direction direction, PushPosition position = PushPosition::Start);
 
+		Flex(int size, Direction direction, PushPosition position = PushPosition::Start);
+
 		int gap() const;
 
 		void gap(int size);

@@ -6,6 +6,7 @@
 #include "Libs/FltkExt/Containers/Layout.h"
 #include "Libs/FltkExt/Controls/DateTimePicker.h"
 #include "Libs/FltkExt/Controls/Picker.h"
+#include <chrono>
 
 using namespace FltkExt::Containers;
 using namespace FltkExt::Controls;
@@ -26,7 +27,8 @@ public:
 			fh->gap(10);
 			{
 				auto dp = new DateTimePicker{ 0, 0, 150, 22 };
-				dp->SetDateTime(Poco::DateTime{ 2024, 10, 17, 18, 30, 57 });
+
+				dp->SetDateTime(Poco::DateTime());
 
 				auto mb = new Fl_Menu_Button{ 0, 0, 100, 22, "Menu btn" };
 				mb->add("test1");
@@ -38,7 +40,7 @@ public:
 				btPicker->callback([](Fl_Widget* widget, void* data)
 					{
 						Fl_Button* thisBtn = (Fl_Button*)data;
-						std::make_shared<Picker>()->PoolDown(thisBtn, 300, 320);
+						std::make_shared<Picker>(300, 320)->PoolDown(thisBtn);
 						
 					}, btPicker);
 

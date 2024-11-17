@@ -17,6 +17,18 @@ namespace FltkExt::Containers
 		begin();
 	}
 
+	Flex::Flex(int size, Direction direction, PushPosition position)
+		: Container(0, 0, size, size)
+		, _gap(0)
+		, _direction(direction)
+		, _position(position)
+		, _layoutStraategy(LayoutStrategy::ByDirection)
+	{
+		_size = size;
+		type((int)direction);
+		begin();
+	}
+
 	void Flex::AdjustLayout(int cx, int cy, int cw, int ch)
 	{
 		BeginLayout();
