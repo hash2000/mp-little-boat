@@ -4,16 +4,23 @@ namespace FltkExt::Controls
 {
 	namespace
 	{
-		static const int ViewSize = 170;
-		static const int BoxSize = 20;
+		static const int ViewWidth = 200;
+		static const int ViewHeight = 225;
+		static const int BoxSize = 25;
 		static const int BoxHeaderGap = 2;
 		static const int BoxGap = 2;
 		static const int HeaderMargin = 5;
+		static const Fl_Boxtype ButtonBoxDefault = FL_UP_BOX;
+		static const Fl_Boxtype ButtonDownBoxDefault = FL_NO_BOX;
 		static const Fl_Boxtype ButtonBox = FL_THIN_UP_FRAME;
+		static const Fl_Boxtype ButtonBoxCurrentDate = FL_BORDER_BOX;
+		static const Fl_Boxtype ButtonDownBoxCurrentDate = FL_DOWN_FRAME;
+		static const Fl_Boxtype ButtonBoxAnotherMonth = FL_NO_BOX;
+		static const Fl_Boxtype ButtonDownBoxAnotherMonth = FL_DOWN_FRAME;
 	}
 
 	DateTimePickerView::DateTimePickerView(const Poco::DateTime& date)
-		: Picker(ViewSize, ViewSize)
+		: Picker(ViewWidth, ViewHeight)
 		, _date(date)
 	{
 		auto weekList = WeekView::GetList();
@@ -57,18 +64,19 @@ namespace FltkExt::Controls
 				_weeksFlex->end();
 			}
 
-			_datesLines.resize(7);
+			_datesLines.resize(6);
 			_dates.resize(_datesLines.size() * weekList.size());
-
 
 			for (int line = 0; line < _datesLines.size(); line++)
 			{
 				auto lineFlex = std::make_unique<Flex>(BoxSize, Direction::Horz);
 				lineFlex->gap(BoxGap);
 
-				for (int weekid = 0 ; weekid < 7; weekid++)
+				for (int weekid = 0 ; weekid < weekList.size(); weekid++)
 				{
-					auto week = weekList[weekid];
+					auto dateid = line * weekList.size() + weekid;
+					auto btnDate = std::make_unique<Fl_Button>(0, 0, BoxSize, BoxSize);
+					_dates[dateid] = std::move(btnDate);
 				}
 
 				lineFlex->end();
@@ -76,6 +84,48 @@ namespace FltkExt::Controls
 			}
 
 			_mainFlex->end();
+		}
+
+		ResetDates();
+	}
+
+	void DateTimePickerView::ResetDates()
+	{
+		auto weekList = WeekView::GetList();
+		auto currentDayOfWeek = _date.dayOfWeek() - 1;
+		currentDayOfWeek = currentDayOfWeek < 0 ? 6 : currentDayOfWeek;
+		auto currentDay = _date.day();
+		auto currentLine = (currentDay % weekList.size()) - 1;
+		auto currentDate = _date;
+		currentDate -= Poco::Timespan{ (int)(currentLine * weekList.size() + currentDayOfWeek), 0, 0, 0, 0 };
+
+		for (int line = 0; line < _datesLines.size(); line++)
+		{
+			for (int weekid = 0; weekid < weekList.size(); weekid++)
+			{
+				auto week = weekList[weekid];
+				auto dateid = line * weekList.size() + weekid;
+				auto day = currentDate.day();
+				auto month = currentDate.month();
+				currentDate += Poco::Timespan{ 1, 0, 0, 0, 0 };
+
+				auto btnDate = _dates[dateid].get();
+				btnDate->labelcolor(week->GetColor());
+				btnDate->copy_label(std::to_string(day).c_str());
+
+				if (currentDate.month() != _date.month()) {
+					btnDate->box(ButtonBoxAnotherMonth);
+					btnDate->down_box(ButtonDownBoxAnotherMonth);
+				}
+				else if (currentDate == _date) {
+					btnDate->box(ButtonBoxCurrentDate);
+					btnDate->down_box(ButtonDownBoxCurrentDate);
+				}
+				else {
+					btnDate->box(ButtonBox);
+					btnDate->down_box(ButtonDownBoxDefault);
+				}
+			}
 		}
 	}
 

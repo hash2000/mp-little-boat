@@ -27,9 +27,13 @@ namespace FltkExt::Controls
 
 		bool IsEventInside();
 
+	protected:
+
 		void SetPickerResult(PickerResult result);
 
-	protected:
+		void OnOk();
+
+		void OnCancel();
 
 		int handle(int event) override;
 

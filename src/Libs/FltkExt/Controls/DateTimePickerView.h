@@ -26,6 +26,9 @@ namespace FltkExt::Controls
 		DateTimePickerView(const Poco::DateTime& date);
 
 	private:
+		void ResetDates();
+
+	private:
 		std::unique_ptr<Flex> _mainFlex;
 		std::unique_ptr<Flex> _headerFlex;
 		std::unique_ptr<Fl_Button> _nextMonth;

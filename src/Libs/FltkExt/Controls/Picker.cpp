@@ -115,4 +115,14 @@ namespace FltkExt::Controls
 		redraw();
 	}
 
+	void Picker::OnOk()
+	{
+		SetPickerResult(PickerResult::OnOk);
+	}
+
+	void Picker::OnCancel()
+	{
+		SetPickerResult(PickerResult::OnCancel);
+	}
+
 }
