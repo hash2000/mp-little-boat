@@ -29,11 +29,15 @@ namespace FltkExt::Controls
 		Poco::DateTime GetDate() const;
 
 	private:
-		void ResetDates(const Poco::DateTime& date, const Poco::DateTime selectedDate);
+		void ResetDates(const Poco::DateTime& date);
 
 		Poco::Timespan GetMonthSpan() const;
 
 		void SetDate(const Poco::DateTime& date);
+
+		Poco::DateTime GetViewDate() const;
+
+		void SetViewDate(const Poco::DateTime& date);
 
 	private:
 		std::unique_ptr<Flex> _mainFlex;
@@ -46,6 +50,7 @@ namespace FltkExt::Controls
 		std::vector<std::unique_ptr<Flex>> _datesLines;
 		std::vector<std::unique_ptr<DateTimePickerButton>> _dates;
 		Poco::DateTime _date;
+		Poco::DateTime _viewDate;
 	};
 
 }

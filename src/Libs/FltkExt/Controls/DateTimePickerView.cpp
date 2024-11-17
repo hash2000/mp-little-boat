@@ -7,6 +7,7 @@ namespace FltkExt::Controls
 	DateTimePickerView::DateTimePickerView(const Poco::DateTime& date)
 		: Picker(Settings::Views::ViewWidth, Settings::Views::ViewHeight)
 		, _date(date)
+		, _viewDate(date)
 	{
 		auto weekList = WeekView::GetList();
 
@@ -25,9 +26,10 @@ namespace FltkExt::Controls
 					{
 						auto me = (Fl_Button*)widget;
 						auto view = (DateTimePickerView*)data;
-						auto selectedDate = view->GetDate();
-						auto datespan = selectedDate + view->GetMonthSpan();
-						view->ResetDates(datespan, selectedDate);
+						auto selectedDate = view->GetViewDate();
+						auto newdate = selectedDate + view->GetMonthSpan();
+						view->SetViewDate(newdate);
+						view->ResetDates(newdate);
 					}, this);
 
 				_prevMonth = std::make_unique<Fl_Button>(0, 0, Settings::Views::BoxSize, Settings::Views::BoxSize);
@@ -37,9 +39,10 @@ namespace FltkExt::Controls
 					{
 						auto me = (Fl_Button*)widget;
 						auto view = (DateTimePickerView*)data;
-						auto selectedDate = view->GetDate();
-						auto datespan = selectedDate - view->GetMonthSpan();
-						view->ResetDates(datespan, selectedDate);
+						auto selectedDate = view->GetViewDate();
+						auto newdate = selectedDate - view->GetMonthSpan();
+						view->SetViewDate(newdate);
+						view->ResetDates(newdate);
 					}, this);
 
 				_headerLabel = std::make_unique<Fl_Box>(0, 0, 0, Settings::Views::BoxSize);
@@ -94,10 +97,10 @@ namespace FltkExt::Controls
 			_mainFlex->end();
 		}
 
-		ResetDates(_date, _date);
+		ResetDates(_date);
 	}
 
-	void DateTimePickerView::ResetDates(const Poco::DateTime& date, const Poco::DateTime selectedDate)
+	void DateTimePickerView::ResetDates(const Poco::DateTime& date)
 	{
 		auto weekList = WeekView::GetList();
 		auto firstDayOfMonth = Poco::DateTime{ date.year(), date.month(), 1 };
@@ -116,7 +119,7 @@ namespace FltkExt::Controls
 			{
 				auto dateid = line * weekList.size() + weekid;
 				auto btnDate = _dates[dateid].get();
-				btnDate->SetDate(currentDate, selectedDate, _date);
+				btnDate->SetDate(currentDate, _viewDate, _date);
 				currentDate += Poco::Timespan{ 1, 0, 0, 0, 0 };
 			}
 		}
@@ -126,12 +129,22 @@ namespace FltkExt::Controls
 
 	Poco::Timespan DateTimePickerView::GetMonthSpan() const
 	{
-		return Poco::Timespan{ Poco::DateTime::daysOfMonth(_date.year(), _date.month()), 0, 0, 0, 0 };
+		return Poco::Timespan{ Poco::DateTime::daysOfMonth(_viewDate.year(), _viewDate.month()), 0, 0, 0, 0 };
 	}
 
 	void DateTimePickerView::SetDate(const Poco::DateTime& date)
 	{
 		_date = date;
+	}
+
+	Poco::DateTime DateTimePickerView::GetViewDate() const
+	{
+		return _viewDate;
+	}
+
+	void DateTimePickerView::SetViewDate(const Poco::DateTime& date)
+	{
+		_viewDate = date;
 	}
 
 	Poco::DateTime DateTimePickerView::GetDate() const
