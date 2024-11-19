@@ -1,17 +1,16 @@
-message(STATUS "Test UI Build")
+message(STATUS "KitchenSink Build")
 
-set(TestUI-Sources
-	${LittleBoat_SOURCE_DIR}/Tests/UI/	
+set(KitchenSink-Sources
+	${LittleBoat_SOURCE_DIR}/KitchenSink/	
 )
 
-file(GLOB_RECURSE SRCS ${TestUI-Sources}/*.cpp)
-add_executable(TestUI
+file(GLOB_RECURSE SRCS ${KitchenSink-Sources}/*.cpp)
+add_executable(KitchenSink
 	${SRCS}
 )
 
 if (WIN32)
-message(STATUS "Navigator OS_WINDOWS")
-	target_compile_definitions(TestUI
+	target_compile_definitions(KitchenSink
 		PRIVATE
 			UNICODE
 			_UNICODE
@@ -36,7 +35,7 @@ message(STATUS "Navigator OS_WINDOWS")
 	#)
 endif()
 
-target_link_libraries(TestUI
+target_link_libraries(KitchenSink
 	PRIVATE
 		Poco::Foundation
 		Poco::Util
@@ -51,7 +50,7 @@ target_link_libraries(TestUI
 		LibFltkExt
 )
 
-target_include_directories(TestUI
+target_include_directories(KitchenSink
 	PUBLIC
-		${TestUI-Sources}		
+		${KitchenSink-Sources}		
 )
