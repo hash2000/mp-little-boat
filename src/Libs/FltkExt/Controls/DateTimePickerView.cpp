@@ -46,7 +46,9 @@ namespace FltkExt::Controls
 					}, this);
 
 				_headerLabel = std::make_unique<Fl_Box>(0, 0, 0, Settings::Views::BoxSize);
-
+				_headerLabel->box(FL_FLAT_BOX);
+				_headerLabel->align(FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE | FL_ALIGN_CLIP);
+				_headerLabel->labelcolor(fl_darker(FL_BLUE));
 
 				_headerFlex->end();
 			}
@@ -123,6 +125,8 @@ namespace FltkExt::Controls
 				currentDate += Poco::Timespan{ 1, 0, 0, 0, 0 };
 			}
 		}
+
+		_headerLabel->copy_label(Poco::DateTimeFormatter::format(_viewDate, "%Y.%m").c_str());
 
 		redraw();
 	}
