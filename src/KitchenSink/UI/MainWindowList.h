@@ -6,14 +6,18 @@
 #include "Libs/FltkExt/Containers/List.h"
 #include <sstream>
 
-using namespace FltkExt::Containers;
-
-
-
 class MainWindowList : public Fl_Double_Window
 {
+	using Layout = FltkExt::Containers::Layout;
+	using Panel = FltkExt::Containers::Panel;
+	using List = FltkExt::Containers::List;
+	using Direction = FltkExt::Containers::Direction;
+	using LayoutStrategy = FltkExt::Containers::LayoutStrategy;
+	using Docking = FltkExt::Containers::Docking;
+
 public:
-	MainWindowList() : Fl_Double_Window(100, 100, 800, 600, "Test FLTK UI")
+	MainWindowList(const char* label)
+		: Fl_Double_Window(100, 100, 800, 600, label)
 	{
 		CreateList();
 	}

@@ -8,15 +8,17 @@
 #include "Libs/FltkExt/Controls/Picker.h"
 #include <chrono>
 
-using namespace FltkExt::Containers;
-using namespace FltkExt::Controls;
-using namespace FltkExt::Data;
-
 class MainWindowPickers : public Fl_Window
 {
+	using Picker = FltkExt::Controls::Picker;
+	using DateTimePicker = FltkExt::Controls::DateTimePicker;
+	using Direction = FltkExt::Containers::Direction;
+	using LayoutStrategy = FltkExt::Containers::LayoutStrategy;
+	using Margin = FltkExt::Containers::Margin;
+	using Flex = FltkExt::Containers::Flex;
 public:
-	MainWindowPickers()
-		: Fl_Window(800, 500, "Test FLTK UI")
+	MainWindowPickers(const char* label)
+		: Fl_Window(800, 500, label)
 	{
 		auto fl = new Flex{ 0, 0, w(), h(), Direction::Vert };
 		fl->SetLayoutStrategy(LayoutStrategy::Full);

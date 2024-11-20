@@ -4,7 +4,7 @@
 class MainWindowFltkSlider : public Fl_Window
 {
 public:
-	MainWindowFltkSlider() : Fl_Window(100, 100, 800, 600, "Test FLTK UI")
+	MainWindowFltkSlider(const char* label) : Fl_Window(100, 100, 800, 600, label)
 	{
 		hor_slider1.maximum(100);
 		hor_slider1.callback(on_value_changed, &box1);

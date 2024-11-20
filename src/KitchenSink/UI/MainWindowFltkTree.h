@@ -40,8 +40,8 @@ struct SortedTreeUserData {
 class MainWindowFltkTree : public Fl_Double_Window
 {
 public:
-	MainWindowFltkTree()
-		: Fl_Double_Window(800, 600, "Test FLTK UI")
+	MainWindowFltkTree(const char* label)
+		: Fl_Double_Window(800, 600, label)
 	{
 
 		//TreeAsContainerTest();
