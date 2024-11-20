@@ -5,14 +5,17 @@
 #include "Libs/FltkExt/Data/DataTable.h"
 #include <vector>
 
-using namespace FltkExt::Containers;
-using namespace FltkExt::Data;
-
 class MainWindowDataTable : public Fl_Double_Window
 {
+	using DataStore = FltkExt::Data::DataStore;
+	using DataTable = FltkExt::Data::DataTable;
+	using Direction = FltkExt::Containers::Direction;
+	using LayoutStrategy = FltkExt::Containers::LayoutStrategy;
+	using Flex = FltkExt::Containers::Flex;
+	using Margin = FltkExt::Containers::Margin;
 public:
-	MainWindowDataTable()
-		: Fl_Double_Window(800, 500, "Test FLTK UI")
+	MainWindowDataTable(const char* label)
+		: Fl_Double_Window(800, 500, label)
 	{
 		_data = std::make_unique<DataStore>();
 

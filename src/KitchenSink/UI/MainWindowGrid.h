@@ -4,13 +4,21 @@
 #include "Libs/FltkExt/Containers/Grid.h"
 #include <sstream>
 
-using namespace FltkExt::Containers;
-
-
 class MainWindowGrid : public Fl_Double_Window
 {
+	using Direction = FltkExt::Containers::Direction;
+	using LayoutStrategy = FltkExt::Containers::LayoutStrategy;
+	using Flex = FltkExt::Containers::Flex;
+	using PushPosition = FltkExt::Containers::PushPosition;
+	using Margin = FltkExt::Containers::Margin;
+	using Grid = FltkExt::Containers::Grid;
+	using GridRow = FltkExt::Containers::GridRow;
+	using GridColumn = FltkExt::Containers::GridColumn;
+	using GridPosition = FltkExt::Containers::GridPosition;
+	using Alignment = FltkExt::Containers::Alignment;
+
 public:
-	MainWindowGrid() : Fl_Double_Window(100, 100, 800, 600, "Test FLTK UI")
+	MainWindowGrid(const char* label) : Fl_Double_Window(100, 100, 800, 600, label)
 	{
 		CreateFlexAndGrid();
 	}

@@ -2,7 +2,6 @@
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 
-using namespace FltkExt::Containers;
 
 class MyGroup : public Fl_Group
 {
@@ -19,8 +18,14 @@ public:
 
 class MainWindowFlex : public Fl_Window
 {
+	using Direction = FltkExt::Containers::Direction;
+	using LayoutStrategy = FltkExt::Containers::LayoutStrategy;
+	using Flex = FltkExt::Containers::Flex;
+	using PushPosition = FltkExt::Containers::PushPosition;
+	using Margin = FltkExt::Containers::Margin;
+
 public:
-	MainWindowFlex() : Fl_Window(100, 100, 800, 600, "Test FLTK UI")
+	MainWindowFlex(const char* label) : Fl_Window(100, 100, 800, 600, label)
 	{
 		CreateTestToolbar();
 	}

@@ -69,6 +69,26 @@ namespace FltkExt::Containers
 		}
 	}
 
+	void Panel::UsePinButton(bool use)
+	{
+		if (use) {
+			_pinButton->show();
+		}
+		else {
+			_pinButton->hide();
+		}
+	}
+
+	void Panel::UseHideButton(bool use)
+	{
+		if (use) {
+			_hideButton->show();
+		}
+		else {
+			_hideButton->hide();
+		}
+	}
+
 	void Panel::UseSplitter(bool use)
 	{
 		if (use) {

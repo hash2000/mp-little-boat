@@ -7,14 +7,24 @@
 
 #include <FL/Fl_Tabs.H>
 
-using namespace FltkExt::Containers;
-
-
 class MainWindowPanel : public Fl_Double_Window
 {
+	using Direction = FltkExt::Containers::Direction;
+	using LayoutStrategy = FltkExt::Containers::LayoutStrategy;
+	using Margin = FltkExt::Containers::Margin;
+	using Docking = FltkExt::Containers::Docking;
+	using Alignment = FltkExt::Containers::Alignment;
+	using TabbedPanel = FltkExt::Containers::TabbedPanel;
+	using Panel = FltkExt::Containers::Panel;
+	using Layout = FltkExt::Containers::Layout;
+	using Flex = FltkExt::Containers::Flex;
+	using Grid = FltkExt::Containers::Grid;
+	using GridRow = FltkExt::Containers::GridRow;
+	using GridColumn = FltkExt::Containers::GridColumn;
+	using GridPosition = FltkExt::Containers::GridPosition;
 public:
-	MainWindowPanel()
-		: Fl_Double_Window(100, 100, 800, 600, "Test FLTK UI")
+	MainWindowPanel(const char* label)
+		: Fl_Double_Window(100, 100, 800, 600, label)
 	{
 		begin();
 		//CreatePanels1();

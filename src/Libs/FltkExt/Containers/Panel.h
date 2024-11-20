@@ -29,6 +29,10 @@ namespace FltkExt::Containers
 
 		void UseHeader(bool use);
 
+		void UsePinButton(bool use);
+
+		void UseHideButton(bool use);
+
 		void UseSplitter(bool use);
 
 		void begin();

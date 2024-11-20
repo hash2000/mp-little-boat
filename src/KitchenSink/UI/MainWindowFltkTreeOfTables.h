@@ -96,7 +96,7 @@ public:
 class MainWindowFltkTreeOfTables : public Fl_Double_Window
 {
 public:
-	MainWindowFltkTreeOfTables() : Fl_Double_Window(100, 100, 800, 600, "Test FLTK UI")
+	MainWindowFltkTreeOfTables(const char* label) : Fl_Double_Window(100, 100, 800, 600, label)
 	{
 		begin();
 		{
