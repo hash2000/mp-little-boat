@@ -1,4 +1,3 @@
-#include <pch.h>
 #include "Toolbar.h"
 #include "Resources/Icons.h"
 

@@ -28,17 +28,4 @@ class MainWindowFFMpeg : public Fl_Double_Window
 public:
 	MainWindowFFMpeg(const char* label);
 
-public:
-
-	void pgm_save(unsigned char* buf, int wrap, int xsize, int ysize,
-		const char* filename);
-
-	void decode(AVCodecContext* dec_ctx, AVFrame* frame, AVPacket* pkt);
-
-	void InitializeFFMpeg();
-
-private:
-	std::string _path = "C:/Users/infin/Downloads/video_2024-11-20_19-44-50.mp4";
-	std::string _pathDecoded = "C:/Users/infin/Downloads/video";
-
 };

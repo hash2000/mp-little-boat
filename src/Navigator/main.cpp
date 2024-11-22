@@ -1,4 +1,6 @@
-#include <pch.h>
+#include <FL/Fl.H>
+#include <FL/fl_draw.H>
+#include <FL/fl_ask.H>
 #include <Poco/Util/Application.h>
 #include <memory>
 

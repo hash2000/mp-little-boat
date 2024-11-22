@@ -1,4 +1,3 @@
-#include <pch.h>
 #include "FilesData.h"
 
 void FilesData::AppendTable(TablePtr table)

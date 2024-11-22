@@ -1,4 +1,3 @@
-#include <pch.h>
 #include "FilesTable.h"
 
 FilesTable::FilesTable(int cx, int cy, int cw, int ch)

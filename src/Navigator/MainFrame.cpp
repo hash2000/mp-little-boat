@@ -1,4 +1,3 @@
-#include <pch.h>
 #include "MainFrame.h"
 
 MainFrame::MainFrame()

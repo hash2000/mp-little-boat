@@ -1,4 +1,3 @@
-#include <pch.h>
 #include "FilesPanel.h"
 #include "FilesTable.h"
 #include "FilesData.h"
