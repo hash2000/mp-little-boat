@@ -12,6 +12,7 @@
 #include "KitchenSink/UI/MainWindowList.h"
 #include "KitchenSink/UI/MainWindowDataTable.h"
 #include "KitchenSink/UI/MainWindowPickers.h"
+#include "KitchenSink/UI/MainWindowFFMpeg.h"
 #include <Poco/String.h>
 #include <Poco/StringTokenizer.h>
 
@@ -89,6 +90,7 @@ void KitchenSinkWindow::PopulateSamplesTree()
 	_samplesTree->add("fltkext/Containers/List");
 	_samplesTree->add("fltkext/Containers/Panels");
 	_samplesTree->add("fltkext/Controls/Pickers");
+	_samplesTree->add("fltkext/Video/FFMpeg");
 }
 
 void KitchenSinkWindow::RunSample(const std::string& name)
@@ -136,7 +138,9 @@ void KitchenSinkWindow::RunSample(const std::string& name)
 	else if (trimName == "fltkext/Controls/Pickers") {
 		_currentSample->CreateSample<MainWindowPickers>(name);
 	}
-
+	else if (trimName == "fltkext/Video/FFMpeg") {
+		_currentSample->CreateSample<MainWindowFFMpeg>(name);
+	}
 }
 
 void KitchenSinkWindow::CloseCurrentSample()

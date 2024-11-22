@@ -43,6 +43,8 @@ target_link_libraries(KitchenSink
 		Poco::NetSSL
 		Poco::Crypto
 
+		${FFMPEG_LIBRARIES}
+
 		fltk fltk_gl
 		fltk_forms
 		fltk_images
@@ -52,5 +54,5 @@ target_link_libraries(KitchenSink
 
 target_include_directories(KitchenSink
 	PUBLIC
-		${KitchenSink-Sources}		
+		${KitchenSink-Sources}
 )

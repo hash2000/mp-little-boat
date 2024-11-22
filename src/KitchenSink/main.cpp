@@ -10,5 +10,6 @@ int main(int argc, char** argv)
 	auto wnd = KitchenSinkWindow{};
 	wnd.resizable(wnd);
 	wnd.show();
+	wnd.RunSample("fltkext/Video/FFMpeg");
 	return Fl::run();
 }

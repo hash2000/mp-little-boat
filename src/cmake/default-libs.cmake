@@ -11,3 +11,4 @@ include(${CMAKE_TOOLCHAIN_FILE})
 
 include("cmake/libs/poco.cmake")
 include("cmake/libs/fltk.cmake")
+include("cmake/libs/ffmpeg.cmake")

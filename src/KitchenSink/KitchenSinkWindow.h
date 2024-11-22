@@ -20,12 +20,12 @@ class KitchenSinkWindow : public Fl_Double_Window
 public:
 	KitchenSinkWindow();
 
+	void RunSample(const std::string& name);
+
 private:
 	void CreateSamplesTree();
 
 	void PopulateSamplesTree();
-
-	void RunSample(const std::string& name);
 
 	void CloseCurrentSample();
 

@@ -1,0 +1,4 @@
+find_package(FFMPEG REQUIRED)
+# target_include_directories(main PRIVATE ${FFMPEG_INCLUDE_DIRS})
+# target_link_directories(main PRIVATE ${FFMPEG_LIBRARY_DIRS})
+# target_link_libraries(main PRIVATE ${FFMPEG_LIBRARIES})
