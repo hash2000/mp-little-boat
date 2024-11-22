@@ -1,25 +1,24 @@
-message(STATUS "Generate ModuleContainer")
+message(STATUS "Generate ModStreamingContainer")
 
 
-set(ModModuleContainer-Sources
-	${LittleBoat_SOURCE_DIR}/Modules/ModuleContainer/
+set(ModStreamingContainer-Sources
+	${LittleBoat_SOURCE_DIR}/Modules/StreamingContainer/
+	${LittleBoat_SOURCE_DIR}/Modules/StreamingContainer/private/
 )
 
-include_directories(
-	${LittleBoat_SOURCE_DIR}/Modules/ModuleContainer/framework
-)
-
-file(GLOB_RECURSE SRCS ${ModModuleContainer-Sources}/*.cpp)
-add_library(ModModuleContainer
+file(GLOB_RECURSE SRCS ${ModStreamingContainer-Sources}/*.cpp)
+add_library(ModStreamingContainer
 	${SRCS}
 )
 
-target_link_libraries(ModModuleContainer
+target_link_libraries(ModStreamingContainer
 	PRIVATE
 		Poco::Foundation
+
+		${FFMPEG_LIBRARIES}
 )
 
-target_include_directories(ModModuleContainer
+target_include_directories(ModStreamingContainer
 	PUBLIC
-		${ModModuleContainer-Sources}
+		${ModStreamingContainer-Sources}
 )

@@ -1,12 +1,8 @@
-message(STATUS "Generate ModuleContainer")
+message(STATUS "Generate ModModuleContainer")
 
 
 set(ModModuleContainer-Sources
 	${LittleBoat_SOURCE_DIR}/Modules/ModuleContainer/
-)
-
-include_directories(
-	${LittleBoat_SOURCE_DIR}/Modules/ModuleContainer/framework
 )
 
 file(GLOB_RECURSE SRCS ${ModModuleContainer-Sources}/*.cpp)

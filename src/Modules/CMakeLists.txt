@@ -1,1 +1,2 @@
 add_subdirectory(ModuleContainer)
+add_subdirectory(StreamingContainer)

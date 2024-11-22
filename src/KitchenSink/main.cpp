@@ -31,6 +31,11 @@ private:
 
 	void InternalMain(const ArgVec& args)
 	{
+
+	}
+
+	void RunMainFrame()
+	{
 		fl_message_hotspot(false);
 		fl_message_icon()->labelfont(FL_HELVETICA_BOLD);
 		auto mainWnd = std::make_unique<KitchenSinkWindow>();
