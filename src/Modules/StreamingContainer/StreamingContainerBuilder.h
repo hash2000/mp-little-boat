@@ -1,7 +1,7 @@
 #pragma once
 #include "Modules/ModuleContainer/IModuleContainerBuilder.h"
 
-class StreamingContainerBuilder
+class StreamingContainerBuilder : public IModuleContainerBuilder
 {
 public:
 	virtual ~StreamingContainerBuilder() = default;

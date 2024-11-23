@@ -18,6 +18,25 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #endif()
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
+list(APPEND CompilerDefinationsList
+	UNICODE
+	_UNICODE
+	_CRT_SECURE_NO_WARNINGS
+	NOMINMAX
+	NDEBUG
+)
+
+if (WIN32)
+	list(APPEND CompilerDefinationsList
+		_WIN32
+		WIN32_LEAN_AND_MEAN
+		WIN32_NO_STATUS
+		WINVER=0x0a00
+		_WIN32_WINNT=0x0a00
+		_MSC_BUILD
+	)
+endif()
+
 #if(WIN32)
 #    # When we build statically (MT):
 #    if(NOT BUILD_SHARED_LIBS)

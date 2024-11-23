@@ -11,6 +11,8 @@ add_library(ModStreamingContainer
 	${SRCS}
 )
 
+target_compile_definitions(ModModuleContainer PRIVATE CompilerDefinationsList)
+
 target_link_libraries(ModStreamingContainer
 	PRIVATE
 		Poco::Foundation

@@ -10,6 +10,8 @@ add_library(ModModuleContainer
 	${SRCS}
 )
 
+target_compile_definitions(ModModuleContainer PRIVATE CompilerDefinationsList)
+
 target_link_libraries(ModModuleContainer
 	PRIVATE
 		Poco::Foundation
