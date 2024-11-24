@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Tree.H>
@@ -40,7 +41,7 @@ struct SortedTreeUserData {
 class MainWindowFltkTree : public Fl_Double_Window
 {
 public:
-	MainWindowFltkTree(const char* label)
+	MainWindowFltkTree(const char* label, const Ioc::Kernel& kernel)
 		: Fl_Double_Window(800, 600, label)
 	{
 

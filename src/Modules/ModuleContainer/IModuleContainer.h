@@ -5,9 +5,6 @@
 class IModuleContainer
 {
 public:
-	static std::shared_ptr<IModuleContainer> Make();
-
-public:
 	virtual ~IModuleContainer() = default;
 
 	virtual void Initialize() = 0;

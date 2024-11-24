@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 #include "Libs/FltkExt/Data/DataStore.h"
@@ -14,7 +15,7 @@ class MainWindowDataTable : public Fl_Double_Window
 	using Flex = FltkExt::Containers::Flex;
 	using Margin = FltkExt::Containers::Margin;
 public:
-	MainWindowDataTable(const char* label)
+	MainWindowDataTable(const char* label, const Ioc::Kernel& kernel)
 		: Fl_Double_Window(800, 500, label)
 	{
 		_data = std::make_unique<DataStore>();

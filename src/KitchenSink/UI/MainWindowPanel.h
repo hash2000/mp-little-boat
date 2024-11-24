@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Panel.h"
 #include "Libs/FltkExt/Containers/TabbedPanel.h"
@@ -23,7 +24,7 @@ class MainWindowPanel : public Fl_Double_Window
 	using GridColumn = FltkExt::Containers::GridColumn;
 	using GridPosition = FltkExt::Containers::GridPosition;
 public:
-	MainWindowPanel(const char* label)
+	MainWindowPanel(const char* label, const Ioc::Kernel& kernel)
 		: Fl_Double_Window(100, 100, 800, 600, label)
 	{
 		begin();

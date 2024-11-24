@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 #include "Libs/FltkExt/Containers/Layout.h"
@@ -16,7 +17,7 @@ class MainWindowList : public Fl_Double_Window
 	using Docking = FltkExt::Containers::Docking;
 
 public:
-	MainWindowList(const char* label)
+	MainWindowList(const char* label, const Ioc::Kernel& kernel)
 		: Fl_Double_Window(100, 100, 800, 600, label)
 	{
 		CreateList();

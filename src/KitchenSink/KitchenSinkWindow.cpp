@@ -16,8 +16,9 @@
 #include <Poco/String.h>
 #include <Poco/StringTokenizer.h>
 
-KitchenSinkWindow::KitchenSinkWindow()
+KitchenSinkWindow::KitchenSinkWindow(const Ioc::Kernel& kernel)
 	: Fl_Double_Window(800, 600, "KitchenSink")
+	, _kernel(kernel)
 {
 	_currentSample = std::make_unique<CurrentSample>();
 
@@ -70,7 +71,7 @@ void KitchenSinkWindow::CreateSamplesTree()
 				std::string pathname;
 				pathname.resize(256);
 				me->item_pathname(&pathname[0], sizeof(pathname), item);
-				window->RunSample(pathname);
+				window->RunSample(pathname, window->_kernel);
 			}
 			}
 
@@ -93,7 +94,7 @@ void KitchenSinkWindow::PopulateSamplesTree()
 	_samplesTree->add("fltkext/Video/FFMpeg");
 }
 
-void KitchenSinkWindow::RunSample(const std::string& name)
+void KitchenSinkWindow::RunSample(const std::string& name, const Ioc::Kernel& kernel)
 {
 	if (!_currentSample || _currentSample->_name == name) {
 		return;
@@ -106,40 +107,40 @@ void KitchenSinkWindow::RunSample(const std::string& name)
 	trimName.resize(tromNameLen);
 
 	if (trimName == "fltk/Slider") {
-		_currentSample->CreateSample<MainWindowFltkSlider>(name);
+		_currentSample->CreateSample<MainWindowFltkSlider>(name, kernel);
 	}
 	else if (trimName == "fltk/Table") {
-		_currentSample->CreateSample<MainWindowFltkTable>(name);
+		_currentSample->CreateSample<MainWindowFltkTable>(name, kernel);
 	}
 	else if (trimName == "fltk/TextBuffer") {
-		_currentSample->CreateSample<MainWindowFltkTextBuffer>(name);
+		_currentSample->CreateSample<MainWindowFltkTextBuffer>(name, kernel);
 	}
 	else if (trimName == "fltk/TextEditor") {
-		_currentSample->CreateSample<MainWindowFltkTextEditor>(name);
+		_currentSample->CreateSample<MainWindowFltkTextEditor>(name, kernel);
 	}
 	else if (trimName == "fltk/Themes") {
-		_currentSample->CreateSample<MainWindowFltkThemes>(name);
+		_currentSample->CreateSample<MainWindowFltkThemes>(name, kernel);
 	}
 	else if (trimName == "fltk/Trees/Tree") {
-		_currentSample->CreateSample<MainWindowFltkTree>(name);
+		_currentSample->CreateSample<MainWindowFltkTree>(name, kernel);
 	}
 	else if (trimName == "fltk/Trees/TreeOfTables") {
-		_currentSample->CreateSample<MainWindowFltkTreeOfTables>(name);
+		_currentSample->CreateSample<MainWindowFltkTreeOfTables>(name, kernel);
 	}
 	else if (trimName == "fltkext/Containers/Flex") {
-		_currentSample->CreateSample<MainWindowFlex>(name);
+		_currentSample->CreateSample<MainWindowFlex>(name, kernel);
 	}
 	else if (trimName == "fltkext/Containers/List") {
-		_currentSample->CreateSample<MainWindowList>(name);
+		_currentSample->CreateSample<MainWindowList>(name, kernel);
 	}
 	else if (trimName == "fltkext/Containers/Panels") {
-		_currentSample->CreateSample<MainWindowPanel>(name);
+		_currentSample->CreateSample<MainWindowPanel>(name, kernel);
 	}
 	else if (trimName == "fltkext/Controls/Pickers") {
-		_currentSample->CreateSample<MainWindowPickers>(name);
+		_currentSample->CreateSample<MainWindowPickers>(name, kernel);
 	}
 	else if (trimName == "fltkext/Video/FFMpeg") {
-		_currentSample->CreateSample<MainWindowFFMpeg>(name);
+		_currentSample->CreateSample<MainWindowFFMpeg>(name, kernel);
 	}
 }
 

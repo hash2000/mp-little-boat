@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 
 constexpr double PI = 3.14159;
@@ -96,7 +97,7 @@ public:
 class MainWindowFltkTreeOfTables : public Fl_Double_Window
 {
 public:
-	MainWindowFltkTreeOfTables(const char* label) : Fl_Double_Window(100, 100, 800, 600, label)
+	MainWindowFltkTreeOfTables(const char* label, const Ioc::Kernel& kernel) : Fl_Double_Window(100, 100, 800, 600, label)
 	{
 		begin();
 		{

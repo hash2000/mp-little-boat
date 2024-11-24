@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 
@@ -25,7 +26,7 @@ class MainWindowFlex : public Fl_Window
 	using Margin = FltkExt::Containers::Margin;
 
 public:
-	MainWindowFlex(const char* label) : Fl_Window(100, 100, 800, 600, label)
+	MainWindowFlex(const char* label, const Ioc::Kernel& kernel) : Fl_Window(100, 100, 800, 600, label)
 	{
 		CreateTestToolbar();
 	}

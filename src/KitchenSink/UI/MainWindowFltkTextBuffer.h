@@ -1,10 +1,11 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 
 class MainWindowFltkTextBuffer : public Fl_Window
 {
 public:
-	MainWindowFltkTextBuffer(const char* label) : Fl_Window(100, 100, 800, 600, label)
+	MainWindowFltkTextBuffer(const char* label, const Ioc::Kernel& kernel) : Fl_Window(100, 100, 800, 600, label)
 	{
 		static Fl_Text_Display::Style_Table_Entry stable[] = {
 			// FONT COLOR      FONT FACE   FONT SIZE

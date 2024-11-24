@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 
 #include <stdio.h>
@@ -130,7 +131,7 @@ namespace
 class MainWindowFltkTable : public Fl_Double_Window
 {
 public:
-	MainWindowFltkTable(const char* label) : Fl_Double_Window(100, 100, 940, 600, label)
+	MainWindowFltkTable(const char* label, const Ioc::Kernel& kernel) : Fl_Double_Window(100, 100, 940, 600, label)
 	{
 		auto table = new WidgetTable { 20, 20, w() - 40, h() - 40, "FLTK widget table" };
 		table->SetSize(50, 50);

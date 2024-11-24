@@ -24,6 +24,9 @@ target_link_libraries(KitchenSink
 		fltk_images
 
 		LibFltkExt
+
+		ModModuleContainer
+		ModStreamingContainer
 )
 
 target_include_directories(KitchenSink

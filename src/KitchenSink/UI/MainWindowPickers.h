@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 #include "Libs/FltkExt/Containers/Panel.h"
 #include "Libs/FltkExt/Containers/TabbedPanel.h"
@@ -17,7 +18,7 @@ class MainWindowPickers : public Fl_Window
 	using Margin = FltkExt::Containers::Margin;
 	using Flex = FltkExt::Containers::Flex;
 public:
-	MainWindowPickers(const char* label)
+	MainWindowPickers(const char* label, const Ioc::Kernel& kernel)
 		: Fl_Window(800, 500, label)
 	{
 		auto fl = new Flex{ 0, 0, w(), h(), Direction::Vert };

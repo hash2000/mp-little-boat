@@ -1,6 +1,10 @@
 #include "FltkAll.h"
 #include "KitchenSinkWindow.h"
 #include "Common/core/Kernel.h"
+#include "Modules/ModuleContainer/IModuleContainer.h"
+#include "Modules/ModuleContainer/IModuleContainerFactory.h"
+#include "Modules/StreamingContainer/IStreamingContainerFactory.h"
+
 #include <Poco/Util/Application.h>
 #include <memory>
 
@@ -25,23 +29,30 @@ public:
 
 private:
 
-	void BuildServices(const Ioc::Kernel& kernel)
-	{
-	}
-
 	void InternalMain(const ArgVec& args)
 	{
+		auto module = ModuleContainerFactory::Make();
+		auto kernel = module->GetKernel();
+		module->Initialize();
+		kernel.AddInstance<IModuleContainer>(module);
 
+		BuildServices(kernel);
+		RunMainFrame(kernel);
 	}
 
-	void RunMainFrame()
+	void BuildServices(Ioc::Kernel& kernel)
+	{
+		StreamingContainerFactory::Make()->Build(kernel);
+	}
+
+	void RunMainFrame(Ioc::Kernel& kernel)
 	{
 		fl_message_hotspot(false);
 		fl_message_icon()->labelfont(FL_HELVETICA_BOLD);
-		auto mainWnd = std::make_unique<KitchenSinkWindow>();
+		auto mainWnd = std::make_unique<KitchenSinkWindow>(kernel);
 		mainWnd->resizable(mainWnd.get());
 		mainWnd->show();
-		mainWnd->RunSample("fltkext/Video/FFMpeg");
+		mainWnd->RunSample("fltkext/Video/FFMpeg", kernel);
 		Fl::run();
 	}
 };

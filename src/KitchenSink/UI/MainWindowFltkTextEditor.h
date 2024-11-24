@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 
 #include <FL/Fl.H>
@@ -97,7 +98,7 @@ namespace
 class MainWindowFltkTextEditor : public Fl_Window
 {
 public:
-	MainWindowFltkTextEditor(const char* label) : Fl_Window(100, 100, 800, 600, label)
+	MainWindowFltkTextEditor(const char* label, const Ioc::Kernel& kernel) : Fl_Window(100, 100, 800, 600, label)
 	{
 		auto editor = new MyEditor{ 10, 10, w() - 20, h() - 20 };
 		editor->text("In this editor, digits 0-4 are shown in green, 5-9 shown in red.\n"

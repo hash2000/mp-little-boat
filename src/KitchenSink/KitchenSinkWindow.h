@@ -1,5 +1,6 @@
 #pragma once
 #include "FltkAll.h"
+#include "Common/core/Kernel.h"
 #include "Libs/FltkExt/Containers/Flex.h"
 #include "Libs/FltkExt/Containers/ContainerProps.h"
 #include "Libs/FltkExt/Containers/Panel.h"
@@ -18,9 +19,9 @@ class KitchenSinkWindow : public Fl_Double_Window
 	using Layout = FltkExt::Containers::Layout;
 	using Panel = FltkExt::Containers::Panel;
 public:
-	KitchenSinkWindow();
+	KitchenSinkWindow(const Ioc::Kernel& kernel);
 
-	void RunSample(const std::string& name);
+	void RunSample(const std::string& name, const Ioc::Kernel& kernel);
 
 private:
 	void CreateSamplesTree();
@@ -35,9 +36,9 @@ private:
 		std::string _name;
 		std::unique_ptr<Fl_Window> _window;
 
-		template <class T> void CreateSample(const std::string& name) {
+		template <class T> void CreateSample(const std::string& name, const Ioc::Kernel& kernel) {
 			_name = name;
-			_window = std::make_unique<T>(name.c_str());
+			_window = std::make_unique<T>(name.c_str(), kernel);
 			_window->resizable(_window.get());
 			_window->show();
 		}
@@ -48,4 +49,6 @@ private:
 	std::unique_ptr<Panel> _centerPanel;
 	std::unique_ptr<Fl_Tree> _samplesTree;
 	std::unique_ptr<CurrentSample> _currentSample;
+	const Ioc::Kernel& _kernel;
+
 };

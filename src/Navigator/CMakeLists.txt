@@ -30,6 +30,9 @@ target_link_libraries(Navigator
 		fltk_images
 
 		LibFltkExt
+
+		ModModuleContainer
+		ModStreamingContainer
 )
 
 target_include_directories(Navigator

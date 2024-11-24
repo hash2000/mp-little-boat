@@ -1,4 +1,5 @@
 #pragma once
+#include "Common/core/Kernel.h"
 #include "FltkAll.h"
 #include <initializer_list>
 #include <map>
@@ -164,7 +165,7 @@ namespace {
 class MainWindowFltkThemes : public Fl_Window
 {
 public:
-	MainWindowFltkThemes(const char* label) : Fl_Window(100, 100, 800, 600, label)
+	MainWindowFltkThemes(const char* label, const Ioc::Kernel& kernel) : Fl_Window(100, 100, 800, 600, label)
 	{
 		resizable(this);
 
