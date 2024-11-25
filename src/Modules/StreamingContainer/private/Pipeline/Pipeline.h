@@ -17,6 +17,8 @@ public:
 
 	std::exception_ptr GetException() const;
 
+	PipeContext& GetContext();
+
 	void Build();
 
 	void Rollback();

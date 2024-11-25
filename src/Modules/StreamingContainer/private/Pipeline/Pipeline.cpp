@@ -8,6 +8,11 @@ std::exception_ptr Pipeline::GetException() const {
 	return _exception;
 }
 
+PipeContext& Pipeline::GetContext()
+{
+	return _context;
+}
+
 void Pipeline::Build()
 {
 	for (auto pipe : _line)

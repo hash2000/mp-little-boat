@@ -1,15 +1,36 @@
 #pragma once
-#include "PipeContext.h"
+#include "Modules/StreamingContainer/private/FFMpeg/PipeContext.h"
 
 class Pipe
 {
 public:
-	virtual void Build(PipeContext& context)
+	void Build(PipeContext& context)
 	{
+		if (!_initialized) {
+			if (InternalBuild(context)) {
+				_initialized = true;
+			}
+		}
 	}
 
-	virtual void Rollback(PipeContext& context)
+	void Rollback(PipeContext& context)
 	{
+		if (_initialized) {
+			InternalRollback(context);
+			_initialized = false;
+		}
 	}
+
+protected:
+	virtual bool InternalBuild(PipeContext& context) {
+		return true;
+	}
+
+	virtual void InternalRollback(PipeContext& context) {
+	}
+
+private:
+	bool _initialized = false;
+
 };
 

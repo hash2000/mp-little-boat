@@ -19,7 +19,7 @@ public:
 	MainWindowFFMpeg(const char* label, const Ioc::Kernel& kernel);
 
 protected:
-	void OnBuffer(Fl_Button* widget);
+	void OnInit(Fl_Button* widget);
 
 private:
 	std::shared_ptr<IStreamingContainer> _streaming;

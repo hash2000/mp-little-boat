@@ -10,6 +10,8 @@
 MainWindowFFMpeg::MainWindowFFMpeg(const char* label, const Ioc::Kernel& kernel)
 	: Fl_Double_Window(800, 600, label)
 {
+	_streaming = kernel.Resolve<IStreamingContainer>();
+
 	auto fl = new Flex{ 0, 0, w(), h(), Direction::Vert };
 	fl->margin(Margin{ 20 });
 	fl->SetLayoutStrategy(LayoutStrategy::Full);
@@ -18,9 +20,9 @@ MainWindowFFMpeg::MainWindowFFMpeg(const char* label, const Ioc::Kernel& kernel)
 		btFlex->margin(Margin{ 10 });
 		btFlex->gap(10);
 		{
-			auto btBuffer = new Fl_Button(0, 0, 100, 22, "buffer");
-			btBuffer->callback([](Fl_Widget* widget, void* data) {
-				((MainWindowFFMpeg*)data)->OnBuffer((Fl_Button*)widget);
+			auto btInit = new Fl_Button(0, 0, 100, 22, "1. Init");
+			btInit->callback([](Fl_Widget* widget, void* data) {
+				((MainWindowFFMpeg*)data)->OnInit((Fl_Button*)widget);
 				}, this);
 
 			btFlex->end();
@@ -30,7 +32,9 @@ MainWindowFFMpeg::MainWindowFFMpeg(const char* label, const Ioc::Kernel& kernel)
 	}
 }
 
-void MainWindowFFMpeg::OnBuffer(Fl_Button* widget)
+void MainWindowFFMpeg::OnInit(Fl_Button* widget)
 {
-	_stream = std::make_unique<Poco::FileStream>(_videoFile);
+	//_stream = std::make_unique<Poco::FileStream>(_videoFile);
+	_streaming->SetFile(_videoFile);
+	_streaming->Initialize();
 }

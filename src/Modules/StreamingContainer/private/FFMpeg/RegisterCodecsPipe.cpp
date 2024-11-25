@@ -1,12 +1,19 @@
 #include "RegisterCodecsPipe.h"
 
-void RegisterCodecsPipe::Build(PipeContext& context)
+bool RegisterCodecsPipe::InternalBuild(PipeContext& context)
 {
-	BuildCache();
-	BuildMedia();
+	if (context.IsCached()) {
+		BuildCache();
+		BuildMedia();
+	}
+	else {
+		BuildMedia();
+	}
+
+	return true;
 }
 
-void RegisterCodecsPipe::Rollback(PipeContext& context)
+void RegisterCodecsPipe::InternalRollback(PipeContext& context)
 {
 
 }
