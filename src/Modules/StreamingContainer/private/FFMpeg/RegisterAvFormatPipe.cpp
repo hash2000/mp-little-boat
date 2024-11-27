@@ -61,7 +61,7 @@ bool RegisterAvFormatPipe::InternalBuild(PipeContext& context)
 		return false;
 	}
 
-	context.SetReconnecting(false);
+	context.UseReconnecting(false);
 	context.SetFormatContext(formatContext);
 
 	return true;

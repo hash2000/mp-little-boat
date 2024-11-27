@@ -27,6 +27,8 @@ extern "C"
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
 #include "libavutil/file.h"
+#include "libavutil/mastering_display_metadata.h"
+#include "libavutil/avutil.h"
 
 // lib swresample
 
