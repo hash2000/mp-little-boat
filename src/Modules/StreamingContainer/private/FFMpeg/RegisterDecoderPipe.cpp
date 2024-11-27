@@ -65,9 +65,11 @@ bool RegisterDecoderPipe::Init(PipeContext& context, AVMediaType type)
 	}
 
 	if (!codec) {
-		context.SetMesssage("WARNING: MP: Failed to find " + std::string(av_get_media_type_string(type)) + " codec");
+		context.SetMessage("WARNING: MP: Failed to find " + std::string(av_get_media_type_string(type)) + " codec");
 		return false;
 	}
+
+	context.SetCodec(codec, type);
 
 	if (!OpenCodec(context, type)) {
 		return false;
@@ -80,8 +82,15 @@ void RegisterDecoderPipe::Shutdown(PipeContext& context, AVMediaType type)
 {
 	auto codecContext = context.GetCodecContext(type);
 	context.SetCodecContext(nullptr, type);
+	if (codecContext) {
+		avcodec_free_context(&codecContext);
+	}
 
-	avcodec_free_context(&codecContext);
+	auto hardwareContext = context.GetHardwareContext(type);
+	context.SetHardwareContext(nullptr, type);
+	if (hardwareContext) {
+		av_buffer_unref(&hardwareContext);
+	}
 }
 
 bool RegisterDecoderPipe::OpenCodec(PipeContext& context, AVMediaType type)
@@ -93,7 +102,7 @@ bool RegisterDecoderPipe::OpenCodec(PipeContext& context, AVMediaType type)
 
 	auto codecContext = avcodec_alloc_context3(codec);
 	if (!codecContext) {
-		context.SetMesssage("WARNING: MP: Failed to allocate context");
+		context.SetMessage("WARNING: MP: Failed to allocate context");
 		return false;
 	}
 
@@ -143,8 +152,8 @@ void RegisterDecoderPipe::OpenHardwareDecoder(PipeContext& context, AVMediaType 
 	{
 		codecContext->hw_device_ctx = av_buffer_ref(hardwareContext);
 		codecContext->opaque = &context;
-		context.UseHardwareDecode(true);
-		context.SetHardwareContext(hardwareContext);
+		context.UseHardwareDecode(true, type);
+		context.SetHardwareContext(hardwareContext, type);
 	}
 }
 

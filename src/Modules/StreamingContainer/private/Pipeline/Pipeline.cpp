@@ -49,3 +49,7 @@ void Pipeline::Rollback()
 	_line.clear();
 	_position = 0;
 }
+
+const PipeContext& Pipeline::GetContext() const {
+	return _context;
+}

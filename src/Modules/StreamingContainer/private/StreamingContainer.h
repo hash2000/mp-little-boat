@@ -8,11 +8,13 @@ class StreamingContainer : public IStreamingContainer
 public:
 	StreamingContainer(const Ioc::Kernel& kernel);
 
-	void SetFile(const std::string& path);
-
 	void Initialize() override;
 
 	void Shutdown() override;
+
+	void SetFile(const std::string& path) override;
+
+	const std::list<std::string>& GetMessages() const override;
 
 private:
 	Pipeline _pipeline;

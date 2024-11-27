@@ -10,9 +10,12 @@ StreamingContainer::StreamingContainer(const Ioc::Kernel& kernel)
 	_pipeline.Add<RegisterDecoderPipe>();
 }
 
-void StreamingContainer::SetFile(const std::string& path)
-{
+void StreamingContainer::SetFile(const std::string& path) {
 	_pipeline.GetContext().SetFile(path);
+}
+
+const std::list<std::string>& StreamingContainer::GetMessages() const {
+	return _pipeline.GetContext().GetMessages();
 }
 
 void StreamingContainer::Initialize()

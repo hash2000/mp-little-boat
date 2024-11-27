@@ -23,6 +23,8 @@ public:
 
 	void Rollback();
 
+	const PipeContext& GetContext() const;
+
 private:
 	std::exception_ptr _exception;
 	std::vector<std::shared_ptr<Pipe>> _line;

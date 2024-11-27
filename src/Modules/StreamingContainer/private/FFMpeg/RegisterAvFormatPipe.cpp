@@ -14,7 +14,7 @@ bool RegisterAvFormatPipe::InternalBuild(PipeContext& context)
 			context.SetInputFormat(format);
 		}
 		else {
-			context.SetMesssage("INFO: MP: Unable to find input format for: " + filePath);
+			context.SetMessage("INFO: MP: Unable to find input format for: " + filePath);
 		}
 	}
 
@@ -31,7 +31,7 @@ bool RegisterAvFormatPipe::InternalBuild(PipeContext& context)
 			std::stringstream message;
 			message << "WARNING: Failed to parse FFmpeg options: "
 				<< error.GetText() << std::endl << ffmpegOpts;
-			context.SetMesssage(message.str());
+			context.SetMessage(message.str());
 		}
 	}
 
@@ -55,9 +55,9 @@ bool RegisterAvFormatPipe::InternalBuild(PipeContext& context)
 
 	if (error.HasError()) {
 		if (!context.IsReconnectiong()) {
-			context.SetMesssage("WARNING: MP: Failed to find stream info for: " + filePath);
+			context.SetMessage("WARNING: MP: Failed to find stream info for: " + filePath);
 		}
-		context.SetMesssage(error.GetText());
+		context.SetMessage(error.GetText());
 		return false;
 	}
 
@@ -69,4 +69,10 @@ bool RegisterAvFormatPipe::InternalBuild(PipeContext& context)
 
 void RegisterAvFormatPipe::InternalRollback(PipeContext& context)
 {
+	auto formatContext = context.GetFormatContext();
+	context.SetFormatContext(nullptr);
+	if (formatContext) {
+		avformat_close_input(&formatContext);
+	}
+
 }

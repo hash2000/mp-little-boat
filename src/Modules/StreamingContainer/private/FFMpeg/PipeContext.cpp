@@ -1,24 +1,36 @@
 #include "PipeContext.h"
+#include <sstream>
 
-void PipeContext::SetMesssage(const std::string& message) {
+void PipeContext::SetMessage(const std::string& message) {
 	_messages.push_back(message);
 }
 
-void PipeContext::SetFile(const std::string& file) {
+void PipeContext::SetFile(const std::string& file)
+{
 	_input._file = file;
 	_input._isLocalFile = true;
+	SetMessage("INFO: Use local file: " + file);
 }
 
-void PipeContext::SetInputFormatName(const std::string& name) {
+void PipeContext::SetInputFormatName(const std::string& name)
+{
 	_input._format = name;
+	SetMessage("INFO: Use input format: " + name);
 }
 
-void PipeContext::SetInputFormat(const AVInputFormat* set) {
+void PipeContext::SetInputFormat(const AVInputFormat* set)
+{
 	_input._inputFormat = set;
+	SetInputFormatMessage(set);
 }
 
-void PipeContext::SetFormatContext(AVFormatContext* set) {
+void PipeContext::SetFormatContext(AVFormatContext* set)
+{
 	_input._formatContext = set;
+
+	if (set) {
+		SetInputFormatMessage(set->iformat);
+	}
 }
 
 void PipeContext::SetCodec(const AVCodec* codec, AVMediaType type)
@@ -29,6 +41,8 @@ void PipeContext::SetCodec(const AVCodec* codec, AVMediaType type)
 	else {
 		_audio._codec = codec;
 	}
+
+	SetCodecMessage(codec, type);
 }
 
 void PipeContext::SetStream(AVStream* stream, AVMediaType type)
@@ -59,14 +73,22 @@ void PipeContext::SetHardwareContext(AVBufferRef* context, AVMediaType type)
 	else {
 		_audio._hardwareContext = context;
 	}
+
+	std::stringstream text;
+	text << "INFO: Use hardware decoder of MediaType [" << GetMediaTypeName(type) << "] size: "
+		<< context->size << " bytes";
+
+	SetMessage(text.str());
 }
 
 void PipeContext::SetBuffering(int set) {
 	_input._buffering = set;
 }
 
-void PipeContext::SetFFMpegOpts(const std::string& opts) {
+void PipeContext::SetFFMpegOpts(const std::string& opts)
+{
 	_input._ffmpegOpts = opts;
+	SetMessage("INFO: Use FFMpeg options: " + opts);
 }
 
 void PipeContext::SetMaxLuminance(uint16_t set, AVMediaType type)
@@ -77,6 +99,10 @@ void PipeContext::SetMaxLuminance(uint16_t set, AVMediaType type)
 	else {
 		_audio._maxLuminance = set;
 	}
+
+	std::stringstream text;
+	text << "INFO: Use max luminance of MediaType [" << GetMediaTypeName(type) << "] " << set;
+	SetMessage(text.str());
 }
 
 void PipeContext::UseReconnecting(bool set) {
@@ -155,4 +181,35 @@ AVCodecContext* PipeContext::GetCodecContext(AVMediaType type) const {
 
 AVBufferRef* PipeContext::GetHardwareContext(AVMediaType type) const {
 	return type == AVMEDIA_TYPE_VIDEO ? _video._hardwareContext : _audio._hardwareContext;
+}
+
+void PipeContext::SetInputFormatMessage(const AVInputFormat* fmt)
+{
+	if (!fmt) {
+		return;
+	}
+
+	std::stringstream text;
+	text << "INFO: Use input format: " << fmt->name << " info: " << fmt->long_name;
+	SetMessage(text.str());
+}
+
+void PipeContext::SetCodecMessage(const AVCodec* codec, AVMediaType type)
+{
+	if (!codec) {
+		return;
+	}
+
+	std::stringstream text;
+	text << "INFO: Use codec: " << codec->name << " info: " << codec->long_name
+		<< " of MediaType: " << GetMediaTypeName(type);
+	SetMessage(text.str());
+}
+
+std::string PipeContext::GetMediaTypeName(AVMediaType type) {
+	return type == AVMEDIA_TYPE_VIDEO ? "video" : "audio";
+}
+
+std::string PipeContext::GetBooleanValueName(bool value) {
+	return value ? "true" : "false";
 }

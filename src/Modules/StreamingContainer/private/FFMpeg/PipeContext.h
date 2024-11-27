@@ -8,7 +8,7 @@ class PipeContext
 {
 public:
 
-	void SetMesssage(const std::string& message);
+	void SetMessage(const std::string& message);
 
 	void SetFile(const std::string& file);
 
@@ -69,9 +69,19 @@ public:
 	AVBufferRef* GetHardwareContext(AVMediaType type) const;
 
 private:
+
+	void SetInputFormatMessage(const AVInputFormat* fmt);
+
+	void SetCodecMessage(const AVCodec* codec, AVMediaType type);
+
+	static std::string GetMediaTypeName(AVMediaType type);
+
+	static std::string GetBooleanValueName(bool value);
+
+private:
 	struct {
 		std::string _file;
-		std::string _format = "mp4";
+		std::string _format;
 		std::string _ffmpegOpts;
 		int _buffering = 1024;
 		bool _reconnecting = true;
